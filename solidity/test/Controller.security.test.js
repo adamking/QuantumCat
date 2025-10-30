@@ -269,36 +269,44 @@ describe("QuantumCat ERC-20 System - Security Tests", function () {
       expect(results.length).to.equal(5);
     });
 
-    it("Should emit RandomnessSourceUsed event", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+    it("Should generate randomness using high entropy sources", async function () {
+      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
-      const data = ethers.toUtf8Bytes("test");
+      const data = ethers.toUtf8Bytes("test_high_entropy");
       const dataHash = ethers.keccak256(data);
 
       await qcat.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
 
-      // Should emit RandomnessSourceUsed event when observing
+      // Should successfully observe using high entropy RNG
       await expect(controller.observe(data))
-        .to.emit(controller, "RandomnessSourceUsed");
+        .to.emit(controller, "Observed");
+
+      const aliveBalance = await alivecat.balanceOf(owner.address);
+      const deadBalance = await deadcat.balanceOf(owner.address);
+      expect(aliveBalance + deadBalance).to.equal(amount);
+      
+      // Verify outcome is binary (all alive OR all dead)
+      expect(aliveBalance === amount || deadBalance === amount).to.be.true;
+      expect(aliveBalance === 0n || deadBalance === 0n).to.be.true;
     });
 
-    it("Should handle fallback randomness after 256 blocks", async function () {
+    it("Should work consistently even after many blocks", async function () {
       const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
-      const data = ethers.toUtf8Bytes("test_fallback");
+      const data = ethers.toUtf8Bytes("test_long_delay");
       const dataHash = ethers.keccak256(data);
 
       await qcat.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
-      // Mine more than 256 blocks to trigger fallback
+      // Mine many blocks (more than old 256 block limit)
       await mine(300);
 
-      // Should still work with fallback randomness
+      // Should still work with high entropy RNG
       await expect(controller.observe(data))
         .to.emit(controller, "Observed");
 

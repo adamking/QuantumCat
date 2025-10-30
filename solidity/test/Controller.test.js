@@ -369,6 +369,31 @@ describe("QuantumCat ERC-20 System", function () {
         controller.connect(user1).forceObserve(user1.address)
       ).to.be.revertedWithCustomError(controller, "NoPendingObservation");
     });
+
+    it("Should correctly report canForceObserve", async function () {
+      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+
+      const amount = ethers.parseEther("100");
+      const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
+
+      // No pending observation
+      expect(await controller.canForceObserve(owner.address)).to.equal(false);
+
+      await qcat.approve(await controller.getAddress(), amount);
+      await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
+
+      // Too early (just after commit)
+      expect(await controller.canForceObserve(owner.address)).to.equal(false);
+
+      // After reveal delay but before grace
+      await mine(5);
+      expect(await controller.canForceObserve(owner.address)).to.equal(false);
+
+      // After grace period (need one more block for > condition)
+      await mine(64);
+      await mine(1);
+      expect(await controller.canForceObserve(owner.address)).to.equal(true);
+    });
   });
 
   describe("Rebox", function () {
@@ -487,6 +512,54 @@ describe("QuantumCat ERC-20 System", function () {
       // Should have minted QCAT
       const qcatBal = await qcat.balanceOf(owner.address);
       expect(qcatBal).to.be.gt(0);
+    });
+
+    it("Should reboxMax all available pairs", async function () {
+      const { qcat, alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+
+      const aliveBal = await alivecat.balanceOf(owner.address);
+      const deadBal = await deadcat.balanceOf(owner.address);
+      
+      if (aliveBal === 0n || deadBal === 0n) {
+        this.skip(); // Skip if no pairs available
+        return;
+      }
+
+      const qcatBefore = await qcat.balanceOf(owner.address);
+      
+      // Use staticCall to get the return value without executing
+      const pairs = await controller.reboxMax.staticCall(0); // 0 = no cap
+      expect(pairs).to.be.gt(0);
+      
+      // Now actually execute the transaction
+      await controller.reboxMax(0);
+      
+      // Should have minted QCAT
+      const qcatAfter = await qcat.balanceOf(owner.address);
+      expect(qcatAfter).to.be.gt(qcatBefore);
+    });
+
+    it("Should reboxMax with cap parameter", async function () {
+      const { qcat, alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+
+      const aliveBal = await alivecat.balanceOf(owner.address);
+      const deadBal = await deadcat.balanceOf(owner.address);
+      
+      if (aliveBal < ethers.parseEther("5") || deadBal < ethers.parseEther("5")) {
+        this.skip(); // Skip if insufficient pairs
+        return;
+      }
+
+      const cap = ethers.parseEther("5");
+      
+      // Use staticCall to get the return value
+      const pairs = await controller.reboxMax.staticCall(cap);
+      
+      // Should respect the cap
+      expect(pairs).to.be.lte(cap);
+      
+      // Execute the actual transaction
+      await controller.reboxMax(cap);
     });
   });
 

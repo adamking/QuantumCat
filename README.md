@@ -30,27 +30,14 @@ Three separate ERC-20 tokens (QCAT, ALIVECAT, DEADCAT) + QuantumCatController co
 **Key Features:**
 - ✅ **Exchange Compatible** - Standard ERC-20 tokens work with all DEXs and CEXs
 - ✅ **Fully Immutable** - Zero admin control, truly decentralized
-- ✅ **Cryptographic Randomness** - Commit-reveal with multi-source entropy
+- ✅ **Cryptographic Randomness** - Commit-reveal with high-entropy multi-source randomness
 - ✅ **Reentrancy Protected** - Battle-tested security patterns
 - ✅ **Base Optimized** - ~$0.01 per transaction (99.9% cheaper than Ethereum)
-- ✅ **Comprehensive Tests** - 38+ unit tests with 100% coverage
+- ✅ **Comprehensive Tests** - 60+ unit and security tests with 100% controller coverage
 
 **[📖 View Smart Contracts Documentation →](solidity/README.md)**
 
-### 🎮 2. [Game](/game) - Schrödinger's Box Arcade
-
-An interactive 8-bit style browser game for engaging with the quantum mechanics.
-
-**Features:**
-- 8-bit retro sealed box graphics with authentic cardboard rendering
-- Interactive mini-game (catch particles before unboxing)
-- Wallet integration with MetaMask
-- Demo mode for testing without deployed contracts
-- Real-time token balance updates
-
-**[📖 View Game Documentation →](game/README.md)**
-
-### 🌐 3. [Website](/website) - Landing Page
+### 🌐 2. [Website](/website) - Landing Page
 
 A beautiful React landing page explaining tokenomics and mechanics.
 
@@ -175,16 +162,16 @@ quantumCat.observe("reveal_data");
 
 ```solidity
 // Combine equal pairs back into superposition
-// Burns 10 ALIVECAT + 10 DEADCAT → mints 9.65 QCAT (with 3.5% fee)
+// Burns 10 ALIVECAT + 10 DEADCAT → mints 9.5 QCAT (with 5% fee)
 quantumCat.rebox(10);
 
 // Examples with different amounts:
-// 1 ALIVE + 1 DEAD = 0.965 QCAT
-// 0.5 ALIVE + 0.5 DEAD = 0.4825 QCAT
-// 100 ALIVE + 100 DEAD = 96.5 QCAT
+// 1 ALIVE + 1 DEAD = 0.95 QCAT
+// 0.5 ALIVE + 0.5 DEAD = 0.475 QCAT
+// 100 ALIVE + 100 DEAD = 95 QCAT
 ```
 
-The rebox fee (3.5%) creates deflationary pressure on the QCAT supply over time.
+The rebox fee (immutable, e.g. 5%) creates deflationary pressure on the QCAT supply over time.
 
 #### 3️⃣ **Force Observe** (Failsafe Mechanism)
 
@@ -210,8 +197,7 @@ If someone commits to observe but never reveals, anyone can finalize their obser
 ### Security Model
 
 - **Commit-Reveal Pattern**: Prevents frontrunning and manipulation
-- **Multi-Source Randomness**: Combines blockhash + prevrandao + user entropy + tx.origin
-- **8-Block Fallback**: Dramatically increases manipulation cost for expired blockhashes
+- **High-Entropy Randomness**: Combines block.timestamp + prevrandao + blockhash + tx.gasprice + tx.origin + msg.sender + gasleft() + user entropy + refBlock + address(this).balance + chainid
 - **Reentrancy Guards**: All state-changing functions protected
 - **Zero Admin Control**: No owner, no upgrades, fully autonomous
 

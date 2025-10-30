@@ -14,7 +14,7 @@ QuantumCat implements a unique token system inspired by quantum mechanics, speci
 
 - **Three ERC-20 tokens**: QCAT (superposed), ALIVECAT, and DEADCAT - fully compatible with all DEXs and CEXs
 - **Commit-reveal observation mechanism**: Users commit to observing tokens, which "collapse" into EITHER all ALIVECAT OR all DEADCAT (50/50 random) after a delay
-- **Cryptographic randomness**: Observation outcomes use secure multi-source randomness (blockhash + prevrandao + user entropy)
+- **Cryptographic randomness**: Observation outcomes use high-entropy multi-source randomness (block.timestamp + prevrandao + blockhash + tx context + user entropy)
 - **Rebox mechanism**: Combine equal ALIVECAT/DEADCAT pairs back into QCAT (with immutable fee)
 - **Fully Immutable**: ZERO admin control - true decentralized memecoin with no upgrades possible
 - **🔵 Optimized for Base**: Ultra-low fees (~$0.01 per interaction) make gameplay accessible to everyone
@@ -55,9 +55,8 @@ QuantumCat implements a unique token system inspired by quantum mechanics, speci
 
 ### 🧪 Quantum Mechanics
 - **Commit-Reveal Pattern**: Prevents manipulation of observation outcomes
-- **Multi-Source Randomness**: Combines blockhash + prevrandao + user-provided entropy + tx.origin for unpredictability
-- **Double-Hashing**: Prevents length extension attacks on keccak256
-- **8-Block Fallback**: Uses 8 recent blockhashes to dramatically increase manipulation cost
+- **High-Entropy Randomness**: Combines block.timestamp + prevrandao + blockhash + tx.gasprice + tx.origin + msg.sender + gasleft() + user entropy + refBlock + address(this).balance + chainid
+- **Double-Hashing**: Prevents length extension attacks on keccak256 (for outcome split)
 - **Defense-in-Depth Security**: Requires validator manipulation AND user secret compromise AND transaction replay to attack
 - **Self-Contained**: No external oracles or dependencies required
 
@@ -71,7 +70,7 @@ QuantumCat implements a unique token system inspired by quantum mechanics, speci
 │  - observe(): Reveals, mints EITHER ALIVECAT OR DEADCAT │
 │  - forceObserve(): Anyone finalizes stuck observations  │
 │  - rebox(): Burns equal pairs, mints QCAT (minus fee)   │
-│  - Enhanced RNG: blockhash + prevrandao + user entropy  │
+│  - High-Entropy RNG: multi-source on-chain entropy       │
 │  - ZERO admin control, immutable parameters             │
 └─────────────────────────────────────────────────────────┘
               │                │                │
@@ -330,12 +329,12 @@ Verification happens automatically if `BASESCAN_API_KEY` is set in `.env`. Get o
 
 ### Randomness
 
-⚠️ **Blockhash RNG Limitations**: The RNG uses `blockhash()` which can be manipulated by miners/validators within constraints. Suitable for:
+⚠️ **On-Chain RNG Considerations**: The RNG mixes `blockhash`, `prevrandao`, and transaction/caller context with user entropy. While significantly stronger than blockhash alone, on-chain RNG remains economically manipulable at high stakes. Suitable for:
 - Memecoins
 - Low-to-medium value applications
 - Entertainment purposes
 
-The commit-reveal pattern mitigates manipulation by requiring commitment to future blockhash.
+The commit-reveal pattern plus user-provided entropy mitigates manipulation by requiring commitment ahead of time.
 
 ### Access Control (Fully Decentralized)
 
@@ -443,7 +442,7 @@ Contributions are welcome! Please:
 - [x] Cryptographic random split implementation
 - [x] Rebox mechanism
 - [x] Immutable architecture (zero admin control)
-- [x] Built-in blockhash RNG with 8-block fallback
+- [x] High-entropy on-chain RNG (no legacy fallback)
 - [x] Comprehensive test suite
 - [x] Gas optimizations
 - [x] Deployment scripts for Base

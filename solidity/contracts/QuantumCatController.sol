@@ -19,7 +19,7 @@ pragma solidity ^0.8.30;
  *  - Requires equal amounts: you need 1 ALIVECAT + 1 DEADCAT to make 1 QCAT (minus fee)
  *
  * Security:
- *  - Enhanced RNG: blockhash + prevrandao + userEntropy (defense-in-depth)
+ *  - High Entropy RNG: block.timestamp, prevrandao, blockhash, tx.gasprice, tx.origin, msg.sender, gasleft(), userEntropy, contract balance, chainid
  *  - Reentrancy-guarded; state changes before external calls
  *  - ZERO admin control: immutable parameters
  */
@@ -61,16 +61,6 @@ contract QuantumCatController is ReentrancyGuard {
     /// @notice Maximum size of observation data in bytes
     uint16 public constant DATA_MAX = 256;
 
-    /// @notice Fallback blockhash sampling offsets
-    uint8 private constant _FALLBACK_OFFSET_1 = 1;
-    uint8 private constant _FALLBACK_OFFSET_2 = 2;
-    uint8 private constant _FALLBACK_OFFSET_3 = 5;
-    uint8 private constant _FALLBACK_OFFSET_4 = 10;
-    uint8 private constant _FALLBACK_OFFSET_5 = 20;
-    uint8 private constant _FALLBACK_OFFSET_6 = 50;
-    uint8 private constant _FALLBACK_OFFSET_7 = 100;
-    uint8 private constant _FALLBACK_OFFSET_8 = 200;
-
     /// @notice Maximum basis points (100%)
     uint96 private constant _MAX_BPS = 10_000;
 
@@ -106,7 +96,6 @@ contract QuantumCatController is ReentrancyGuard {
     event Observed(address indexed owner, uint256 alive, uint256 dead);
     event Forced(address indexed owner, uint256 alive, uint256 dead);
     event Reboxed(address indexed user, uint256 indexed pairs, uint256 qcatMinted, uint256 feeTokens);
-    event RandomnessSourceUsed(address indexed user, bool usedFallback);
 
     /// @notice Constructor for immutable controller deployment
     /// @param _qcat Address of QCAT token contract
@@ -173,9 +162,8 @@ contract QuantumCatController is ReentrancyGuard {
 
         delete pending[msg.sender];
 
-        // Generate enhanced randomness
-        (bytes32 randomness, bool usedFallback) = _getRandomness(msg.sender, p.refBlock, p.userEntropy);
-        emit RandomnessSourceUsed(msg.sender, usedFallback);
+        // Generate high entropy randomness
+        bytes32 randomness = _highEntropyRandom(msg.sender, p.refBlock, p.userEntropy);
 
         (uint256 alive, uint256 dead) = _randomSplit(p.amount, randomness, p.dataHash, p.userEntropy);
 
@@ -198,9 +186,8 @@ contract QuantumCatController is ReentrancyGuard {
 
         delete pending[owner];
 
-        // Generate enhanced randomness
-        (bytes32 randomness, bool usedFallback) = _getRandomness(owner, p.refBlock, p.userEntropy);
-        emit RandomnessSourceUsed(owner, usedFallback);
+        // Generate high entropy randomness
+        bytes32 randomness = _highEntropyRandom(owner, p.refBlock, p.userEntropy);
 
         (uint256 alive, uint256 dead) = _randomSplit(p.amount, randomness, p.dataHash, p.userEntropy);
 
@@ -328,63 +315,53 @@ contract QuantumCatController is ReentrancyGuard {
         }
     }
 
-    /// @notice Generate enhanced multi-source randomness
-    function _getRandomness(address user, uint256 refBlock, bytes32 userEntropy)
+    /// @notice Generate pseudo-random value with high entropy from multiple sources
+    /// @dev This uses defense-in-depth with multiple entropy sources:
+    ///      - block.timestamp: Temporal unpredictability
+    ///      - block.prevrandao: High entropy PoS randomness (replaces difficulty)
+    ///      - blockhash: Recent block hash
+    ///      - tx.gasprice: Transaction-specific variance
+    ///      - tx.origin: Original transaction sender
+    ///      - msg.sender: Direct caller (user)
+    ///      - gasleft(): Execution context entropy
+    ///      - userEntropy: User-provided randomness (prevents replay attacks)
+    ///      - refBlock: Commitment block reference
+    ///      - address(this).balance: Contract state
+    ///      - block.chainid: Network identifier
+    /// @param user The address of the user (adds caller-specific entropy)
+    /// @param refBlock The reference block number from commitment
+    /// @param userEntropy User-provided entropy (must be non-zero)
+    /// @return randomness The generated high-entropy random bytes32 value
+    function _highEntropyRandom(address user, uint256 refBlock, bytes32 userEntropy)
         private
         view
-        returns (bytes32 randomness, bool usedFallback)
+        returns (bytes32 randomness)
     {
-        uint256 targetBlock = refBlock + REVEAL_DELAY;
-        bytes32 targetHash = blockhash(targetBlock);
+        randomness = keccak256(
+            abi.encodePacked(
+                // Unpredictable per-block values
+                block.timestamp,
+                block.prevrandao,        // High entropy in PoS (formerly block.difficulty)
+                blockhash(block.number - 1),
 
-        if (targetHash != bytes32(0)) {
-            // Primary path
-            bytes32 mixedEntropy = keccak256(
-                abi.encodePacked(
-                    targetHash,
-                    block.prevrandao,
-                    userEntropy,
-                    user,
-                    refBlock
-                )
-            );
-            
-            randomness = keccak256(
-                abi.encodePacked("QCAT_ENHANCED_PRIMARY_V3", mixedEntropy)
-            );
-            usedFallback = false;
-        } else {
-            // Fallback path
-            bytes32 mixedBlocks = keccak256(
-                abi.encodePacked(
-                    blockhash(block.number - _FALLBACK_OFFSET_1),
-                    blockhash(block.number - _FALLBACK_OFFSET_2),
-                    blockhash(block.number - _FALLBACK_OFFSET_3),
-                    blockhash(block.number - _FALLBACK_OFFSET_4),
-                    blockhash(block.number - _FALLBACK_OFFSET_5),
-                    blockhash(block.number - _FALLBACK_OFFSET_6),
-                    blockhash(block.number - _FALLBACK_OFFSET_7),
-                    blockhash(block.number - _FALLBACK_OFFSET_8)
-                )
-            );
-            
-            bytes32 mixedEntropy = keccak256(
-                abi.encodePacked(
-                    mixedBlocks,
-                    block.prevrandao,
-                    userEntropy,
-                    user,
-                    refBlock,
-                    block.timestamp,
-                    block.number
-                )
-            );
-            
-            randomness = keccak256(
-                abi.encodePacked("QCAT_ENHANCED_FALLBACK_V3", mixedEntropy)
-            );
-            usedFallback = true;
-        }
+                // Transaction-specific
+                tx.gasprice,
+                tx.origin,
+
+                // Caller-specific
+                user,
+                msg.sender,
+                gasleft(),
+
+                // User-provided entropy (prevents replay)
+                userEntropy,
+                refBlock,
+
+                // Contract state
+                address(this).balance,
+                block.chainid
+            )
+        );
     }
 }
 

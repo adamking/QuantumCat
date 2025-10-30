@@ -6,8 +6,8 @@ A three-token memecoin experiment in quantum superposition - observe QCAT to col
 
 - **Three-Token System**: ERC-20 architecture with QCAT, ALIVECAT, and DEADCAT tokens
 - **Observe & Rebox Mechanics**: 
-  - Observe QCAT to collapse it into ALIVECAT + DEADCAT (with 5-block fair RNG)
-  - Rebox pairs of ALIVE + DEAD back into QCAT (with 2% deflationary fee)
+  - Observe QCAT to collapse it into ALIVECAT OR DEADCAT (50/50, 5-block commit-reveal)
+  - Rebox pairs of ALIVE + DEAD back into QCAT (with 5% deflationary fee)
 - **Arbitrage Triangle**: Natural price balance through QCAT ↔ ALIVE ↔ DEAD trading
 - **Quantum Superposition Animation**: Interactive cat that switches between alive and dead states
 - **Epic Glitch Effects**: Mind-bending visual quantum state transitions
@@ -61,14 +61,13 @@ Three separate ERC-20 tokens:
 - **ALIVECAT**: Observed outcome from collapsing QCAT
 - **DEADCAT**: Observed outcome from collapsing QCAT
 
-**Observe**: Burn QCAT → Get ALIVECAT + DEADCAT (total equals QCAT burned)
-- Requires commit-reveal with 5-block delay for fair RNG
-- No supply change, just state transformation
+**Observe**: Burn QCAT → Get ALIVECAT OR DEADCAT (binary outcome equals QCAT burned)
+ - Requires commit-reveal with 5-block delay for high-entropy RNG
+ - No supply change, just state transformation
 
 **Rebox**: Burn ALIVECAT + DEADCAT pairs → Get QCAT
-- 2% fee creates deflationary sink
-- Burns 2 tokens, mints ~1.96 QCAT
-- Expected ~0.6% monthly decay at 30% rebox volume
+ - 5% fee creates deflationary sink
+ - Burns 2 tokens, mints ~1.90 QCAT
 
 **Price Relationship**: P_QCAT ≈ (P_ALIVE + P_DEAD) / 1.96
 - Arbitrage opportunities keep markets balanced

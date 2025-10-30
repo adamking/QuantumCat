@@ -31,21 +31,12 @@ QuantumCat is a quantum-inspired memecoin implementing Schrödinger's cat mechan
 - **forceObserve(owner)**: Anyone can finalize after 69 blocks if owner disappears
 
 **Security Features**:
-- Enhanced RNG: blockhash + prevrandao + userEntropy + tx.origin (defense-in-depth)
-- 8-block fallback sampling for expired blockhashes (dramatically increases manipulation cost)
-- Double-hashing to prevent length extension attacks
+- High-entropy RNG: mixes block.timestamp, prevrandao, blockhash, tx.gasprice, tx.origin, msg.sender, gasleft(), userEntropy, refBlock, address(this).balance, chainid
+- Double-hashing to prevent length extension attacks on outcome split
 - Reentrancy guards on all state-changing functions
 - ZERO admin control - immutable parameters set at deployment
 
-### 2. Game (`game/`)
-
-Interactive 8-bit browser game:
-- Sealed box graphics with quantum unboxing mechanics
-- Mini-game before observation
-- MetaMask wallet integration
-- Demo mode for testing without deployed contracts
-
-### 3. Website (`website/`)
+### 2. Website (`website/`)
 
 React/Vite landing page with:
 - Interactive quantum cat animation (alive/dead superposition)
@@ -149,11 +140,10 @@ npm run check                  # TypeScript type checking
   - 100 ALIVECAT + 100 DEADCAT = 95 QCAT (with 5% fee)
 
 **Randomness Strategy**:
-- Primary (within 256 blocks): `keccak256(blockhash(refBlock+5) + prevrandao + userEntropy + tx.origin + user + refBlock)`
-- Fallback (>256 blocks): 8 recent blockhashes mixed with entropy sources (dramatically increases manipulation cost)
-- Double-hashing prevents length extension attacks
+- Unified high-entropy RNG: `keccak256(abi.encodePacked(block.timestamp, prevrandao, blockhash(block.number-1), tx.gasprice, tx.origin, user, msg.sender, gasleft(), userEntropy, refBlock, address(this).balance, chainid))`
+- Double-hashing prevents length extension attacks (for final split)
 - Domain separation prevents cross-context attacks
-- **Security model**: Requires validator collusion AND user secret compromise AND tx.origin manipulation
+- **Security model**: Requires validator collusion AND user secret compromise AND transaction manipulation
 
 **Storage Layout (Pending struct)**:
 ```solidity
@@ -204,9 +194,9 @@ struct Pending {
 
 ### Testing Structure
 
-**Test Files** (1600+ lines total):
-- `QuantumCat.test.js` (1224 lines): Core functionality, observation, rebox, edge cases
-- `QuantumCat.security.test.js` (382 lines): Reentrancy, malicious receivers, force observe
+**Test Files**:
+- `Controller.test.js`: Core functionality, observation, rebox, edge cases
+- `Controller.security.test.js`: Reentrancy, input validation, randomness security
 
 **Mock Contracts** (in `contracts/` for testing):
 - `MaliciousReceiver.sol`: Tests reentrancy attacks
