@@ -9,8 +9,6 @@ import { useSoundEffects } from "@/hooks/use-sound-effects";
 export default function Home() {
   // Inventory state
   const [qcatCount, setQcatCount] = useState(3); // Start with 3 QCATs
-  const [aliveCatCount, setAliveCatCount] = useState(0);
-  const [deadCatCount, setDeadCatCount] = useState(0);
   
   const [isAlive, setIsAlive] = useState(true); // Initial state (will be set randomly after first glitch)
   const [isGlitching, setIsGlitching] = useState(false);
@@ -102,11 +100,6 @@ export default function Home() {
     
     // Update inventory
     setQcatCount(prev => prev - 1);
-    if (willBeAlive) {
-      setAliveCatCount(prev => prev + 1);
-    } else {
-      setDeadCatCount(prev => prev + 1);
-    }
 
     // Trigger visual glitch
     triggerGlitch(willBeAlive);
@@ -121,28 +114,6 @@ export default function Home() {
     });
   };
 
-  // Recombine 1 ALIVECAT + 1 DEADCAT into 1 QCAT
-  const recombineIntoCat = () => {
-    if (aliveCatCount < 1 || deadCatCount < 1) {
-      toast({
-        title: "Cannot recombine!",
-        description: "You need at least 1 ALIVECAT and 1 DEADCAT to recombine.",
-        variant: "destructive",
-      });
-      return;
-    }
-
-    // Update inventory
-    setAliveCatCount(prev => prev - 1);
-    setDeadCatCount(prev => prev - 1);
-    setQcatCount(prev => prev + 1);
-
-    toast({
-      title: "Recombined!",
-      description: "🟣 Created 1 QCAT from ALIVE + DEAD",
-      variant: "default",
-    });
-  };
 
   // Function to scramble text during glitch
   const scrambleText = (text: string): string => {

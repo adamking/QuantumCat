@@ -131,9 +131,9 @@ export function useBlockchain() {
         return;
       }
 
-      const qcatBalance = await qcat.balanceOf(state.userAddress);
-      const aliveBalance = await alive.balanceOf(state.userAddress);
-      const deadBalance = await dead.balanceOf(state.userAddress);
+      const qcatBalance = await qcat.balanceOf!(state.userAddress);
+      const aliveBalance = await alive.balanceOf!(state.userAddress);
+      const deadBalance = await dead.balanceOf!(state.userAddress);
 
       setState(prev => ({
         ...prev,
@@ -178,14 +178,14 @@ export function useBlockchain() {
       const amount = ethers.parseEther('1');
 
       // Check allowance
-      const allowance = await qcat.allowance(
+      const allowance = await qcat.allowance!(
         state.userAddress!,
         CONTRACTS.CONTROLLER
       );
 
       // Approve if needed
       if (allowance < amount) {
-        const approveTx = await qcat.approve(
+        const approveTx = await qcat.approve!(
           CONTRACTS.CONTROLLER,
           ethers.MaxUint256
         );
@@ -198,14 +198,14 @@ export function useBlockchain() {
       const dataHash = ethers.keccak256(data);
 
       // Commit observe
-      const commitTx = await controller.commitObserve(amount, dataHash, userEntropy);
+      const commitTx = await controller.commitObserve!(amount, dataHash, userEntropy);
       await commitTx.wait();
 
       // Wait 5 blocks (approximately 60 seconds on most networks)
       await new Promise(resolve => setTimeout(resolve, 60000));
 
       // Reveal observe
-      const observeTx = await controller.observe(data);
+      const observeTx = await controller.observe!(data);
       await observeTx.wait();
 
       // Parse events to determine result
@@ -245,12 +245,12 @@ export function useBlockchain() {
       const amount = ethers.parseEther('1');
 
       // Check and approve ALIVE tokens
-      const aliveAllowance = await alive.allowance(
+      const aliveAllowance = await alive.allowance!(
         state.userAddress!,
         CONTRACTS.CONTROLLER
       );
       if (aliveAllowance < amount) {
-        const approveTx = await alive.approve(
+        const approveTx = await alive.approve!(
           CONTRACTS.CONTROLLER,
           ethers.MaxUint256
         );
@@ -258,12 +258,12 @@ export function useBlockchain() {
       }
 
       // Check and approve DEAD tokens
-      const deadAllowance = await dead.allowance(
+      const deadAllowance = await dead.allowance!(
         state.userAddress!,
         CONTRACTS.CONTROLLER
       );
       if (deadAllowance < amount) {
-        const approveTx = await dead.approve(
+        const approveTx = await dead.approve!(
           CONTRACTS.CONTROLLER,
           ethers.MaxUint256
         );
@@ -272,7 +272,7 @@ export function useBlockchain() {
 
       // Rebox (using pairs array - [aliveAmount, deadAmount])
       const pairs = [amount, amount]; // 1 ALIVE + 1 DEAD = 1 QCAT
-      const tx = await controller.rebox(pairs);
+      const tx = await controller.rebox!(pairs);
       await tx.wait();
     } catch (error) {
       console.error('Rebox error:', error);
