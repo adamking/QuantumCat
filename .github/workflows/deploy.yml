@@ -1,0 +1,73 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22.21.1'
+          cache: 'npm'
+          cache-dependency-path: 'website/package-lock.json'
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: ./website
+        env:
+          # Ensure sharp installs properly for Linux
+          SHARP_IGNORE_GLOBAL_LIBVIPS: 1
+
+      - name: TypeScript Check
+        run: npm run check
+        working-directory: ./website
+        continue-on-error: false
+
+      - name: Build with Vite
+        run: npm run build
+        working-directory: ./website
+        env:
+          NODE_ENV: production
+          # Increase memory limit for large builds
+          NODE_OPTIONS: --max_old_space_size=4096
+
+      - name: Add .nojekyll file
+        run: touch website/dist/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: './website/dist'
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+

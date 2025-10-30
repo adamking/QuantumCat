@@ -1,0 +1,32 @@
+{
+  "name": "QCAT",
+  "description": "A superposed quantum cat token. Observe it to collapse the wavefunction into either ALIVECAT or DEADCAT. Schrödinger would be proud! Part of the QuantumCat memecoin ecosystem.",
+  "image": "ipfs://QmYourImageHash/qcat.png",
+  "external_url": "https://quantumcat.xyz",
+  "attributes": [
+    {
+      "trait_type": "State",
+      "value": "Superposed"
+    },
+    {
+      "trait_type": "Type",
+      "value": "Quantum"
+    },
+    {
+      "trait_type": "Observability",
+      "value": "Uncommitted"
+    },
+    {
+      "trait_type": "Rarity",
+      "value": "Common"
+    }
+  ],
+  "properties": {
+    "category": "meme",
+    "collection": {
+      "name": "QuantumCat",
+      "family": "QuantumCat"
+    }
+  }
+}
+

@@ -1,0 +1,58 @@
+{
+  "name": "QuantumCat",
+  "version": "1.0.0",
+  "description": "A quantum-inspired ERC-1155 memecoin with observation mechanics and cryptographic randomness - fully immutable with zero admin control",
+  "main": "index.js",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "test:security": "hardhat test test/QuantumCat.security.test.js",
+    "test:coverage": "hardhat coverage",
+    "test:gas": "REPORT_GAS=true hardhat test",
+    "lint": "solhint 'contracts/**/*.sol'",
+    "lint:fix": "solhint 'contracts/**/*.sol' --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "size": "hardhat size-contracts",
+    "clean": "hardhat clean && rm -rf cache artifacts coverage typechain-types abis",
+    "node": "hardhat node",
+    "deploy:localhost": "hardhat run scripts/deploy-erc20.js --network localhost",
+    "deploy:base-sepolia": "hardhat run scripts/deploy-erc20.js --network baseSepolia",
+    "deploy:base": "hardhat run scripts/deploy-erc20.js --network base",
+    "deploy:sepolia": "hardhat run scripts/deploy-erc20.js --network sepolia",
+    "deploy:mainnet": "hardhat run scripts/deploy-erc20.js --network mainnet",
+    "deploy:arbitrum": "hardhat run scripts/deploy-erc20.js --network arbitrum",
+    "deploy:optimism": "hardhat run scripts/deploy-erc20.js --network optimism",
+    "verify": "hardhat run scripts/verify.js"
+  },
+  "keywords": [
+    "ethereum",
+    "smart-contracts",
+    "erc1155",
+    "quantum",
+    "memecoin",
+    "immutable",
+    "decentralized"
+  ],
+  "author": "QuantumCat Team",
+  "license": "MIT",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
+    "@nomicfoundation/hardhat-ethers": "^3.1.1",
+    "@nomicfoundation/hardhat-toolbox": "^6.1.0",
+    "chai": "^4.5.0",
+    "dotenv": "^17.2.3",
+    "ethers": "^6.15.0",
+    "hardhat": "^2.26.4",
+    "hardhat-abi-exporter": "^2.11.0",
+    "hardhat-contract-sizer": "^2.10.1",
+    "hardhat-gas-reporter": "^2.3.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-solidity": "^2.1.0",
+    "solhint": "^6.0.1",
+    "solidity-coverage": "^0.8.16"
+  },
+  "dependencies": {
+    "@openzeppelin/contracts": "^5.4.0"
+  }
+}

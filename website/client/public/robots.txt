@@ -1,0 +1,13 @@
+# robots.txt for Quantum Cat ($QCAT)
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://adamking.github.io/QuantumCat/sitemap.xml
+
+# Crawl-delay for respectful crawling
+Crawl-delay: 1
+
+# Disallow specific paths if needed in the future
+# Disallow: /api/
+
