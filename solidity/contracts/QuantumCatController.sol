@@ -49,6 +49,7 @@ contract QuantumCatController is ReentrancyGuard {
     error FeeExceedsMaximum();
     error ZeroEntropy();
     error InsufficientBalance();
+    error ETHNotAccepted();
 
     // --- Config Constants ---
 
@@ -118,6 +119,10 @@ contract QuantumCatController is ReentrancyGuard {
         deadcat = DEADCATToken(_deadcat);
         REBOX_FEE_BPS = feeBps;
     }
+
+    /// @notice Prevent accidental ETH transfers
+    receive() external payable { revert ETHNotAccepted(); }
+    fallback() external payable { revert ETHNotAccepted(); }
 
     // ========= OBSERVE =========
 
@@ -222,6 +227,9 @@ contract QuantumCatController is ReentrancyGuard {
         nonReentrant
         returns (uint256 pairs)
     {
+        // Check cap overflow first
+        if (capPairs > type(uint256).max / 2) revert PairsOverflow();
+        
         uint256 a = alivecat.balanceOf(msg.sender);
         uint256 d = deadcat.balanceOf(msg.sender);
         pairs = a < d ? a : d;
@@ -238,7 +246,7 @@ contract QuantumCatController is ReentrancyGuard {
     /// @param owner Address to check
     /// @return ready True if observation can be revealed now
     function canObserve(address owner) external view returns (bool ready) {
-        Pending memory p = pending[owner];
+        Pending storage p = pending[owner];
         ready = p.active && block.number > p.refBlock + REVEAL_DELAY;
     }
 
@@ -246,7 +254,7 @@ contract QuantumCatController is ReentrancyGuard {
     /// @param owner Address to check
     /// @return ready True if observation can be force-finalized now
     function canForceObserve(address owner) external view returns (bool ready) {
-        Pending memory p = pending[owner];
+        Pending storage p = pending[owner];
         ready = p.active && block.number > p.refBlock + REVEAL_DELAY + GRACE;
     }
 
@@ -337,29 +345,34 @@ contract QuantumCatController is ReentrancyGuard {
         view
         returns (bytes32 randomness)
     {
+        // Prefer a fixed, commitment-linked blockhash to minimize user timing influence
+        // Use blockhash(refBlock + REVEAL_DELAY) when available; otherwise fall back
+        bytes32 commitLinkedHash = blockhash(refBlock + REVEAL_DELAY);
+        bytes32 recentHash = blockhash(block.number - 1);
+
         randomness = keccak256(
             abi.encodePacked(
-                // Unpredictable per-block values
+                // Commitment-linked entropy (zero if older than 256 blocks)
+                commitLinkedHash,
+
+                // Recent chain entropy as fallback/augmentation
+                block.prevrandao,
+                recentHash,
                 block.timestamp,
-                block.prevrandao,        // High entropy in PoS (formerly block.difficulty)
-                blockhash(block.number - 1),
+                block.chainid,
 
-                // Transaction-specific
-                tx.gasprice,
-                tx.origin,
-
-                // Caller-specific
+                // Caller/context
                 user,
                 msg.sender,
+                tx.gasprice,
                 gasleft(),
 
-                // User-provided entropy (prevents replay)
+                // User-provided commitment entropy and reference
                 userEntropy,
                 refBlock,
 
-                // Contract state
-                address(this).balance,
-                block.chainid
+                // Contract state (cheap to mix-in; may be zero)
+                address(this).balance
             )
         );
     }

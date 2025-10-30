@@ -603,7 +603,7 @@ export default function Home() {
             {isGlitching ? glitchText.aboutHeading : "₩Ⱨ₳₮'₴ ł₦ ₮ⱧɆ ฿ØӾ?"}
           </h2>
           <p className={`text-lg md:text-xl text-center leading-relaxed mb-6  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-            Quantum Cat is a memecoin experiment with <strong>three separate ERC-20 tokens</strong> - inspired by <a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Schrödinger's famous thought experiment</a>:
+            Quantum Cat is a memecoin experiment with <strong>three separate ERC-20 tokens</strong> deployed on <strong className={`${isAlive ? 'text-blue-400' : 'text-blue-600'}`}>Base L2</strong> (Coinbase's Ethereum L2) - inspired by <a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Schrödinger's famous thought experiment</a>:
           </p>
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-purple-900/20 border-purple-400' : 'bg-purple-100 border-purple-600'}`}>
@@ -632,8 +632,16 @@ export default function Home() {
             The initial supply of <strong>662,607,015 QCAT</strong> is inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Planck's constant</a> (6.62607015 × 10⁻³⁴ J⋅s).
             Holders can <strong>"observe"</strong> their QCAT to collapse it into EITHER all ALIVECAT OR all DEADCAT (50/50 gamble), or <strong>"rebox"</strong> equal pairs (1:1 ratio) back into QCAT (with a 3.5% fee that creates steady deflation).
           </p>
+          <div className={`mb-4 p-4 rounded-lg ${isAlive ? 'bg-blue-900/30 border-2 border-blue-500' : 'bg-blue-100 border-2 border-blue-600'}`}>
+            <p className={`text-base md:text-lg text-center font-semibold ${isAlive ? 'text-blue-300' : 'text-blue-800'}`}>
+              🔵 Deployed on <strong>Base L2</strong> for ultra-low fees (~$0.005-0.01 per transaction)
+            </p>
+            <p className={`text-sm text-center mt-2 ${isAlive ? 'text-blue-400' : 'text-blue-700'}`}>
+              Base makes gameplay affordable! The same transactions cost $20-50 on Ethereum.
+            </p>
+          </div>
           <p className={`text-base md:text-lg text-center leading-relaxed italic  ${isAlive ? 'text-gray-400' : 'text-gray-600'}`}>
-            Pure meme energy. No utility. No roadmap. No promises. Just quantum fun.
+            Pure meme energy. No utility. No roadmap. No promises. Just quantum fun on Base.
           </p>
         </div>
       </section>
@@ -650,7 +658,7 @@ export default function Home() {
             Initial Supply: 662,607,015 QCAT • Inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>Planck's Constant</a> (6.62607015 × 10⁻³⁴ J⋅s)
           </p>
           <p className={`text-center mb-12 text-sm ${isAlive ? 'text-gray-500' : 'text-gray-500'}`}>
-            ERC-20 Architecture • Three Separate Tokens • Observe & Rebox Mechanics
+            ERC-20 Architecture on <strong className={`${isAlive ? 'text-blue-400' : 'text-blue-600'}`}>Base L2</strong> • Three Separate Tokens • Observe & Rebox Mechanics
           </p>
           
           {/* How It Works - Observe & Rebox */}
@@ -720,12 +728,15 @@ export default function Home() {
             <div className={`border p-6 rounded-lg  ${isAlive ? 'bg-black/5 border-black/10' : 'bg-white/5 border-white/10'}`}>
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex-1">
-                  <div className={`text-sm mb-1  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20 Contract Addresses (Ethereum)</div>
+                  <div className={`text-sm mb-1  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20 Contract Addresses on Base L2 🔵</div>
                   <div className={`font-mono text-sm md:text-base break-all  ${isAlive ? 'text-black' : 'text-white'}`}>
                     {CONTRACT_ADDRESS}
                   </div>
                   <div className={`text-xs mt-2  ${isAlive ? 'text-gray-500' : 'text-gray-500'}`}>
-                    Three separate tokens: QCAT • ALIVECAT • DEADCAT
+                    Three separate tokens on Base: QCAT • ALIVECAT • DEADCAT
+                  </div>
+                  <div className={`text-xs mt-1  ${isAlive ? 'text-blue-600' : 'text-blue-400'}`}>
+                    View on <a href="https://basescan.org/" target="_blank" rel="noopener noreferrer" className="underline">Basescan</a> • Trade on <a href="https://app.uniswap.org/" target="_blank" rel="noopener noreferrer" className="underline">Uniswap</a> or <a href="https://aerodrome.finance/" target="_blank" rel="noopener noreferrer" className="underline">Aerodrome</a>
                   </div>
                 </div>
                 <button 
@@ -773,7 +784,7 @@ export default function Home() {
             </div>
             <div className={`mt-6 p-4 rounded-lg text-center ${isAlive ? 'bg-purple-50 border border-purple-200' : 'bg-purple-950/20 border border-purple-800'}`}>
               <p className={`text-sm ${isAlive ? 'text-purple-900' : 'text-purple-300'}`}>
-                <strong>Genesis observation is a gamble!</strong> The entire market watches as 166M QCAT collapse into one outcome. Whichever token is created becomes instantly scarce vs the other. More observations will follow to balance supply and seed all liquidity pools.
+                <strong>Genesis observation is a gamble!</strong> The entire market watches as 166M QCAT collapse into one outcome. Whichever token is created becomes instantly scarce vs the other. More observations will follow to balance supply and seed all liquidity pools on Base.
               </p>
             </div>
           </div>
@@ -813,9 +824,15 @@ export default function Home() {
                 </p>
               </div>
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
-                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Launch Ready</h4>
+                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Built for Base L2 🔵</h4>
                 <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  All 3 tokens tradable day one - QCAT/ETH primary pool, plus ALIVE/DEAD arbitrage pair for tight price discovery
+                  Ultra-low fees (~$0.005-0.01) make observe/rebox gameplay affordable for everyone - would cost $20-50 per play on Ethereum!
+                </p>
+              </div>
+              <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
+                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Launch Ready on Base</h4>
+                <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
+                  All 3 tokens tradable day one on Uniswap V3 and Aerodrome - QCAT/ETH primary pool, plus ALIVE/DEAD arbitrage pair for tight price discovery
                 </p>
               </div>
             </div>
@@ -832,35 +849,35 @@ export default function Home() {
             {isGlitching ? glitchText.howToCollectHeading : "ⱧØ₩ ₮Ø ₵ØⱠⱠɆ₵₮"}
           </h2>
           <div className="space-y-6">
-            <div className="flex gap-6 items-start">
+              <div className="flex gap-6 items-start">
               <div className={`text-4xl font-bold  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>1</div>
               <div>
-                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Get an Ethereum Wallet</h3>
+                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Get Coinbase Wallet or MetaMask</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Download <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>MetaMask</a> or another wallet that supports standard ERC-20 tokens.
-                  Create a new wallet and save your seed phrase securely.
+                  Download <a href="https://www.coinbase.com/wallet" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Coinbase Wallet</a> (easiest for Base) or <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>MetaMask</a>.
+                  Base network is automatically configured in Coinbase Wallet!
                 </p>
               </div>
             </div>
             <div className="flex gap-6 items-start">
               <div className={`text-4xl font-bold  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>2</div>
               <div>
-                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Get Some ETH</h3>
+                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Get ETH on Base</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Buy ETH on any major exchange (<a href="https://www.coinbase.com" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Coinbase</a>, <a href="https://www.binance.com" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Binance</a>, etc.) and send it to your wallet address.
+                  <strong>Option A (Easiest):</strong> Buy ETH on <a href="https://www.coinbase.com" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Coinbase</a> → Send to Coinbase Wallet on Base network (no bridging needed!)<br/>
+                  <strong>Option B:</strong> Bridge ETH from Ethereum to Base via <a href="https://bridge.base.org/" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Base Bridge</a>
                 </p>
               </div>
             </div>
             <div className="flex gap-6 items-start">
               <div className={`text-4xl font-bold  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>3</div>
               <div>
-                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Trade on Uniswap v3</h3>
+                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Trade on Uniswap or Aerodrome (Base DEXs)</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Go to <a href="https://app.uniswap.org" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Uniswap</a>, connect your wallet, and trade any of the three separate ERC-20 tokens:
+                  Go to <a href="https://app.uniswap.org" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Uniswap</a> or <a href="https://aerodrome.finance" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Aerodrome</a>, <strong>switch to Base network</strong>, connect your wallet, and trade any of the three ERC-20 tokens:
                   <strong className={`${isAlive ? 'text-purple-400' : 'text-purple-600'}`}> QCAT</strong> (superposed quantum state),
                   <strong className={`${isAlive ? 'text-green-400' : 'text-green-600'}`}> ALIVECAT</strong> (observed alive), or
-                  <strong className={`${isAlive ? 'text-red-400' : 'text-red-600'}`}> DEADCAT</strong> (observed dead). 
-                  Use the ALIVE/DEAD pair for arbitrage opportunities.
+                  <strong className={`${isAlive ? 'text-red-400' : 'text-red-600'}`}> DEADCAT</strong> (observed dead).
                 </p>
               </div>
             </div>
@@ -874,12 +891,12 @@ export default function Home() {
                 </p>
               </div>
             </div>
-            <div className="flex gap-6 items-start">
+              <div className="flex gap-6 items-start">
               <div className={`text-4xl font-bold  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>5</div>
               <div>
-                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>HODL, Trade, or Arb</h3>
+                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>HODL, Trade, or Play on Base</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  You now own quantum tokens - digital collectibles with no inherent value. These tokens exist purely for entertainment. Watch the arbitrage triangle balance itself through market forces. Trade at your own risk.
+                  You now own quantum tokens - digital collectibles with no inherent value. These tokens exist purely for entertainment on Base L2, where transaction fees are ~$0.01 instead of $20-50 on Ethereum. Watch the arbitrage triangle balance itself through market forces. Trade at your own risk.
                 </p>
               </div>
             </div>
@@ -927,8 +944,8 @@ export default function Home() {
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
               <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>Where can I trade all three tokens?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                Primary pools on Uniswap v3: QCAT/ETH for main liquidity, QCAT/USDC for stablecoin trading. The ALIVE/DEAD pairing pool (0.05% fee) enables tight arbitrage and keeps the triangle balanced. 
-                All pools seeded at launch.
+                Primary pools on <strong>Base L2</strong> via Uniswap V3 and Aerodrome: QCAT/ETH for main liquidity, QCAT/USDC for stablecoin trading. The ALIVE/DEAD pairing pool (0.05% fee) enables tight arbitrage and keeps the triangle balanced. 
+                All pools seeded at launch. Trading fees ~$0.01 on Base vs $20-50 on Ethereum!
               </p>
             </div>
           </div>
@@ -945,14 +962,14 @@ export default function Home() {
             </div>
           </div>
           <p className="mb-4 text-sm">
-            <strong className={` ${isAlive ? 'text-white' : 'text-black'}`}>Important Disclaimer:</strong> Quantum Cat (QCAT, ALIVECAT, DEADCAT) are memecoins created for entertainment purposes only. 
+            <strong className={` ${isAlive ? 'text-white' : 'text-black'}`}>Important Disclaimer:</strong> Quantum Cat (QCAT, ALIVECAT, DEADCAT) are memecoins created for entertainment purposes only, deployed on Base L2 for affordable gameplay. 
             They have no intrinsic value, no utility, and no expectation of financial return or profit. These tokens do not represent an investment contract, 
             ownership stake, or any claim on assets or revenue. Purchasing any Quantum Cat tokens should be considered the same as buying any other entertainment product - 
             they may have no resale value whatsoever. Cryptocurrency markets are extremely volatile and speculative. 
             Never purchase more tokens than you can afford to lose completely. This is not financial advice.
           </p>
           <p className="text-sm">
-            Quantum Cat are purely digital collectibles and community participation tokens. Any price fluctuations are driven entirely by market speculation 
+            Quantum Cat are purely digital collectibles and community participation tokens deployed on Base L2 (Coinbase's Ethereum L2) where transactions cost ~$0.01 instead of $20-50 on Ethereum. Any price fluctuations are driven entirely by market speculation 
             and have no connection to any underlying business, project development, or promised outcomes. The observe and rebox mechanics are game features, not value propositions. 
             You should expect the value to potentially go to zero at any time. Playing with quantum superposition is fun, but it's not an investment.
           </p>

@@ -1,9 +1,37 @@
-// Contract addresses (update these after deployment)
+// Contract addresses on Base L2 (update these after deployment)
+// Base Mainnet Chain ID: 8453
+// Base Sepolia Testnet Chain ID: 84532
 export const CONTRACTS = {
-  QCAT: '0x0000000000000000000000000000000000000000', // Replace with deployed address
-  ALIVECAT: '0x0000000000000000000000000000000000000000', // Replace with deployed address
-  DEADCAT: '0x0000000000000000000000000000000000000000', // Replace with deployed address
-  CONTROLLER: '0x0000000000000000000000000000000000000000' // Replace with deployed address
+  QCAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
+  ALIVECAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
+  DEADCAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
+  CONTROLLER: '0x0000000000000000000000000000000000000000' // Replace with deployed Base address
+};
+
+// Network Configuration for Base L2
+export const NETWORK_CONFIG = {
+  chainId: 8453, // Base Mainnet
+  chainName: 'Base',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18
+  },
+  rpcUrls: ['https://mainnet.base.org'],
+  blockExplorerUrls: ['https://basescan.org']
+};
+
+// Testnet Configuration (Base Sepolia)
+export const TESTNET_CONFIG = {
+  chainId: 84532, // Base Sepolia
+  chainName: 'Base Sepolia',
+  nativeCurrency: {
+    name: 'Ethereum',
+    symbol: 'ETH',
+    decimals: 18
+  },
+  rpcUrls: ['https://sepolia.base.org'],
+  blockExplorerUrls: ['https://sepolia.basescan.org']
 };
 
 // ABIs (simplified - you'll need to load full ABIs from your artifacts)

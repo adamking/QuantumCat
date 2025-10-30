@@ -1,0 +1,39 @@
+Project: QuantumCat (Solidity + React/TypeScript monorepo)
+
+Priorities
+- Make minimal, targeted edits; avoid unrelated refactors and reformatting.
+- Respect existing indentation, formatting, and project conventions.
+- Keep generated outputs and binaries out of context (see .cursorignore).
+
+Tech stack
+- Smart contracts: Solidity (Hardhat, OpenZeppelin), located in `solidity/`
+- Web app: React + TypeScript + Vite + Tailwind, located in `website/client/`
+
+Editing guidelines
+- TypeScript/React:
+  - Prefer explicit, descriptive names; avoid single-letter variables.
+  - Use early returns; avoid deep nesting and unnecessary try/catch.
+  - Keep components small; lift shared state appropriately; memoize when needed.
+  - Do not reformat unrelated files or reorder imports unless necessary.
+- Solidity:
+  - Follow OpenZeppelin patterns; minimize state changes; guard external calls.
+  - Prefer checks-effects-interactions; use `ReentrancyGuard` when needed.
+  - Keep interfaces and events clear; avoid inline assembly unless required.
+
+Repo navigation
+- Contracts: `solidity/contracts/`
+- Tests: `solidity/test/`
+- Scripts: `solidity/scripts/`
+- DApp source: `website/client/src/`
+- Built/static assets are ignored by `.cursorignore`.
+
+Operational notes
+- When adding files, include only necessary code and imports.
+- Do not commit or rely on artifacts in `solidity/artifacts/` or `website/dist/`.
+- Prefer small, composable helpers over large util files.
+
+Performance
+- Avoid loading large assets into context.
+- When reading code, prefer source under `solidity/contracts/` and `website/client/src/`.
+
+

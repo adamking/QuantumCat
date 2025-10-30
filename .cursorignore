@@ -1,0 +1,59 @@
+# Cursor ignore file
+# Goal: reduce noise and token usage by excluding generated output, dependencies, large assets, and logs.
+
+# VCS / IDE metadata
+.DS_Store
+Thumbs.db
+**/.git/**
+**/.svn/**
+**/.hg/**
+**/.idea/**
+**/.vscode/**
+**/.history/**
+**/.cache/**
+
+# Dependencies
+**/node_modules/**
+
+# Builds / outputs
+**/dist/**
+**/build/**
+**/coverage/**
+**/.turbo/**
+
+# Maps and artifacts
+**/*.map
+
+# Logs
+**/*.log
+**/npm-debug.log*
+
+# Binary/media assets (keep source code lean)
+**/*.png
+**/*.jpg
+**/*.jpeg
+**/*.gif
+**/*.webp
+**/*.ico
+**/*.svg
+**/*.mp4
+**/*.mov
+**/*.pdf
+**/*.zip
+**/*.gz
+**/*.br
+**/*.wasm
+
+# Solidity specific generated content
+solidity/artifacts/**
+solidity/cache/**
+solidity/coverage/**
+solidity/coverage.json
+solidity/abis/**
+
+# Website build and static dumps
+website/dist/**
+website/attached_assets/**
+website/client/public/**
+
+

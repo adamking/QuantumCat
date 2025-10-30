@@ -87,7 +87,7 @@ npm test
 # Deploy to Base Sepolia testnet
 npm run deploy:base-sepolia
 
-# Deploy to Base mainnet (production)
+# Deploy to Base mainnet (production) 🔵 RECOMMENDED
 npm run deploy:base
 ```
 
@@ -201,16 +201,25 @@ If someone commits to observe but never reveals, anyone can finalize their obser
 - **Reentrancy Guards**: All state-changing functions protected
 - **Zero Admin Control**: No owner, no upgrades, fully autonomous
 
-### Why Base?
+### Why Base? 🔵
 
-QuantumCat is optimized for [Base](https://base.org/), Coinbase's Ethereum L2:
+QuantumCat is **built exclusively for** [Base](https://base.org/), Coinbase's Ethereum L2 blockchain:
 
-| Network | Transaction Cost | User Experience |
-|---------|-----------------|-----------------|
-| Ethereum Mainnet | ~$20-50 per observe | ❌ Too expensive for gameplay |
-| Base | ~$0.005 per observe | ✅ Perfect for memecoins! |
+| Network | Transaction Cost | User Experience | Status |
+|---------|-----------------|-----------------|--------|
+| **Base** | **~$0.005 per observe** | ✅ **Perfect for memecoins!** | **✅ PRIMARY** |
+| Ethereum Mainnet | ~$20-50 per observe | ❌ Too expensive for gameplay | ❌ Not Viable |
+| Other L2s | ~$0.01-0.05 | ⚠️ Higher than Base | Secondary |
 
-**Base offers 99.9% lower fees** while maintaining Ethereum's security and decentralization.
+**Base offers 99.9% lower fees** than Ethereum mainnet while maintaining security and full EVM compatibility.
+
+#### Base Advantages:
+- 🚀 **Ultra-Low Fees**: $0.005-0.01 per transaction makes gameplay affordable for everyone
+- ⚡ **2-Second Blocks**: Near-instant transaction confirmations
+- 🏦 **Coinbase Ecosystem**: Easy onramps via Coinbase and integrated wallets
+- 🌊 **Growing DeFi**: Uniswap, Aerodrome, and thriving memecoin culture
+- 🔒 **Ethereum Security**: Inherits Ethereum's security as an L2 rollup
+- 💙 **Massive User Base**: Coinbase's 100M+ users have easy access
 
 ## 🛠️ Development
 
@@ -311,16 +320,20 @@ Just like Schrödinger's cat, your investment may exist in multiple states simul
 - [ERC-20 Architecture Guide](solidity/ERC20_ARCHITECTURE.md) *(if exists)*
 
 ### External Resources
+- [Base Documentation](https://docs.base.org/) - **Learn about Base L2**
+- [Base Bridge](https://bridge.base.org/) - Bridge assets to Base
+- [Coinbase Wallet](https://www.coinbase.com/wallet) - Best wallet for Base
 - [EIP-20: Token Standard](https://eips.ethereum.org/EIPS/eip-20)
 - [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts/)
 - [Hardhat Documentation](https://hardhat.org/docs)
-- [Base Documentation](https://docs.base.org/)
-- [Uniswap Documentation](https://docs.uniswap.org/)
+- [Uniswap on Base](https://app.uniswap.org/) - Trade on Base
+- [Aerodrome Finance](https://aerodrome.finance/) - Base-native DEX
 - [Schrödinger's Cat (Wikipedia)](https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat)
 
 ### Blockchain Explorers
-- [Basescan (Base Mainnet)](https://basescan.org/)
+- [Basescan (Base Mainnet)](https://basescan.org/) - **Primary Explorer**
 - [Base Sepolia Explorer (Testnet)](https://sepolia.basescan.org/)
+- [Base Bridge](https://bridge.base.org/) - Bridge assets to Base
 
 ### Support & Community
 

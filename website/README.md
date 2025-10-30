@@ -1,22 +1,35 @@
 # Quantum Cats 🐱⚛️
 
-A three-token memecoin experiment in quantum superposition - observe QCAT to collapse into ALIVECAT and DEADCAT, or rebox them back!
+A three-token memecoin experiment in quantum superposition - **deployed on Base** 🔵 for ultra-low fees!
 
 ## 🎯 Features
 
-- **Three-Token System**: ERC-20 architecture with QCAT, ALIVECAT, and DEADCAT tokens
+- **Three-Token System**: ERC-20 architecture with QCAT, ALIVECAT, and DEADCAT tokens on Base L2
 - **Observe & Rebox Mechanics**: 
   - Observe QCAT to collapse it into ALIVECAT OR DEADCAT (50/50, 5-block commit-reveal)
-  - Rebox pairs of ALIVE + DEAD back into QCAT (with 5% deflationary fee)
+  - Rebox pairs of ALIVE + DEAD back into QCAT (with 3.5% deflationary fee)
 - **Arbitrage Triangle**: Natural price balance through QCAT ↔ ALIVE ↔ DEAD trading
 - **Quantum Superposition Animation**: Interactive cat that switches between alive and dead states
 - **Epic Glitch Effects**: Mind-bending visual quantum state transitions
 - **Complete Landing Page**: 
   - Full three-token tokenomics breakdown
   - Observe/rebox mechanics explained
-  - Four Uniswap v3 pools detailed
+  - Base L2 advantages highlighted
+  - Uniswap v3 + Aerodrome pool info
   - Step-by-step buying & playing guide
   - Comprehensive FAQ and disclaimer
+
+## 🔵 Why Base?
+
+This project is **built exclusively for Base**, Coinbase's Ethereum L2:
+
+- **🚀 Ultra-Low Fees**: $0.005-0.01 per transaction (vs $20-50 on Ethereum)
+- **⚡ Fast**: 2-second block times for instant confirmations
+- **🏦 Easy Onboarding**: Coinbase's 100M+ users have seamless access
+- **🌊 Growing Ecosystem**: Uniswap, Aerodrome, and thriving memecoin culture
+- **💙 Perfect for Gameplay**: Affordable costs make observe/rebox mechanics viable
+
+**Base makes QuantumCat possible. Ethereum would be too expensive to play!**
 
 ## 🚀 Live Demo
 
@@ -74,37 +87,45 @@ Three separate ERC-20 tokens:
 
 ## 💰 Tokenomics
 
-- **Total Supply**: 100,000,000 $QCAT
-- **Tax**: 0% (no buy/sell tax)
+- **Total Supply**: 662,607,015 QCAT (inspired by Planck's constant)
+- **Network**: Base L2 (Coinbase's Ethereum L2) 🔵
+- **Tax**: 0% (no buy/sell tax on any of the three tokens)
 - **Distribution**: 
-  - 90% Liquidity Pool (90M tokens) - Permanently Locked
-  - 10% Team & Marketing (10M tokens)
-- **Chain**: Ethereum (ERC-20)
-- **DEX**: Uniswap V2
+  - 40% Liquidity Pools (265M) - Uniswap + Aerodrome on Base
+  - 25% Genesis Observation (166M) - Public livestream event
+  - 15% Community Rewards (99M) - Liquidity mining, airdrops
+  - 10% Team (66M) - 12-month linear vesting
+  - 10% Strategic Reserve (66M) - CEX listings, partnerships
+- **Chain**: Base (Ethereum L2 by Coinbase)
+- **DEXs**: Uniswap V3 + Aerodrome on Base
 
-### Why 10% Team Allocation?
+### Why Base for Trading?
 
-We're transparent about our allocation. The 10% supports:
-- Marketing campaigns, meme creation, and community growth
-- Exchange listings and liquidity operations
-- Community rewards, contests, and giveaways
-- Development, maintenance, and keeping the vibes alive
-
-This is lower than typical memecoin allocations (often 15-20%) and demonstrates our commitment to the community.
+✅ **$0.005-0.01 per trade** vs $20-50 on Ethereum  
+✅ **Instant swaps** with 2-second blocks  
+✅ **Easy onboarding** via Coinbase Wallet  
+✅ **Best DEXs**: Uniswap V3 + Aerodrome with deep liquidity
 
 ## 🔒 Security Features
 
-✅ 90% Liquidity Permanently Locked  
-✅ Zero Buy/Sell Tax  
-✅ Fixed Supply (No Minting)  
-✅ ERC-20 Standard Compliance  
+✅ Deployed on Base L2 (Ethereum-secured rollup)  
+✅ Immutable contracts (no admin control)  
+✅ Zero Buy/Sell Tax on all three tokens  
+✅ Fair RNG with 5-block commit-reveal  
+✅ Full ERC-20 compliance  
+✅ Comprehensive test coverage
 
 ## 🛒 How to Buy
 
-1. Get an Ethereum wallet (MetaMask or similar)
-2. Buy ETH on any major exchange
-3. Swap ETH for $QCAT on Uniswap V2
-4. HODL in quantum superposition!
+1. **Get a Web3 wallet** - Download [Coinbase Wallet](https://www.coinbase.com/wallet) or MetaMask
+2. **Switch to Base network** - Add Base L2 network to your wallet (automatic in Coinbase Wallet)
+3. **Get ETH on Base** - Bridge ETH from Ethereum via [Base Bridge](https://bridge.base.org/) or buy directly on Coinbase
+4. **Swap for $QCAT** - Visit [Uniswap](https://app.uniswap.org/) or [Aerodrome](https://aerodrome.finance/), connect wallet, swap ETH for QCAT
+5. **HODL in quantum superposition!** 🐱⚛️
+
+### Quick Start with Coinbase:
+- Easiest path: Buy ETH on Coinbase → Send to Coinbase Wallet on Base → Swap on Uniswap
+- No bridging needed if you use Coinbase ecosystem!
 
 ## 📝 Deployment
 
@@ -112,9 +133,9 @@ The app automatically deploys to GitHub Pages when you push to main. See [DEPLOY
 
 ## ⚠️ Disclaimer
 
-$QCAT is a memecoin with no intrinsic value and no expectation of financial return. This is a quantum experiment for entertainment purposes only. Do your own research. Cryptocurrency investments are highly speculative and volatile. Never invest more than you can afford to lose completely.
+$QCAT, $ALIVECAT, and $DEADCAT are memecoins created for entertainment purposes only. They have no intrinsic value, no utility, and no expectation of financial return or profit. These tokens are deployed on Base L2 as ERC-20 tokens for affordable gameplay. Cryptocurrency markets are extremely volatile and speculative. Never purchase more tokens than you can afford to lose completely. This is not financial advice.
 
-Just like Schrödinger's cat, your investment may exist in multiple states simultaneously. Observing your wallet may collapse the wave function. Past performance is not indicative of future results.
+Just like Schrödinger's cat, your investment may exist in multiple states simultaneously. Observing your wallet may collapse the wave function. **Trading costs ~$0.01 on Base vs $20-50 on Ethereum - Base makes the gameplay possible!** Past performance is not indicative of future results.
 
 ## 🤝 Contributing
 
