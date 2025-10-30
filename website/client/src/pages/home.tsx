@@ -7,9 +7,7 @@ import { useFlickerEffect } from "@/hooks/use-flicker-effect";
 import { useSoundEffects } from "@/hooks/use-sound-effects";
 
 export default function Home() {
-  // Inventory state
-  const [qcatCount, setQcatCount] = useState(3); // Start with 3 QCATs
-  
+
   const [isAlive, setIsAlive] = useState(true); // Initial state (will be set randomly after first glitch)
   const [isGlitching, setIsGlitching] = useState(false);
   const [nextState, setNextState] = useState(true);
@@ -84,36 +82,10 @@ export default function Home() {
 
   // Observe a QCAT - randomly generates ALIVECAT or DEADCAT
   const observeQCat = () => {
-    if (qcatCount <= 0) {
-      toast({
-        title: "No QCAT to observe!",
-        description: "You need at least 1 QCAT to observe.",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (isGlitching || isPaused) return;
-
-    // Use secure random to determine outcome
     const willBeAlive = getSecureRandom();
-    
-    // Update inventory
-    setQcatCount(prev => prev - 1);
-
-    // Trigger visual glitch
     triggerGlitch(willBeAlive);
-
-    // Show toast notification
-    toast({
-      title: "QCAT Observed!",
-      description: willBeAlive 
-        ? "🟢 Collapsed to ALIVECAT" 
-        : "🔴 Collapsed to DEADCAT",
-      variant: "default",
-    });
   };
-
 
   // Function to scramble text during glitch
   const scrambleText = (text: string): string => {
@@ -631,7 +603,7 @@ export default function Home() {
             {isGlitching ? glitchText.aboutHeading : "₩Ⱨ₳₮'₴ ł₦ ₮ⱧɆ ฿ØӾ?"}
           </h2>
           <p className={`text-lg md:text-xl text-center leading-relaxed mb-6  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-            Quantum Cat is a memecoin experiment with <strong>three tokens</strong> in one <a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>ERC-1155</a> contract - inspired by <a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Schrödinger's famous thought experiment</a>:
+            Quantum Cat is a memecoin experiment with <strong>three separate ERC-20 tokens</strong> - inspired by <a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Schrödinger's famous thought experiment</a>:
           </p>
           <div className="grid md:grid-cols-3 gap-6 mb-6">
             <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-purple-900/20 border-purple-400' : 'bg-purple-100 border-purple-600'}`}>
@@ -657,8 +629,8 @@ export default function Home() {
             </div>
           </div>
           <p className={`text-base md:text-lg text-center leading-relaxed mb-4  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-            The initial supply of <strong>662,607,015 QCAT</strong> is inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Planck's constant</a> (6.62607015 × 10⁻³⁴ J⋅s). 
-            Holders can <strong>"observe"</strong> their QCAT to collapse it into ALIVECAT + DEADCAT, or <strong>"rebox"</strong> pairs back into QCAT (with a 2% fee that creates a steady deflationary sink).
+            The initial supply of <strong>662,607,015 QCAT</strong> is inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Planck's constant</a> (6.62607015 × 10⁻³⁴ J⋅s).
+            Holders can <strong>"observe"</strong> their QCAT to collapse it into EITHER all ALIVECAT OR all DEADCAT (50/50 chance), or <strong>"rebox"</strong> equal pairs (1:1 ratio) back into QCAT (with a 2% fee that creates a steady deflationary sink).
           </p>
           <p className={`text-base md:text-lg text-center leading-relaxed italic  ${isAlive ? 'text-gray-400' : 'text-gray-600'}`}>
             Pure meme energy. No utility. No roadmap. No promises. Just quantum fun.
@@ -678,7 +650,7 @@ export default function Home() {
             Initial Supply: 662,607,015 QCAT • Inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>Planck's Constant</a> (6.62607015 × 10⁻³⁴ J⋅s)
           </p>
           <p className={`text-center mb-12 text-sm ${isAlive ? 'text-gray-500' : 'text-gray-500'}`}>
-            <a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>ERC-1155</a> Contract • Three Token IDs • Observe & Rebox Mechanics
+            ERC-20 Architecture • Three Separate Tokens • Observe & Rebox Mechanics
           </p>
           
           {/* How It Works - Observe & Rebox */}
@@ -688,13 +660,13 @@ export default function Home() {
               <div className={`p-6 rounded-xl border-2 ${isAlive ? 'bg-blue-50 border-blue-300' : 'bg-blue-950/30 border-blue-700'}`}>
                 <h4 className={`text-xl font-bold mb-3 ${isAlive ? 'text-blue-900' : 'text-blue-300'}`}>OBSERVE</h4>
                 <p className={`text-sm mb-3 ${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                  Collapse QCAT into observed outcomes:
+                  Collapse QCAT into ONE observed outcome:
                 </p>
                 <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
                   <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>QCAT → commit → wait → observe</div>
                   <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>Burns QCAT</div>
-                  <div className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>Mints ALIVECAT + DEADCAT</div>
-                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(total = amount observed)</div>
+                  <div className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>Mints EITHER all ALIVECAT OR all DEADCAT</div>
+                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(50/50 chance • 100% one type, 0% other)</div>
                 </div>
                 <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
                   Requires 5-block delay (fair RNG) • No supply change
@@ -703,13 +675,13 @@ export default function Home() {
               <div className={`p-6 rounded-xl border-2 ${isAlive ? 'bg-orange-50 border-orange-300' : 'bg-orange-950/30 border-orange-700'}`}>
                 <h4 className={`text-xl font-bold mb-3 ${isAlive ? 'text-orange-900' : 'text-orange-300'}`}>REBOX</h4>
                 <p className={`text-sm mb-3 ${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                  Recombine pairs back into superposition:
+                  Recombine EQUAL pairs (1:1 ratio) into superposition:
                 </p>
                 <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
                   <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>ALIVECAT + DEADCAT → rebox</div>
-                  <div className={`${isAlive ? 'text-red-700' : 'text-red-400'}`}>Burns 1 ALIVE + 1 DEAD</div>
-                  <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>Mints ~1.96 QCAT (2% fee)</div>
-                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(2 tokens → 1.96 QCAT)</div>
+                  <div className={`${isAlive ? 'text-red-700' : 'text-red-400'}`}>Burns 1 ALIVE + 1 DEAD (1:1 ratio)</div>
+                  <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>Mints 0.98 QCAT (2% fee)</div>
+                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(1 ALIVE + 1 DEAD = 0.98 QCAT)</div>
                 </div>
                 <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
                   2% fee = deflationary sink • Only supply decrease
@@ -730,8 +702,8 @@ export default function Home() {
               <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Initial QCAT</div>
             </div>
             <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>3 IDs</div>
-              <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}><a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>ERC-1155</a></div>
+              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>3 Tokens</div>
+              <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20</div>
             </div>
             <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
               <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>2%</div>
@@ -748,12 +720,12 @@ export default function Home() {
             <div className={`border p-6 rounded-lg  ${isAlive ? 'bg-black/5 border-black/10' : 'bg-white/5 border-white/10'}`}>
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex-1">
-                  <div className={`text-sm mb-1  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}><a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>ERC-1155</a> Contract Address (Ethereum)</div>
+                  <div className={`text-sm mb-1  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20 Contract Addresses (Ethereum)</div>
                   <div className={`font-mono text-sm md:text-base break-all  ${isAlive ? 'text-black' : 'text-white'}`}>
                     {CONTRACT_ADDRESS}
                   </div>
                   <div className={`text-xs mt-2  ${isAlive ? 'text-gray-500' : 'text-gray-500'}`}>
-                    Three token IDs: QCAT (0) • ALIVECAT (1) • DEADCAT (2)
+                    Three separate tokens: QCAT • ALIVECAT • DEADCAT
                   </div>
                 </div>
                 <button 
@@ -791,13 +763,13 @@ export default function Home() {
             </div>
             <div className={`text-center mt-4 text-sm space-y-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
               <p><strong className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>45% Liquidity & Operations</strong> (298M) — Seed 4 pools: QCAT/USDC, ALIVE/USDC, DEAD/USDC, ALIVE/DEAD</p>
-              <p><strong className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>30% Genesis Observation Event</strong> (199M) — Observed to create initial ALIVECAT + DEADCAT</p>
+              <p><strong className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>30% Genesis Observation Event</strong> (199M) — Observed to create EITHER 199M ALIVECAT OR 199M DEADCAT (50/50)</p>
               <p><strong className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>10% Community & Airdrops</strong> (66M) — Quests, giveaways, early adopters</p>
               <p><strong className={`${isAlive ? 'text-orange-700' : 'text-orange-400'}`}>15% Treasury Reserve</strong> (99M) — Unobserved QCAT held in reserve</p>
             </div>
             <div className={`mt-6 p-4 rounded-lg text-center ${isAlive ? 'bg-purple-50 border border-purple-200' : 'bg-purple-950/20 border border-purple-800'}`}>
               <p className={`text-sm ${isAlive ? 'text-purple-900' : 'text-purple-300'}`}>
-                <strong>All three tokens tradable from day one!</strong> Genesis observation creates ~99.4M ALIVE + ~99.4M DEAD for immediate liquidity.
+                <strong>All three tokens tradable from day one!</strong> Genesis observation will create EITHER 199M ALIVECAT OR 199M DEADCAT. Additional observations needed to generate the other token for full liquidity setup.
               </p>
             </div>
           </div>
@@ -861,7 +833,7 @@ export default function Home() {
               <div>
                 <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Get an Ethereum Wallet</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Download <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>MetaMask</a> or another Ethereum wallet that supports <a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>ERC-1155</a> tokens.
+                  Download <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>MetaMask</a> or another Ethereum wallet that supports ERC-20 tokens.
                   Create a new wallet and save your seed phrase securely.
                 </p>
               </div>
@@ -893,8 +865,8 @@ export default function Home() {
               <div>
                 <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Observe or Rebox Your Tokens</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>observe()</code> on QCAT to collapse it into ALIVE + DEAD (5-block delay for fair RNG).
-                  Or call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-orange-900/30 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>rebox()</code> with pairs of ALIVE + DEAD to mint QCAT (2% fee). Play the arbitrage game!
+                  Call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>observe()</code> on QCAT to collapse it into EITHER all ALIVE OR all DEAD (50/50 chance, 5-block delay for fair RNG).
+                  Or call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-orange-900/30 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>rebox()</code> with equal pairs of ALIVE + DEAD (1:1 ratio) to mint QCAT (2% fee). Play the arbitrage game!
                 </p>
               </div>
             </div>
@@ -923,15 +895,15 @@ export default function Home() {
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
               <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>Why is QCAT slightly pricier than the average of ALIVECAT and DEADCAT?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                Because reboxing burns 2 tokens (1 ALIVE + 1 DEAD) to mint less than 2 QCAT (due to the 2% fee). This creates pricing equilibrium: 
+                Because reboxing requires EQUAL amounts (1 ALIVE + 1 DEAD) to mint 0.98 QCAT (due to the 2% fee). This creates pricing equilibrium:
                 P<sub>QCAT</sub> ≈ (P<sub>ALIVE</sub> + P<sub>DEAD</sub>) / 1.96. If prices drift, arbitrageurs profit by observing or reboxing until balance is restored.
               </p>
             </div>
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
-              <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>Does the quantum bias parameter change the total supply?</h3>
+              <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>How does observation work? Do I get both ALIVECAT and DEADCAT?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                No. The bias parameter (t) only affects the <em>split</em> between ALIVECAT and DEADCAT when you observe. 
-                The total amount (ALIVE + DEAD) always equals the QCAT you burned. Supply changes only happen through rebox fees.
+                No! Observation gives you EITHER 100% ALIVECAT OR 100% DEADCAT (never a mix). It's a true 50/50 random outcome - you get ALL of one type, NONE of the other.
+                This mimics quantum wave function collapse. The total amount equals the QCAT you burned. Supply changes only happen through rebox fees.
               </p>
             </div>
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
@@ -944,7 +916,7 @@ export default function Home() {
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
               <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>What makes this different from other memecoins?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                Three tradable tokens in one <a href="https://ethereum.org/en/developers/docs/standards/tokens/erc-1155/" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>ERC-1155</a> contract with actual game mechanics. You can actively participate by observing, reboxing, and arbitraging. 
+                Three separate ERC-20 tokens with actual game mechanics. You can actively participate by observing, reboxing, and arbitraging.
                 The deflationary mechanism is built into user actions, not arbitrary burns. Plus, all three tokens are live from day one with full liquidity.
               </p>
             </div>

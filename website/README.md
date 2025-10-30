@@ -4,7 +4,7 @@ A three-token memecoin experiment in quantum superposition - observe QCAT to col
 
 ## 🎯 Features
 
-- **Three-Token System**: ERC-1155 contract with QCAT (0), ALIVECAT (1), and DEADCAT (2)
+- **Three-Token System**: ERC-20 architecture with QCAT, ALIVECAT, and DEADCAT tokens
 - **Observe & Rebox Mechanics**: 
   - Observe QCAT to collapse it into ALIVECAT + DEADCAT (with 5-block fair RNG)
   - Rebox pairs of ALIVE + DEAD back into QCAT (with 2% deflationary fee)
@@ -56,10 +56,10 @@ The cat exists in quantum superposition, randomly collapsing to alive or dead st
 - Text scrambling during state changes
 
 ### The Tokenomics
-Three tokens in one ERC-1155 contract:
-- **QCAT (ID: 0)**: The superposed coin - starts at 662,607,015 supply
-- **ALIVECAT (ID: 1)**: Observed outcome from collapsing QCAT
-- **DEADCAT (ID: 2)**: Observed outcome from collapsing QCAT
+Three separate ERC-20 tokens:
+- **QCAT**: The superposed coin - starts at 662,607,015 supply
+- **ALIVECAT**: Observed outcome from collapsing QCAT
+- **DEADCAT**: Observed outcome from collapsing QCAT
 
 **Observe**: Burn QCAT → Get ALIVECAT + DEADCAT (total equals QCAT burned)
 - Requires commit-reveal with 5-block delay for fair RNG
