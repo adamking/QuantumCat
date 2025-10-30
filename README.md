@@ -13,7 +13,7 @@ QuantumCat is a unique blockchain experiment that brings quantum mechanics princ
 
 ### What is QuantumCat?
 
-Just like Schrödinger's cat exists in a superposed state of being both alive and dead until observed, **QCAT tokens exist in quantum superposition** until "observed" on the blockchain. When you observe QCAT tokens, they **collapse** into either ALIVECAT or DEADCAT tokens through a cryptographically secure random process. You can then **rebox** pairs of observed cats back into superposition!
+Just like Schrödinger's cat exists in a superposed state of being both alive and dead until observed, **QCAT tokens exist in quantum superposition** until "observed" on the blockchain. When you observe QCAT tokens, they **collapse** into EITHER all ALIVECAT OR all DEADCAT tokens (never a mix!) through a cryptographically secure random process. You can then **rebox** equal pairs of ALIVECAT + DEADCAT back into QCAT (minus a small fee)!
 
 ## 📦 Monorepo Structure
 
@@ -144,9 +144,9 @@ npm run build
 
 | Token | Description | How to Get |
 |-------|-------------|------------|
-| **QCAT** | Superposed quantum cat - exists in both states simultaneously | Initial supply or rebox ALIVE+DEAD pairs |
-| **ALIVECAT** | Observed alive state - the cat survived! | Observe QCAT (50% chance of all tokens becoming ALIVE) |
-| **DEADCAT** | Observed dead state - the cat didn't make it | Observe QCAT (50% chance of all tokens becoming DEAD) |
+| **QCAT** | Superposed quantum cat - exists in both states simultaneously | Initial supply or rebox equal ALIVE+DEAD pairs (1:1 ratio) |
+| **ALIVECAT** | Observed alive state - the cat survived! | Observe QCAT (50% chance - you get 100% ALIVE, 0% DEAD) |
+| **DEADCAT** | Observed dead state - the cat didn't make it | Observe QCAT (50% chance - you get 0% ALIVE, 100% DEAD) |
 
 ### The Quantum Mechanics
 
@@ -171,13 +171,20 @@ quantumCat.observe("reveal_data");
 
 #### 2️⃣ **Rebox** (ALIVECAT + DEADCAT → QCAT)
 
+**Reboxing requires EQUAL amounts (1:1 ratio) of ALIVECAT and DEADCAT:**
+
 ```solidity
-// Combine pairs back into superposition
-// Burns 10 ALIVE + 10 DEAD, mints ~9.5 QCAT (with 5% fee)
+// Combine equal pairs back into superposition
+// Burns 10 ALIVECAT + 10 DEADCAT → mints 9.5 QCAT (with 5% fee)
 quantumCat.rebox(10);
+
+// Examples with different amounts:
+// 1 ALIVE + 1 DEAD = 0.95 QCAT
+// 0.5 ALIVE + 0.5 DEAD = 0.475 QCAT
+// 100 ALIVE + 100 DEAD = 95 QCAT
 ```
 
-The rebox fee creates deflationary pressure on the QCAT supply over time.
+The rebox fee (typically 5%) creates deflationary pressure on the QCAT supply over time.
 
 #### 3️⃣ **Force Observe** (Failsafe Mechanism)
 
@@ -189,6 +196,7 @@ If someone commits to observe but never reveals, anyone can finalize their obser
 
 ```
                     OBSERVE (50/50)
+                 → ALL ALIVE or ALL DEAD
         ┌──────────────────────────────────┐
         │                                  │
         ▼                                  ▼
@@ -196,7 +204,7 @@ If someone commits to observe but never reveals, anyone can finalize their obser
         │             ▲  ▲             │
         │             │  │             │
         └─────────────┘  └─────────────┘
-              REBOX (with 5% fee)
+         REBOX (1:1 ratio, minus 5% fee)
 ```
 
 ### Security Model
@@ -257,9 +265,10 @@ Contributions are welcome! Please:
 ## 📊 Tokenomics (Example Configuration)
 
 - **Initial Supply**: 1,000,000 QCAT (configurable at deployment)
-- **Observation**: Burns QCAT, mints equal amount of ALIVE or DEAD (no supply change)
+- **Observation**: Burns QCAT, mints equal amount of EITHER all ALIVECAT OR all DEADCAT (50/50 chance, no supply change)
+- **Rebox Mechanics**: Burns equal amounts of ALIVECAT + DEADCAT (1:1 ratio), mints QCAT minus fee
 - **Rebox Fee**: 5% (configurable at deployment, immutable after)
-- **Deflationary Mechanism**: Rebox fee creates gradual QCAT deflation
+- **Deflationary Mechanism**: Rebox fee creates gradual QCAT deflation over time
 - **No Taxes**: 0% buy/sell tax on tokens
 
 ## 🔒 Security & Auditing

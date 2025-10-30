@@ -12,14 +12,22 @@ QuantumCat is a quantum-inspired memecoin implementing Schrödinger's cat mechan
 - Three separate ERC-20 tokens for universal DEX/exchange compatibility
 - Controller contract manages observation and rebox mechanics
 - Uses commit-reveal observation with 5-block delay
-- 50/50 random outcome: observing QCAT yields EITHER all ALIVECAT OR all DEADCAT
+- **CRITICAL: Observing QCAT yields EITHER 100% ALIVECAT OR 100% DEADCAT (never a mix!)**
+- **50/50 random outcome** - you get ALL of one type, NONE of the other
+- **Rebox requires EQUAL amounts**: 1 ALIVECAT + 1 DEADCAT → 0.95 QCAT (with 5% fee)
 - Optimized for creating Uniswap/Aerodrome liquidity pairs
 - Works with all wallets, exchanges, and DeFi protocols
 
 **Key Mechanics**:
 - **commitObserve(amount, dataHash, userEntropy)**: Burns QCAT immediately, stores commitment with user-provided entropy
-- **observe(data)**: After 5 blocks, reveals data to mint EITHER all ALIVECAT OR all DEADCAT (not both)
-- **rebox(pairs)**: Burns equal ALIVECAT+DEADCAT pairs, mints QCAT minus fee (typically 5%)
+- **observe(data)**: After 5 blocks, reveals data to mint EITHER all ALIVECAT OR all DEADCAT (not both!)
+  - Example: Observing 100 QCAT yields:
+    - 50% chance: 100 ALIVECAT + 0 DEADCAT
+    - 50% chance: 0 ALIVECAT + 100 DEADCAT
+- **rebox(pairs)**: Burns equal ALIVECAT+DEADCAT pairs (1:1 ratio), mints QCAT minus fee (typically 5%)
+  - Example: 10 ALIVECAT + 10 DEADCAT → 9.5 QCAT (with 5% fee)
+  - Example: 0.5 ALIVECAT + 0.5 DEADCAT → 0.475 QCAT (with 5% fee)
+  - Example: 1 ALIVECAT + 1 DEADCAT → 0.95 QCAT (with 5% fee)
 - **forceObserve(owner)**: Anyone can finalize after 69 blocks if owner disappears
 
 **Security Features**:
@@ -122,6 +130,24 @@ npm run check                  # TypeScript type checking
 - Pro: Enables arbitrage between all three tokens
 - Deployment: Pre-compute controller address using CREATE2, deploy tokens with controller address, deploy controller last
 
+**Observation Mechanics (CRITICAL)**:
+- **Observation is NOT a 50/50 split of tokens!**
+- **You get EITHER 100% ALIVECAT OR 100% DEADCAT, never both!**
+- 50% probability of: ALL tokens become ALIVECAT (0 DEADCAT)
+- 50% probability of: ALL tokens become DEADCAT (0 ALIVECAT)
+- Example: 100 QCAT observed → 100 ALIVECAT + 0 DEADCAT (or vice versa)
+- This is quantum wave function collapse - all-or-nothing outcome
+
+**Rebox Mechanics (CRITICAL)**:
+- **Requires EQUAL amounts (1:1 ratio) of ALIVECAT and DEADCAT**
+- Burns pairs, mints QCAT minus the rebox fee
+- Fee is subtracted from resulting QCAT (typically 5%)
+- Examples:
+  - 1 ALIVECAT + 1 DEADCAT = 0.95 QCAT (with 5% fee)
+  - 0.5 ALIVECAT + 0.5 DEADCAT = 0.475 QCAT (with 5% fee)
+  - 10 ALIVECAT + 10 DEADCAT = 9.5 QCAT (with 5% fee)
+  - 100 ALIVECAT + 100 DEADCAT = 95 QCAT (with 5% fee)
+
 **Randomness Strategy**:
 - Primary (within 256 blocks): `keccak256(blockhash(refBlock+5) + prevrandao + userEntropy + tx.origin + user + refBlock)`
 - Fallback (>256 blocks): 8 recent blockhashes mixed with entropy sources (dramatically increases manipulation cost)
@@ -184,7 +210,6 @@ struct Pending {
 
 **Mock Contracts** (in `contracts/` for testing):
 - `MaliciousReceiver.sol`: Tests reentrancy attacks
-- `MockERC1155Receiver.sol`: Tests proper ERC-1155 receiver
 - `ReentrancyAttacker.sol`: Tests reentrancy guards
 - `ThrowingReceiver.sol`: Tests error handling
 
@@ -242,3 +267,4 @@ QuantumCat/
 │   └── tailwind.config.ts
 └── .github/workflows/
     └── deploy.yml               # Auto-deploy website to GitHub Pages
+```
