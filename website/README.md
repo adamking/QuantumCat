@@ -7,7 +7,7 @@ A three-token memecoin experiment in quantum superposition - **deployed on Base*
 - **Three-Token System**: ERC-20 architecture with QCAT, ALIVECAT, and DEADCAT tokens on Base L2
 - **Observe & Rebox Mechanics**: 
   - Observe QCAT to collapse it into ALIVECAT OR DEADCAT (50/50, 5-block commit-reveal)
-  - Rebox pairs of ALIVE + DEAD back into QCAT (with 3.5% deflationary fee)
+  - Rebox pairs of ALIVE + DEAD back into QCAT (with 5% deflationary fee)
 - **Arbitrage Triangle**: Natural price balance through QCAT ↔ ALIVE ↔ DEAD trading
 - **Quantum Superposition Animation**: Interactive cat that switches between alive and dead states
 - **Epic Glitch Effects**: Mind-bending visual quantum state transitions
@@ -70,7 +70,7 @@ The cat exists in quantum superposition, randomly collapsing to alive or dead st
 
 ### The Tokenomics
 Three separate ERC-20 tokens:
-- **QCAT**: The superposed coin - starts at 662,607,015 supply
+- **QCAT**: The superposed coin - starts at 66,260,701 supply
 - **ALIVECAT**: Observed outcome from collapsing QCAT
 - **DEADCAT**: Observed outcome from collapsing QCAT
 
@@ -79,23 +79,23 @@ Three separate ERC-20 tokens:
  - No supply change, just state transformation
 
 **Rebox**: Burn ALIVECAT + DEADCAT pairs → Get QCAT
- - 5% fee creates deflationary sink
- - Burns 2 tokens, mints ~1.90 QCAT
+ - 4% fee creates deflationary sink
+ - Burns 2 tokens, mints ~1.92 QCAT
 
-**Price Relationship**: P_QCAT ≈ (P_ALIVE + P_DEAD) / 1.96
+**Price Relationship**: P_QCAT ≈ (P_ALIVE + P_DEAD) / 1.92
 - Arbitrage opportunities keep markets balanced
 
 ## 💰 Tokenomics
 
-- **Total Supply**: 662,607,015 QCAT (inspired by Planck's constant)
+- **Total Supply**: 66,260,701 QCAT (inspired by Planck's constant)
 - **Network**: Base L2 (Coinbase's Ethereum L2) 🔵
 - **Tax**: 0% (no buy/sell tax on any of the three tokens)
 - **Distribution**: 
-  - 40% Liquidity Pools (265M) - Uniswap + Aerodrome on Base
-  - 25% Genesis Observation (166M) - Public livestream event
-  - 15% Community Rewards (99M) - Liquidity mining, airdrops
-  - 10% Team (66M) - 12-month linear vesting
-  - 10% Strategic Reserve (66M) - CEX listings, partnerships
+  - 40% Liquidity Pools (26.5M) - Uniswap + Aerodrome on Base
+  - 25% Genesis Observation (16.6M) - Public livestream event
+  - 15% Community Rewards (9.9M) - Liquidity mining, airdrops
+  - 10% Team (6.6M) - 12-month linear vesting
+  - 10% Strategic Reserve (6.6M) - CEX listings, partnerships
 - **Chain**: Base (Ethereum L2 by Coinbase)
 - **DEXs**: Uniswap V3 + Aerodrome on Base
 

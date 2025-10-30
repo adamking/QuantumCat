@@ -66,6 +66,17 @@ git clone https://github.com/your-org/QuantumCat.git
 cd QuantumCat
 ```
 
+### 💡 Deployment
+
+**Production Deployment (Renounced)**:
+- 66.26M supply, 4% rebox fee, immutable forever
+- Use: `npm run deploy:renounced` (Base mainnet)
+- ⚠️ Once deployed, NO changes possible
+
+**Testing Deployment**:
+- Configurable parameters for testing
+- Use: `npm run deploy:base-sepolia` (testnet)
+
 ### 🔷 Smart Contracts
 
 ```bash
@@ -162,16 +173,16 @@ quantumCat.observe("reveal_data");
 
 ```solidity
 // Combine equal pairs back into superposition
-// Burns 10 ALIVECAT + 10 DEADCAT → mints 9.5 QCAT (with 5% fee)
+// Burns 10 ALIVECAT + 10 DEADCAT → mints 9.6 QCAT (with 4% fee)
 quantumCat.rebox(10);
 
 // Examples with different amounts:
-// 1 ALIVE + 1 DEAD = 0.95 QCAT
-// 0.5 ALIVE + 0.5 DEAD = 0.475 QCAT
-// 100 ALIVE + 100 DEAD = 95 QCAT
+// 1 ALIVE + 1 DEAD = 0.96 QCAT
+// 0.5 ALIVE + 0.5 DEAD = 0.48 QCAT
+// 100 ALIVE + 100 DEAD = 96 QCAT
 ```
 
-The rebox fee (immutable, e.g. 5%) creates deflationary pressure on the QCAT supply over time.
+The rebox fee (immutable 4%) creates deflationary pressure on the QCAT supply over time.
 
 #### 3️⃣ **Force Observe** (Failsafe Mechanism)
 
@@ -191,7 +202,7 @@ If someone commits to observe but never reveals, anyone can finalize their obser
         │             ▲  ▲             │
         │             │  │             │
         └─────────────┘  └─────────────┘
-         REBOX (1:1 ratio, minus 5% fee)
+         REBOX (1:1 ratio, minus 4% fee)
 ```
 
 ### Security Model
@@ -257,14 +268,16 @@ Contributions are welcome! Please:
 5. Format code (`npm run format` in respective directories)
 6. Submit a pull request
 
-## 📊 Tokenomics
+## 📊 Tokenomics - Renounced & Immutable
 
-- **Initial Supply**: 662,607,015 QCAT (inspired by Planck's constant)
+- **Initial Supply**: 66,260,701 QCAT (inspired by Planck's constant)
 - **Observation**: Burns QCAT, mints equal amount of EITHER all ALIVECAT OR all DEADCAT (50/50 chance, no supply change)
 - **Rebox Mechanics**: Burns equal amounts of ALIVECAT + DEADCAT (1:1 ratio), mints QCAT minus fee
-- **Rebox Fee**: 3.5% (configurable at deployment, immutable after)
-- **Deflationary Mechanism**: Rebox fee creates gradual QCAT deflation over time (~1.05%/month at 30% monthly volume)
+- **Rebox Fee**: 4% (immutable after deployment)
+- **Deflationary Mechanism**: Rebox fee creates gradual QCAT deflation (~0.84%/month at 30% monthly volume)
 - **No Taxes**: 0% buy/sell tax on tokens
+- **Sustainability**: 7-10 year runway with natural market balance
+- **Distribution**: 60% liquidity (burn LP), 20% community, 10% team, 10% reserve
 
 ## 🔒 Security & Auditing
 

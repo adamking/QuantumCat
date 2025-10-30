@@ -1,16 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.30;
 
-import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
-import "@openzeppelin/contracts/utils/introspection/ERC165.sol";
-
 /// @title ReentrancyAttacker
-/// @notice Mock contract to test reentrancy protection
+/// @notice Mock contract to test reentrancy protection in ERC-20 system
 /// @dev Attempts to re-enter QuantumCat functions during callbacks
-contract ReentrancyAttacker is ERC165, IERC1155Receiver {
+contract ReentrancyAttacker {
     address public target;
     bytes public attackData;
-    bool public attackOnReceive;
     uint256 public attackType; // 0=commitObserve, 1=observe, 2=rebox
 
     constructor(address _target) {
@@ -20,59 +16,32 @@ contract ReentrancyAttacker is ERC165, IERC1155Receiver {
     /// @notice Set up attack parameters
     function setupAttack(
         bytes calldata _attackData,
-        bool _attackOnReceive,
         uint256 _attackType
     ) external {
         attackData = _attackData;
-        attackOnReceive = _attackOnReceive;
         attackType = _attackType;
     }
 
-    /// @notice Initiate attack by calling commitObserve
+    /// @notice Initiate attack by calling target contract
     function attack() external {
         (bool success,) = target.call(attackData);
         require(success, "Attack failed");
     }
 
-    /// @notice ERC1155 receive callback - attempts reentrancy here
-    function onERC1155Received(
-        address,
-        address,
-        uint256,
-        uint256,
-        bytes memory
-    ) external override returns (bytes4) {
-        if (attackOnReceive && attackData.length > 0) {
+    /// @notice Fallback to attempt reentrancy when receiving callbacks
+    fallback() external payable {
+        if (attackData.length > 0) {
             // Attempt reentrancy
             target.call(attackData);
         }
-        return this.onERC1155Received.selector;
     }
 
-    /// @notice ERC1155 batch receive callback
-    function onERC1155BatchReceived(
-        address,
-        address,
-        uint256[] memory,
-        uint256[] memory,
-        bytes memory
-    ) external override returns (bytes4) {
-        if (attackOnReceive && attackData.length > 0) {
+    /// @notice Receive function to handle plain ETH transfers
+    receive() external payable {
+        if (attackData.length > 0) {
             // Attempt reentrancy
             target.call(attackData);
         }
-        return this.onERC1155BatchReceived.selector;
-    }
-
-    /// @notice Support IERC1155Receiver interface
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC165, IERC165)
-        returns (bool)
-    {
-        return interfaceId == type(IERC1155Receiver).interfaceId
-            || super.supportsInterface(interfaceId);
     }
 }
 

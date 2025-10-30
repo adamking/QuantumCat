@@ -28,8 +28,8 @@ async function main() {
 
   // Get deployment parameters
   const initialHolder = process.env.INITIAL_HOLDER_ADDRESS || deployer.address;
-  const initialSupply = process.env.INITIAL_QCAT_SUPPLY || ethers.parseEther("1000000");
-  const reboxFeeBps = process.env.REBOX_FEE_BPS || 500;
+  const initialSupply = process.env.INITIAL_QCAT_SUPPLY || ethers.parseEther("66260701"); // Planck's constant
+  const reboxFeeBps = process.env.REBOX_FEE_BPS || 400; // 4% default for renounced deployment
 
   console.log("Deployment parameters (IMMUTABLE):");
   console.log("- QCAT Token: QuantumCat (ERC-20)");
@@ -38,7 +38,7 @@ async function main() {
   console.log("- Controller: QuantumCatController (manages all mechanics)");
   console.log("- Initial Holder:", initialHolder);
   console.log("- Initial QCAT Supply:", ethers.formatEther(initialSupply));
-  console.log("- Rebox Fee:", reboxFeeBps, "bps (basis points) =", (reboxFeeBps / 100).toFixed(2) + "%");
+  console.log("- Rebox Fee:", reboxFeeBps, "bps (basis points) =", (reboxFeeBps / 100).toFixed(2) + "% (optimal for renounced)");
   console.log("\n⚠️  These values are PERMANENT and cannot be changed!\n");
 
   // Validate parameters

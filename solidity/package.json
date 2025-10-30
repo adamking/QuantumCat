@@ -17,6 +17,7 @@
     "clean": "hardhat clean && rm -rf cache artifacts coverage typechain-types abis",
     "node": "hardhat node",
     "deploy:localhost": "hardhat run scripts/deploy-erc20.js --network localhost",
+    "deploy:renounced": "hardhat run scripts/deploy-renounced.js --network base",
     "deploy:base-sepolia": "hardhat run scripts/deploy-erc20.js --network baseSepolia",
     "deploy:base": "hardhat run scripts/deploy-erc20.js --network base",
     "deploy:sepolia": "hardhat run scripts/deploy-erc20.js --network sepolia",

@@ -46,7 +46,7 @@ Base is the **only viable network** for QuantumCat's interactive gameplay mechan
 
 ## Why ERC-20 Architecture?
 
-**Problem**: ERC-1155 tokens have limited exchange and DEX support.
+**Goal**: Maximize exchange and DEX compatibility.
 
 **Solution**: Three separate ERC-20 tokens + Controller contract.
 
@@ -188,7 +188,7 @@ Combine equal pairs of observed cats back into superposed state:
 // Approve controller to burn both tokens
 alivecat.approve(controller, 10 ether);
 deadcat.approve(controller, 10 ether);
-// Rebox: Burns 10 ALIVECAT + 10 DEADCAT, mints ~9.5 QCAT (with 5% fee)
+// Rebox: Burns 10 ALIVECAT + 10 DEADCAT, mints ~9.6 QCAT (with 4% fee)
 controller.rebox(10 ether);
 ```
 
