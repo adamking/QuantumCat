@@ -4,23 +4,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-QuantumCat is a quantum-inspired memecoin implementing Schrödinger's cat mechanics through smart contracts. This is a **monorepo** with two projects:
+QuantumCat is a quantum-inspired memecoin implementing Schrödinger's cat mechanics through smart contracts. This is a **monorepo** with three projects:
 
 ### 1. Smart Contracts (`solidity/`)
 
-**Two architectures** are available:
-
-**A. ERC-1155 Architecture** (QuantumCat.sol - Single contract):
-- Three token IDs in one contract: QCAT (0), ALIVECAT (1), DEADCAT (2)
-- Fully immutable with zero admin control
+**ERC-20 Architecture** (QCATToken.sol + ALIVECATToken.sol + DEADCATToken.sol + QuantumCatController.sol):
+- Three separate ERC-20 tokens for universal DEX/exchange compatibility
+- Controller contract manages observation and rebox mechanics
 - Uses commit-reveal observation with 5-block delay
 - 50/50 random outcome: observing QCAT yields EITHER all ALIVECAT OR all DEADCAT
-
-**B. ERC-20 Architecture** (QCATToken.sol + ALIVECATToken.sol + DEADCATToken.sol + QuantumCatController.sol):
-- Three separate ERC-20 tokens for DEX/exchange compatibility
-- Controller contract manages observation and rebox mechanics
-- Same commit-reveal and 50/50 randomness as ERC-1155
 - Optimized for creating Uniswap/Aerodrome liquidity pairs
+- Works with all wallets, exchanges, and DeFi protocols
 
 **Key Mechanics**:
 - **commitObserve(amount, dataHash, userEntropy)**: Burns QCAT immediately, stores commitment with user-provided entropy
@@ -35,7 +29,15 @@ QuantumCat is a quantum-inspired memecoin implementing Schrödinger's cat mechan
 - Reentrancy guards on all state-changing functions
 - ZERO admin control - immutable parameters set at deployment
 
-### 2. Website (`website/`)
+### 2. Game (`game/`)
+
+Interactive 8-bit browser game:
+- Sealed box graphics with quantum unboxing mechanics
+- Mini-game before observation
+- MetaMask wallet integration
+- Demo mode for testing without deployed contracts
+
+### 3. Website (`website/`)
 
 React/Vite landing page with:
 - Interactive quantum cat animation (alive/dead superposition)
@@ -111,16 +113,14 @@ npm run check                  # TypeScript type checking
 
 ### Smart Contract Architecture
 
-**Two Implementation Patterns**:
+**ERC-20 Implementation**:
 
-1. **ERC-1155 (QuantumCat.sol)**: Single contract with three token IDs
-   - Pro: Gas efficient, simpler deployment
-   - Con: Limited DEX support (Uniswap v4 only)
-
-2. **ERC-20 (QCATToken.sol + QuantumCatController.sol)**: Three separate tokens + controller
-   - Pro: Full DEX compatibility (Uniswap v2/v3, Aerodrome)
-   - Con: More complex deployment (4 contracts), slightly higher gas
-   - Pattern: Pre-compute controller address using CREATE2, deploy tokens with controller address, deploy controller last
+**ERC-20 (QCATToken.sol + ALIVECATToken.sol + DEADCATToken.sol + QuantumCatController.sol)**:
+- Three separate ERC-20 tokens + controller contract
+- Pro: Universal DEX/exchange compatibility (Uniswap, Aerodrome, CEXs)
+- Pro: Standard wallet support everywhere
+- Pro: Enables arbitrage between all three tokens
+- Deployment: Pre-compute controller address using CREATE2, deploy tokens with controller address, deploy controller last
 
 **Randomness Strategy**:
 - Primary (within 256 blocks): `keccak256(blockhash(refBlock+5) + prevrandao + userEntropy + tx.origin + user + refBlock)`
@@ -220,17 +220,20 @@ Built-in blockhash RNG is manipulable by validators within economic constraints.
 QuantumCat/
 ├── solidity/                    # Smart contracts (Hardhat)
 │   ├── contracts/
-│   │   ├── QuantumCat.sol      # ERC-1155 implementation
 │   │   ├── QCATToken.sol       # ERC-20 QCAT token
 │   │   ├── ALIVECATToken.sol   # ERC-20 ALIVECAT token
 │   │   ├── DEADCATToken.sol    # ERC-20 DEADCAT token
-│   │   └── QuantumCatController.sol  # ERC-20 controller
+│   │   └── QuantumCatController.sol  # Controller for quantum mechanics
 │   ├── test/                    # Hardhat tests (1600+ lines)
 │   ├── scripts/
-│   │   ├── deploy-erc20.js     # ERC-20 architecture deployment
-│   │   └── deploy.js           # ERC-1155 deployment
+│   │   └── deploy-erc20.js     # ERC-20 deployment script
 │   ├── hardhat.config.js       # Network configs for Base, Arbitrum, etc.
 │   └── CLAUDE.md               # Detailed contract documentation
+├── game/                        # 8-bit browser game
+│   ├── index.html              # Main game page
+│   ├── game.js                 # Game logic and rendering
+│   ├── blockchain.js           # Web3 integration
+│   └── style.css               # Retro styling
 ├── website/                     # React/Vite frontend
 │   ├── client/src/
 │   │   ├── pages/home.tsx      # Main landing page

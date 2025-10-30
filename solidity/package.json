@@ -1,7 +1,7 @@
 {
   "name": "QuantumCat",
   "version": "1.0.0",
-  "description": "A quantum-inspired ERC-1155 memecoin with observation mechanics and cryptographic randomness - fully immutable with zero admin control",
+  "description": "A quantum-inspired ERC-20 token system with observation mechanics and cryptographic randomness - fully immutable with zero admin control",
   "main": "index.js",
   "scripts": {
     "compile": "hardhat compile",
@@ -28,11 +28,12 @@
   "keywords": [
     "ethereum",
     "smart-contracts",
-    "erc1155",
+    "erc20",
     "quantum",
     "memecoin",
     "immutable",
-    "decentralized"
+    "decentralized",
+    "defi"
   ],
   "author": "QuantumCat Team",
   "license": "MIT",
