@@ -610,27 +610,27 @@ export default function Home() {
               <div className="flex justify-center mb-4">
                 <img src={qcat} alt="QCAT Token - Quantum superposition state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
               </div>
-              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-purple-300' : 'text-purple-700'}`}>QCAT (ID: 0)</h3>
+              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-purple-300' : 'text-purple-700'}`}>QCAT</h3>
               <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The superposed coin - exists in quantum uncertainty</p>
             </div>
             <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-green-900/20 border-green-400' : 'bg-green-100 border-green-600'}`}>
               <div className="flex justify-center mb-4">
                 <img src={aliveCat} alt="ALIVECAT Token - Observed alive state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
               </div>
-              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-green-300' : 'text-green-700'}`}>ALIVECAT (ID: 1)</h3>
+              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-green-300' : 'text-green-700'}`}>ALIVECAT</h3>
               <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The observed outcome - the cat is alive</p>
             </div>
             <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-red-900/20 border-red-400' : 'bg-red-100 border-red-600'}`}>
               <div className="flex justify-center mb-4">
                 <img src={deadCat} alt="DEADCAT Token - Observed dead state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
               </div>
-              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-red-300' : 'text-red-700'}`}>DEADCAT (ID: 2)</h3>
+              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-red-300' : 'text-red-700'}`}>DEADCAT</h3>
               <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The observed outcome - the cat is dead</p>
             </div>
           </div>
           <p className={`text-base md:text-lg text-center leading-relaxed mb-4  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
             The initial supply of <strong>662,607,015 QCAT</strong> is inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Planck's constant</a> (6.62607015 × 10⁻³⁴ J⋅s).
-            Holders can <strong>"observe"</strong> their QCAT to collapse it into EITHER all ALIVECAT OR all DEADCAT (50/50 chance), or <strong>"rebox"</strong> equal pairs (1:1 ratio) back into QCAT (with a 2% fee that creates a steady deflationary sink).
+            Holders can <strong>"observe"</strong> their QCAT to collapse it into EITHER all ALIVECAT OR all DEADCAT (50/50 gamble), or <strong>"rebox"</strong> equal pairs (1:1 ratio) back into QCAT (with a 3.5% fee that creates steady deflation).
           </p>
           <p className={`text-base md:text-lg text-center leading-relaxed italic  ${isAlive ? 'text-gray-400' : 'text-gray-600'}`}>
             Pure meme energy. No utility. No roadmap. No promises. Just quantum fun.
@@ -680,17 +680,17 @@ export default function Home() {
                 <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
                   <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>ALIVECAT + DEADCAT → rebox</div>
                   <div className={`${isAlive ? 'text-red-700' : 'text-red-400'}`}>Burns 1 ALIVE + 1 DEAD (1:1 ratio)</div>
-                  <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>Mints 0.98 QCAT (2% fee)</div>
-                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(1 ALIVE + 1 DEAD = 0.98 QCAT)</div>
+                  <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>Mints 0.965 QCAT (3.5% fee)</div>
+                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(1 ALIVE + 1 DEAD = 0.965 QCAT)</div>
                 </div>
                 <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  2% fee = deflationary sink • Only supply decrease
+                  3.5% fee = deflationary sink • Only supply decrease
                 </p>
               </div>
             </div>
             <div className={`mt-6 p-4 rounded-lg ${isAlive ? 'bg-yellow-50 border border-yellow-200' : 'bg-yellow-950/20 border border-yellow-800'}`}>
               <p className={`text-sm text-center ${isAlive ? 'text-yellow-900' : 'text-yellow-300'}`}>
-                <strong>Price Relationship:</strong> P<sub>QCAT</sub> ≈ (P<sub>ALIVE</sub> + P<sub>DEAD</sub>) / 1.96 • Arbitrage keeps markets balanced
+                <strong>Price Relationship:</strong> P<sub>QCAT</sub> ≈ (P<sub>ALIVE</sub> + P<sub>DEAD</sub>) / 1.93 • Arbitrage keeps markets balanced
               </p>
             </div>
           </div>
@@ -706,7 +706,7 @@ export default function Home() {
               <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20</div>
             </div>
             <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>2%</div>
+              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>3.5%</div>
               <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Rebox Fee</div>
             </div>
             <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
@@ -744,32 +744,36 @@ export default function Home() {
             <div className="flex items-center gap-4 flex-wrap justify-center">
               <div className="flex-1 min-w-[300px]">
                 <div className="flex h-16 rounded-xl overflow-hidden shadow-lg">
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-purple-600 text-white' : 'bg-purple-400 text-black'}`} style={{width: "45%"}}>
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-purple-600 text-white' : 'bg-purple-400 text-black'}`} style={{width: "40%"}}>
                     <span className="flex items-center gap-2">
-                      45%
+                      40%
                     </span>
                   </div>
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-blue-600 text-white' : 'bg-blue-400 text-black'}`} style={{width: "30%"}}>
-                    30%
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-blue-600 text-white' : 'bg-blue-400 text-black'}`} style={{width: "25%"}}>
+                    25%
                   </div>
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-green-600 text-white' : 'bg-green-400 text-black'}`} style={{width: "10%"}}>
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-green-600 text-white' : 'bg-green-400 text-black'}`} style={{width: "15%"}}>
+                    15%
+                  </div>
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-yellow-600 text-white' : 'bg-yellow-400 text-black'}`} style={{width: "10%"}}>
                     10%
                   </div>
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-orange-600 text-white' : 'bg-orange-400 text-black'}`} style={{width: "15%"}}>
-                    15%
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-orange-600 text-white' : 'bg-orange-400 text-black'}`} style={{width: "10%"}}>
+                    10%
                   </div>
                 </div>
               </div>
             </div>
             <div className={`text-center mt-4 text-sm space-y-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-              <p><strong className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>45% Liquidity & Operations</strong> (298M) — Seed 4 pools: QCAT/USDC, ALIVE/USDC, DEAD/USDC, ALIVE/DEAD</p>
-              <p><strong className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>30% Genesis Observation Event</strong> (199M) — Observed to create EITHER 199M ALIVECAT OR 199M DEADCAT (50/50)</p>
-              <p><strong className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>10% Community & Airdrops</strong> (66M) — Quests, giveaways, early adopters</p>
-              <p><strong className={`${isAlive ? 'text-orange-700' : 'text-orange-400'}`}>15% Treasury Reserve</strong> (99M) — Unobserved QCAT held in reserve</p>
+              <p><strong className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>40% Liquidity Pools</strong> (265M) — QCAT/ETH, QCAT/USDC, ALIVE/DEAD arbitrage pair, plus DEX reserves</p>
+              <p><strong className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>25% Genesis Observation</strong> (166M) — Public livestreamed event creating EITHER 166M ALIVECAT OR 166M DEADCAT (50/50 drama!)</p>
+              <p><strong className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>15% Community Rewards</strong> (99M) — Liquidity mining, airdrops to observation participants, trading competitions</p>
+              <p><strong className={`${isAlive ? 'text-yellow-700' : 'text-yellow-400'}`}>10% Team</strong> (66M) — 12-month linear vesting in timelock contract, aligned incentives</p>
+              <p><strong className={`${isAlive ? 'text-orange-700' : 'text-orange-400'}`}>10% Strategic Reserve</strong> (66M) — CEX listings, partnerships, emergency liquidity (multisig)</p>
             </div>
             <div className={`mt-6 p-4 rounded-lg text-center ${isAlive ? 'bg-purple-50 border border-purple-200' : 'bg-purple-950/20 border border-purple-800'}`}>
               <p className={`text-sm ${isAlive ? 'text-purple-900' : 'text-purple-300'}`}>
-                <strong>All three tokens tradable from day one!</strong> Genesis observation will create EITHER 199M ALIVECAT OR 199M DEADCAT. Additional observations needed to generate the other token for full liquidity setup.
+                <strong>Genesis observation is a gamble!</strong> The entire market watches as 166M QCAT collapse into one outcome. Whichever token is created becomes instantly scarce vs the other. More observations will follow to balance supply and seed all liquidity pools.
               </p>
             </div>
           </div>
@@ -785,9 +789,9 @@ export default function Home() {
                 </p>
               </div>
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
-                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Deflationary Sink</h4>
+                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Deflationary by Design</h4>
                 <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  2% rebox fee creates steady token burn - expected ~0.6%/mo decay at 30% monthly volume
+                  3.5% rebox fee creates steady token burn - expected ~1.05%/mo decay at 30% monthly volume
                 </p>
               </div>
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
@@ -811,7 +815,7 @@ export default function Home() {
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
                 <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Launch Ready</h4>
                 <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  All 3 tokens tradable day one - 4 Uniswap v3 pools seeded with balanced liquidity
+                  All 3 tokens tradable day one - QCAT/ETH primary pool, plus ALIVE/DEAD arbitrage pair for tight price discovery
                 </p>
               </div>
             </div>
@@ -833,7 +837,7 @@ export default function Home() {
               <div>
                 <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Get an Ethereum Wallet</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Download <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>MetaMask</a> or another Ethereum wallet that supports ERC-20 tokens.
+                  Download <a href="https://metamask.io" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>MetaMask</a> or another wallet that supports standard ERC-20 tokens.
                   Create a new wallet and save your seed phrase securely.
                 </p>
               </div>
@@ -850,13 +854,13 @@ export default function Home() {
             <div className="flex gap-6 items-start">
               <div className={`text-4xl font-bold  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>3</div>
               <div>
-                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Choose Your Token on Uniswap v3</h3>
+                <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Trade on Uniswap v3</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Go to <a href="https://app.uniswap.org" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Uniswap</a>, connect your wallet, and trade any of the three tokens:
-                  <strong className={`${isAlive ? 'text-purple-400' : 'text-purple-600'}`}> QCAT</strong> (superposed),
-                  <strong className={`${isAlive ? 'text-green-400' : 'text-green-600'}`}> ALIVECAT</strong>, or
-                  <strong className={`${isAlive ? 'text-red-400' : 'text-red-600'}`}> DEADCAT</strong>. 
-                  All pools use 0.30% or 0.05% fees.
+                  Go to <a href="https://app.uniswap.org" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Uniswap</a>, connect your wallet, and trade any of the three separate ERC-20 tokens:
+                  <strong className={`${isAlive ? 'text-purple-400' : 'text-purple-600'}`}> QCAT</strong> (superposed quantum state),
+                  <strong className={`${isAlive ? 'text-green-400' : 'text-green-600'}`}> ALIVECAT</strong> (observed alive), or
+                  <strong className={`${isAlive ? 'text-red-400' : 'text-red-600'}`}> DEADCAT</strong> (observed dead). 
+                  Use the ALIVE/DEAD pair for arbitrage opportunities.
                 </p>
               </div>
             </div>
@@ -865,8 +869,8 @@ export default function Home() {
               <div>
                 <h3 className={`text-2xl font-bold mb-2  ${isAlive ? 'text-white' : 'text-black'}`}>Observe or Rebox Your Tokens</h3>
                 <p className={`text-lg  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-                  Call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>observe()</code> on QCAT to collapse it into EITHER all ALIVE OR all DEAD (50/50 chance, 5-block delay for fair RNG).
-                  Or call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-orange-900/30 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>rebox()</code> with equal pairs of ALIVE + DEAD (1:1 ratio) to mint QCAT (2% fee). Play the arbitrage game!
+                  Call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-blue-900/30 text-blue-300' : 'bg-blue-100 text-blue-700'}`}>observe()</code> on QCAT to collapse it into EITHER all ALIVE OR all DEAD (50/50 gamble, 5-block delay for fair RNG).
+                  Or call <code className={`px-2 py-1 rounded ${isAlive ? 'bg-orange-900/30 text-orange-300' : 'bg-orange-100 text-orange-700'}`}>rebox()</code> with equal pairs of ALIVE + DEAD (1:1 ratio) to mint QCAT (3.5% fee). Play the arbitrage game!
                 </p>
               </div>
             </div>
@@ -895,8 +899,8 @@ export default function Home() {
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
               <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>Why is QCAT slightly pricier than the average of ALIVECAT and DEADCAT?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                Because reboxing requires EQUAL amounts (1 ALIVE + 1 DEAD) to mint 0.98 QCAT (due to the 2% fee). This creates pricing equilibrium:
-                P<sub>QCAT</sub> ≈ (P<sub>ALIVE</sub> + P<sub>DEAD</sub>) / 1.96. If prices drift, arbitrageurs profit by observing or reboxing until balance is restored.
+                Because reboxing requires EQUAL amounts (1 ALIVE + 1 DEAD) to mint 0.965 QCAT (due to the 3.5% fee). This creates pricing equilibrium:
+                P<sub>QCAT</sub> ≈ (P<sub>ALIVE</sub> + P<sub>DEAD</sub>) / 1.93. If prices drift, arbitrageurs profit by observing or reboxing until balance is restored.
               </p>
             </div>
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
@@ -909,7 +913,7 @@ export default function Home() {
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
               <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>How does the deflationary sink stay steady?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                The monthly token burn ≈ 2% fee × monthly rebox volume. With 30% of supply reboxed monthly, that's ~0.6% monthly decay. 
+                The monthly token burn ≈ 3.5% fee × monthly rebox volume. With 30% of supply reboxed monthly, that's ~1.05% monthly decay. 
                 Market incentives (arbitrage opportunities) drive rebox volume, creating a natural, predictable sink.
               </p>
             </div>
@@ -923,8 +927,8 @@ export default function Home() {
             <div className={`p-6 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
               <h3 className={`text-xl font-bold mb-3 ${isAlive ? 'text-black' : 'text-white'}`}>Where can I trade all three tokens?</h3>
               <p className={`${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                Four Uniswap v3 pools: QCAT/USDC, ALIVE/USDC, DEAD/USDC (all 0.30% fee), and ALIVE/DEAD (0.05% fee for tight pairing). 
-                All pools are seeded at launch with balanced liquidity.
+                Primary pools on Uniswap v3: QCAT/ETH for main liquidity, QCAT/USDC for stablecoin trading. The ALIVE/DEAD pairing pool (0.05% fee) enables tight arbitrage and keeps the triangle balanced. 
+                All pools seeded at launch.
               </p>
             </div>
           </div>
