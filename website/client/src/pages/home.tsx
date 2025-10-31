@@ -339,13 +339,17 @@ export default function Home() {
     >
       {/* Top Warning Banner */}
       <div 
-        className="fixed top-0 left-0 right-0 z-50 py-3 px-4 text-center font-bold text-lg md:text-xl border-b-4 bg-red-600 text-white border-red-800"
+        className={`fixed top-0 left-0 right-0 z-50 py-3 px-4 text-center font-bold text-lg md:text-xl border-b-4 transition-colors duration-300 ${
+          isPaused
+            ? 'bg-green-600 text-white border-green-800'
+            : 'bg-red-600 text-white border-red-800'
+        }`}
         style={{
           ...getFlickerShakeStyle(15, 18, 0.5),
           textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
         }}
       >
-        ⚠️ WARNING: UNSTABLE QUANTUM STATE DETECTED
+        {isPaused ? '✓ QUANTUM STATE STABILIZED' : '⚠️ WARNING: UNSTABLE QUANTUM STATE DETECTED'}
       </div>
 
       {/* Floating Pause Button - bottom right */}
