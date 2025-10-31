@@ -595,27 +595,29 @@ export default function Home() {
           <p className={`text-lg md:text-xl text-center leading-relaxed mb-6  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
             Quantum Cat is a memecoin experiment with <strong>three separate ERC-20 tokens</strong> deployed on <strong className={`${isAlive ? 'text-blue-400' : 'text-blue-600'}`}>Base L2</strong> (Coinbase's Ethereum L2) - inspired by <a href="https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Schrödinger's famous thought experiment</a>:
           </p>
-          <div className="grid md:grid-cols-3 gap-6 mb-6">
-            <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-purple-900/20 border-purple-400' : 'bg-purple-100 border-purple-600'}`}>
-              <div className="flex justify-center mb-4">
-                <img src={qcat} alt="QCAT Token - Quantum superposition state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
+          <div className="flex justify-center mb-6">
+            <div className="grid md:grid-cols-3 gap-6 max-w-5xl">
+              <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-purple-900/20 border-purple-400' : 'bg-purple-100 border-purple-600'}`}>
+                <div className="flex justify-center mb-4">
+                  <img src={qcat} alt="QCAT Token - Quantum superposition state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
+                </div>
+                <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-purple-300' : 'text-purple-700'}`}>QCAT</h3>
+                <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The superposed coin - exists in quantum uncertainty</p>
               </div>
-              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-purple-300' : 'text-purple-700'}`}>QCAT</h3>
-              <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The superposed coin - exists in quantum uncertainty</p>
-            </div>
-            <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-green-900/20 border-green-400' : 'bg-green-100 border-green-600'}`}>
-              <div className="flex justify-center mb-4">
-                <img src={aliveCat} alt="ALIVECAT Token - Observed alive state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
+              <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-green-900/20 border-green-400' : 'bg-green-100 border-green-600'}`}>
+                <div className="flex justify-center mb-4">
+                  <img src={aliveCat} alt="ALIVECAT Token - Observed alive state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
+                </div>
+                <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-green-300' : 'text-green-700'}`}>ALIVECAT</h3>
+                <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The observed outcome - the cat is alive</p>
               </div>
-              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-green-300' : 'text-green-700'}`}>ALIVECAT</h3>
-              <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The observed outcome - the cat is alive</p>
-            </div>
-            <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-red-900/20 border-red-400' : 'bg-red-100 border-red-600'}`}>
-              <div className="flex justify-center mb-4">
-                <img src={deadCat} alt="DEADCAT Token - Observed dead state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
+              <div className={`p-6 rounded-lg border-2 ${isAlive ? 'bg-red-900/20 border-red-400' : 'bg-red-100 border-red-600'}`}>
+                <div className="flex justify-center mb-4">
+                  <img src={deadCat} alt="DEADCAT Token - Observed dead state" className="w-24 h-24 object-contain" loading="lazy" width="96" height="96" />
+                </div>
+                <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-red-300' : 'text-red-700'}`}>DEADCAT</h3>
+                <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The observed outcome - the cat is dead</p>
               </div>
-              <h3 className={`text-xl font-bold mb-2 text-center ${isAlive ? 'text-red-300' : 'text-red-700'}`}>DEADCAT</h3>
-              <p className={`text-sm text-center ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>The observed outcome - the cat is dead</p>
             </div>
           </div>
           <p className={`text-base md:text-lg text-center leading-relaxed mb-4  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
@@ -651,37 +653,39 @@ export default function Home() {
           {/* How It Works - Observe & Rebox */}
           <div className="mb-12 max-w-4xl mx-auto">
             <h3 className={`text-2xl font-bold mb-6 text-center ${isAlive ? 'text-black' : 'text-white'}`}>ⱧØ₩ ł₮ ₩ØⱤ₭₴</h3>
-            <div className="grid md:grid-cols-2 gap-6">
-              <div className={`p-6 rounded-xl border-2 ${isAlive ? 'bg-blue-50 border-blue-300' : 'bg-blue-950/30 border-blue-700'}`}>
-                <h4 className={`text-xl font-bold mb-3 ${isAlive ? 'text-blue-900' : 'text-blue-300'}`}>OBSERVE</h4>
-                <p className={`text-sm mb-3 ${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                  Collapse QCAT into ONE observed outcome:
-                </p>
-                <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
-                  <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>QCAT → commit → wait → observe</div>
-                  <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>Burns QCAT</div>
-                  <div className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>Mints EITHER all ALIVECAT OR all DEADCAT</div>
-                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(50/50 chance • 100% one type, 0% other)</div>
+            <div className="flex justify-center">
+              <div className="grid md:grid-cols-2 gap-6 max-w-4xl">
+                <div className={`p-6 rounded-xl border-2 ${isAlive ? 'bg-blue-50 border-blue-300' : 'bg-blue-950/30 border-blue-700'}`}>
+                  <h4 className={`text-xl font-bold mb-3 ${isAlive ? 'text-blue-900' : 'text-blue-300'}`}>OBSERVE</h4>
+                  <p className={`text-sm mb-3 ${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
+                    Collapse QCAT into ONE observed outcome:
+                  </p>
+                  <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
+                    <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>QCAT → commit → wait → observe</div>
+                    <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>Burns QCAT</div>
+                    <div className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>Mints EITHER all ALIVECAT OR all DEADCAT</div>
+                    <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(50/50 chance • 100% one type, 0% other)</div>
+                  </div>
+                  <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
+                    Requires 5-block delay (fair RNG) • No supply change
+                  </p>
                 </div>
-                <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  Requires 5-block delay (fair RNG) • No supply change
-                </p>
-              </div>
-              <div className={`p-6 rounded-xl border-2 ${isAlive ? 'bg-orange-50 border-orange-300' : 'bg-orange-950/30 border-orange-700'}`}>
-                <h4 className={`text-xl font-bold mb-3 ${isAlive ? 'text-orange-900' : 'text-orange-300'}`}>REBOX</h4>
-                <p className={`text-sm mb-3 ${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
-                  Recombine equal pairs into superposition:
-                </p>
-                <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
-                  <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>ALIVECAT + DEADCAT → rebox</div>
-                  <div className={`${isAlive ? 'text-red-700' : 'text-red-400'}`}>Burns 0.5 ALIVE + 0.5 DEAD</div>
-                  <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>Mints 1 QCAT (before fee)</div>
-                  <div className={`${isAlive ? 'text-amber-700' : 'text-amber-400'}`}>0.96 QCAT net (4% fee)</div>
-                  <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(1 ALIVE + 1 DEAD = 1.92 QCAT)</div>
+                <div className={`p-6 rounded-xl border-2 ${isAlive ? 'bg-orange-50 border-orange-300' : 'bg-orange-950/30 border-orange-700'}`}>
+                  <h4 className={`text-xl font-bold mb-3 ${isAlive ? 'text-orange-900' : 'text-orange-300'}`}>REBOX</h4>
+                  <p className={`text-sm mb-3 ${isAlive ? 'text-gray-700' : 'text-gray-300'}`}>
+                    Recombine equal pairs into superposition:
+                  </p>
+                  <div className={`font-mono text-sm p-3 rounded ${isAlive ? 'bg-white' : 'bg-black/40'}`}>
+                    <div className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>ALIVECAT + DEADCAT → rebox</div>
+                    <div className={`${isAlive ? 'text-red-700' : 'text-red-400'}`}>Burns 0.5 ALIVE + 0.5 DEAD</div>
+                    <div className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>Mints 1 QCAT (before fee)</div>
+                    <div className={`${isAlive ? 'text-amber-700' : 'text-amber-400'}`}>0.96 QCAT net (4% fee)</div>
+                    <div className={`text-xs mt-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>(1 ALIVE + 1 DEAD = 1.92 QCAT)</div>
+                  </div>
+                  <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
+                    4% fee = deflationary sink • Only supply decrease
+                  </p>
                 </div>
-                <p className={`text-xs mt-3 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  4% fee = deflationary sink • Only supply decrease
-                </p>
               </div>
             </div>
             <div className={`mt-6 p-4 rounded-lg ${isAlive ? 'bg-yellow-50 border border-yellow-200' : 'bg-yellow-950/20 border border-yellow-800'}`}>
@@ -692,14 +696,16 @@ export default function Home() {
           </div>
 
           {/* Key Stats */}
-          <div className="grid md:grid-cols-4 gap-6 mb-12">
-            <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>662.6M</div>
-              <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Initial QCAT</div>
-            </div>
-            <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>4%</div>
-              <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Rebox Fee</div>
+          <div className="flex justify-center mb-12">
+            <div className="grid md:grid-cols-2 gap-6 max-w-2xl">
+              <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
+                <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>662.6M</div>
+                <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Initial QCAT</div>
+              </div>
+              <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
+                <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>4%</div>
+                <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Rebox Fee</div>
+              </div>
             </div>
           </div>
 
