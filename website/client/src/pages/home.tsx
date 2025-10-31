@@ -10,6 +10,7 @@ export default function Home() {
 
   const [isAlive, setIsAlive] = useState(true); // Initial state (will be set randomly after first glitch)
   const [isGlitching, setIsGlitching] = useState(false);
+  const [showWarning, setShowWarning] = useState(false);
   const [nextState, setNextState] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
@@ -120,12 +121,21 @@ export default function Home() {
       glitchFlickerIntervalRef.current = null;
     }
 
-    // Random glitch duration between 800 and 1600 ms
-    const glitchDuration = Math.floor(800 + Math.random() * 800);
+    // Show warning first
+    setShowWarning(true);
 
-    // Set the next state to show during flicker
-    setNextState(newState);
-    setIsGlitching(true);
+    // Wait 500ms before starting glitch
+    setTimeout(() => {
+      if (!isMountedRef.current) return;
+
+      setShowWarning(false);
+
+      // Random glitch duration between 800 and 1600 ms
+      const glitchDuration = Math.floor(800 + Math.random() * 800);
+
+      // Set the next state to show during flicker
+      setNextState(newState);
+      setIsGlitching(true);
 
     // Start flicker intensity animation (rapid flicker effect)
     const flickerPattern = [0.7, 0.3, 0.8, 0.4, 0.75, 0.5, 0.9, 0.6, 0.85];
@@ -215,6 +225,7 @@ export default function Home() {
     }, glitchDuration + 100);
 
     glitchTimeoutRef.current = glitchTimeout;
+    }, 500); // Warning displays for 500ms before glitch starts
   }, [playGlitchSound]);
 
   useEffect(() => {
@@ -326,6 +337,17 @@ export default function Home() {
       className={`min-h-screen  ${isAlive ? 'bg-white' : 'bg-black'}`}
       data-testid="quantum-container"
     >
+      {/* Top Warning Banner */}
+      <div 
+        className="fixed top-0 left-0 right-0 z-50 py-3 px-4 text-center font-bold text-lg md:text-xl border-b-4 bg-red-600 text-white border-red-800"
+        style={{
+          ...getFlickerShakeStyle(15, 18, 0.5),
+          textShadow: '0 2px 4px rgba(0, 0, 0, 0.5)',
+        }}
+      >
+        ⚠️ WARNING: UNSTABLE QUANTUM STATE DETECTED
+      </div>
+
       {/* Floating Pause Button - bottom right */}
       <button
           onClick={() => setIsPaused(!isPaused)}
@@ -381,6 +403,21 @@ export default function Home() {
           </svg>
         )}
       </button>
+
+      {/* Warning overlay */}
+      {showWarning && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
+          <div 
+            className="px-8 py-4 rounded-lg border-4 bg-red-600/95 text-white border-red-800 text-2xl md:text-4xl font-bold animate-pulse shadow-2xl"
+            style={{
+              animation: 'pulse 0.3s ease-in-out infinite',
+              textShadow: '0 0 10px rgba(220, 38, 38, 0.8), 0 0 20px rgba(220, 38, 38, 0.5)',
+            }}
+          >
+            ⚠️ WARNING: SHIFTING QUANTUM STATE
+          </div>
+        </div>
+      )}
 
       {/* Hero Section - adjusted for banner */}
       <div className={`relative min-h-screen flex flex-col items-center justify-center px-4 md:px-8 pt-16 `}>
