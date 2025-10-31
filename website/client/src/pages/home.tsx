@@ -619,19 +619,16 @@ export default function Home() {
             </div>
           </div>
           <p className={`text-base md:text-lg text-center leading-relaxed mb-4  ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>
-            The initial supply of <strong>66,260,701 QCAT</strong> is inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Planck's constant</a> (6.6260701 × 10⁻³⁴ J⋅s).
+            The initial supply of <strong>662,607,015 QCAT</strong> is inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline  ${isAlive ? 'text-blue-400 hover:text-blue-300' : 'text-blue-600 hover:text-blue-700'}`}>Planck's constant</a> (6.62607015 × 10⁻³⁴ J⋅s).
             Holders can <strong>"observe"</strong> their QCAT to collapse it into EITHER all ALIVECAT OR all DEADCAT (50/50 gamble), or <strong>"rebox"</strong> equal pairs (0.5 ALIVE + 0.5 DEAD = 1 QCAT before fee) with a 4% fee that creates steady deflation.
           </p>
           <div className={`mb-4 p-4 rounded-lg ${isAlive ? 'bg-blue-900/30 border-2 border-blue-500' : 'bg-blue-100 border-2 border-blue-600'}`}>
             <p className={`text-base md:text-lg text-center font-semibold ${isAlive ? 'text-blue-300' : 'text-blue-800'}`}>
-              🔵 Deployed on <strong>Base L2</strong> for ultra-low fees (~$0.005-0.01 per transaction)
-            </p>
-            <p className={`text-sm text-center mt-2 ${isAlive ? 'text-blue-400' : 'text-blue-700'}`}>
-              Base makes gameplay affordable! The same transactions cost $20-50 on Ethereum.
+              Deployed on <strong>Base L2</strong> for ultra-low fees (~$0.005-0.01 per transaction)
             </p>
           </div>
           <p className={`text-base md:text-lg text-center leading-relaxed italic  ${isAlive ? 'text-gray-400' : 'text-gray-600'}`}>
-            Pure meme energy. No utility. No roadmap. No promises. Just quantum fun on Base.
+            Pure meme energy. No utility. No roadmap. No promises.
           </p>
         </div>
       </section>
@@ -645,7 +642,7 @@ export default function Home() {
             {isGlitching ? glitchText.tokenomicsHeading : "₮Ø₭Ɇ₦Ø₥ł₵₴"}
           </h2>
           <p className={`text-center mb-4 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-            Initial Supply: 66,260,701 QCAT • Inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>Planck's Constant</a> (6.6260701 × 10⁻³⁴ J⋅s)
+            Initial Supply: 662,607,015 QCAT • Inspired by <a href="https://en.wikipedia.org/wiki/Planck_constant" target="_blank" rel="noopener noreferrer" className={`underline hover:opacity-80`}>Planck's Constant</a> (6.62607015 × 10⁻³⁴ J⋅s)
           </p>
           <p className={`text-center mb-12 text-sm ${isAlive ? 'text-gray-500' : 'text-gray-500'}`}>
             ERC-20 Architecture on <strong className={`${isAlive ? 'text-blue-400' : 'text-blue-600'}`}>Base L2</strong> • Three Separate Tokens • Observe & Rebox Mechanics
@@ -701,16 +698,8 @@ export default function Home() {
               <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Initial QCAT</div>
             </div>
             <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>3 Tokens</div>
-              <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20</div>
-            </div>
-            <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>5%</div>
+              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>4%</div>
               <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>Rebox Fee</div>
-            </div>
-            <div className={`backdrop-blur-sm p-6 rounded-xl text-center  ${isAlive ? 'bg-black/10' : 'bg-white/10'}`}>
-              <div className={`text-4xl font-bold mb-2  ${isAlive ? 'text-black' : 'text-white'}`}>Fair</div>
-              <div className={` ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>5-Block RNG</div>
             </div>
           </div>
 
@@ -719,7 +708,7 @@ export default function Home() {
             <div className={`border p-6 rounded-lg  ${isAlive ? 'bg-black/5 border-black/10' : 'bg-white/5 border-white/10'}`}>
               <div className="flex items-center justify-between flex-wrap gap-4">
                 <div className="flex-1">
-                  <div className={`text-sm mb-1  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20 Contract Addresses on Base L2 🔵</div>
+                  <div className={`text-sm mb-1  ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>ERC-20 Contract Addresses on Base</div>
                   <div className={`font-mono text-sm md:text-base break-all  ${isAlive ? 'text-black' : 'text-white'}`}>
                     {CONTRACT_ADDRESS}
                   </div>
@@ -746,16 +735,13 @@ export default function Home() {
             <div className="flex items-center gap-4 flex-wrap justify-center">
               <div className="flex-1 min-w-[300px]">
                 <div className="flex h-16 rounded-xl overflow-hidden shadow-lg">
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-purple-600 text-white' : 'bg-purple-400 text-black'}`} style={{width: "40%"}}>
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-purple-600 text-white' : 'bg-purple-400 text-black'}`} style={{width: "60%"}}>
                     <span className="flex items-center gap-2">
-                      40%
+                      60%
                     </span>
                   </div>
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-blue-600 text-white' : 'bg-blue-400 text-black'}`} style={{width: "25%"}}>
-                    25%
-                  </div>
-                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-green-600 text-white' : 'bg-green-400 text-black'}`} style={{width: "15%"}}>
-                    15%
+                  <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-green-600 text-white' : 'bg-green-400 text-black'}`} style={{width: "20%"}}>
+                    20%
                   </div>
                   <div className={`flex items-center justify-center font-bold text-sm ${isAlive ? 'bg-yellow-600 text-white' : 'bg-yellow-400 text-black'}`} style={{width: "10%"}}>
                     10%
@@ -767,15 +753,14 @@ export default function Home() {
               </div>
             </div>
             <div className={`text-center mt-4 text-sm space-y-2 ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-              <p><strong className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>40% Liquidity Pools</strong> (26.5M) — QCAT/ETH, QCAT/USDC, ALIVE/DEAD arbitrage pair, plus DEX reserves</p>
-              <p><strong className={`${isAlive ? 'text-blue-700' : 'text-blue-400'}`}>25% Genesis Observation</strong> (16.6M) — Public livestreamed event creating EITHER 16.6M ALIVECAT OR 16.6M DEADCAT (50/50 drama!)</p>
-              <p><strong className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>15% Community Rewards</strong> (9.9M) — Liquidity mining, airdrops to observation participants, trading competitions</p>
-              <p><strong className={`${isAlive ? 'text-yellow-700' : 'text-yellow-400'}`}>10% Team</strong> (6.6M) — 12-month linear vesting in timelock contract, aligned incentives</p>
-              <p><strong className={`${isAlive ? 'text-orange-700' : 'text-orange-400'}`}>10% Strategic Reserve</strong> (6.6M) — CEX listings, partnerships, emergency liquidity (multisig)</p>
+              <p><strong className={`${isAlive ? 'text-purple-700' : 'text-purple-400'}`}>60% Liquidity Pools</strong> (397M) — QCAT/ETH, QCAT/USDC on Uniswap V3 and Aerodrome, plus ALIVE/DEAD arbitrage pair</p>
+              <p><strong className={`${isAlive ? 'text-green-700' : 'text-green-400'}`}>20% Community Rewards</strong> (133M) — Liquidity mining, airdrops to observation participants, trading competitions</p>
+              <p><strong className={`${isAlive ? 'text-yellow-700' : 'text-yellow-400'}`}>10% Team</strong> (66M) — 12-month linear vesting in timelock contract, aligned incentives</p>
+              <p><strong className={`${isAlive ? 'text-orange-700' : 'text-orange-400'}`}>10% Strategic Reserve</strong> (66M) — CEX listings, partnerships, emergency liquidity (multisig)</p>
             </div>
             <div className={`mt-6 p-4 rounded-lg text-center ${isAlive ? 'bg-purple-50 border border-purple-200' : 'bg-purple-950/20 border border-purple-800'}`}>
               <p className={`text-sm ${isAlive ? 'text-purple-900' : 'text-purple-300'}`}>
-                <strong>Genesis observation is a gamble!</strong> The entire market watches as 16.6M QCAT collapse into one outcome. Whichever token is created becomes instantly scarce vs the other. More observations will follow to balance supply and seed all liquidity pools on Base.
+                <strong>LP tokens will be burned!</strong> 60% of supply goes directly into locked liquidity pools on Base. No rug possible. Community rewards distributed via transparent on-chain mechanics. All three tokens tradeable from day one with full liquidity on Uniswap and Aerodrome.
               </p>
             </div>
           </div>
@@ -793,7 +778,7 @@ export default function Home() {
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
                 <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Deflationary by Design</h4>
                 <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  5% rebox fee creates steady token burn - expected ~1.05%/mo decay at 30% monthly volume
+                  4% rebox fee creates steady token burn - expected ~0.84%/mo decay at 30% monthly volume
                 </p>
               </div>
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
@@ -811,11 +796,11 @@ export default function Home() {
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
                 <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Planck Inspired</h4>
                 <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
-                  66,260,701 initial supply from Planck's constant - the only memecoin with quantum DNA
+                  662,607,015 initial supply from Planck's constant - the only memecoin with quantum DNA
                 </p>
               </div>
               <div className={`p-4 rounded-lg ${isAlive ? 'bg-black/5' : 'bg-white/5'}`}>
-                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Built for Base L2 🔵</h4>
+                <h4 className={`font-bold mb-2 ${isAlive ? 'text-black' : 'text-white'}`}>Built for Base</h4>
                 <p className={`text-sm ${isAlive ? 'text-gray-600' : 'text-gray-400'}`}>
                   Ultra-low fees (~$0.005-0.01) make observe/rebox gameplay affordable for everyone - would cost $20-50 per play on Ethereum!
                 </p>
@@ -960,7 +945,7 @@ export default function Home() {
             Never purchase more tokens than you can afford to lose completely. This is not financial advice.
           </p>
           <p className="text-sm">
-            Quantum Cat are purely digital collectibles and community participation tokens deployed on Base L2 (Coinbase's Ethereum L2) where transactions cost ~$0.01 instead of $20-50 on Ethereum. Any price fluctuations are driven entirely by market speculation 
+            Quantum Cat are purely digital collectibles and community participation tokens. Any price fluctuations are driven entirely by market speculation 
             and have no connection to any underlying business, project development, or promised outcomes. The observe and rebox mechanics are game features, not value propositions. 
             You should expect the value to potentially go to zero at any time. Playing with quantum superposition is fun, but it's not an investment.
           </p>

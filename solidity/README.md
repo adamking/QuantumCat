@@ -232,7 +232,7 @@ BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY
 PRIVATE_KEY=your_private_key_here
 INITIAL_HOLDER_ADDRESS=0x...
 INITIAL_QCAT_SUPPLY=1000000000000000000000000
-REBOX_FEE_BPS=500  # 5% (IMMUTABLE after deployment)
+REBOX_FEE_BPS=400  # 4% (IMMUTABLE after deployment)
 
 # Basescan API key (Optional, for verification)
 BASESCAN_API_KEY=your_api_key
@@ -497,7 +497,7 @@ Base offers the **best cost-to-performance ratio** for QuantumCat:
 
 The project includes comprehensive test coverage:
 
-- ✅ 38+ unit tests for core functionality
+- ✅ 60+ unit tests with 146+ test cases for core functionality
 - ✅ Security tests (reentrancy, malicious receivers)
 - ✅ Input validation tests
 - ✅ Edge case tests
@@ -524,14 +524,15 @@ solidity/
 │   ├── QuantumCatController.sol  # Controller logic
 │   └── mocks/              # Test mocks
 ├── test/                   # Test files
-│   ├── QuantumCat.test.js
-│   └── QuantumCat.security.test.js
+│   ├── Controller.test.js
+│   ├── Controller.comprehensive.test.js
+│   └── Controller.security.test.js
 ├── scripts/                # Deployment scripts
-│   └── deploy-erc20.js     # ERC-20 deployment
+│   ├── deploy.js           # Unified deployment script
+│   └── verify.js           # Contract verification
 ├── abis/                   # Exported ABIs (auto-generated)
 ├── .env.example            # Environment template
-├── CLAUDE.md               # AI assistant guide
-├── ERC20_ARCHITECTURE.md   # Detailed architecture docs
+├── DEPLOYMENT.md           # Deployment guide
 ├── hardhat.config.js       # Hardhat configuration
 └── package.json            # Project metadata
 ```

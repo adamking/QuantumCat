@@ -68,9 +68,9 @@ cd QuantumCat
 
 ### 💡 Deployment
 
-**Production Deployment (Renounced)**:
-- 66.26M supply, 4% rebox fee, immutable forever
-- Use: `npm run deploy:renounced` (Base mainnet)
+**Production Deployment**:
+- 662.6M supply, 4% rebox fee, immutable forever
+- Use: `npm run deploy:production` (Base mainnet with production mode)
 - ⚠️ Once deployed, NO changes possible
 
 **Testing Deployment**:
@@ -103,21 +103,6 @@ npm run deploy:base
 ```
 
 **[→ Full smart contract setup guide](solidity/README.md)**
-
-### 🎮 Game
-
-```bash
-cd game
-
-# Simply open index.html in your browser
-open index.html
-
-# Or serve with a local server
-python -m http.server 8000
-# Visit http://localhost:8000
-```
-
-**[→ Full game setup guide](game/README.md)**
 
 ### 🌐 Website
 
@@ -239,7 +224,6 @@ QuantumCat is **built exclusively for** [Base](https://base.org/), Coinbase's Et
 Each subproject has its own commands. See individual READMEs for details:
 
 - **[Smart Contracts](solidity/README.md)**: `npm test`, `npm run deploy:base`, etc.
-- **[Game](game/README.md)**: Open `index.html` or use local server
 - **[Website](website/README.md)**: `npm run dev`, `npm run build`, etc.
 
 ### Testing
@@ -270,20 +254,20 @@ Contributions are welcome! Please:
 
 ## 📊 Tokenomics - Renounced & Immutable
 
-- **Initial Supply**: 66,260,701 QCAT (inspired by Planck's constant)
+- **Initial Supply**: 662,607,015 QCAT (inspired by Planck's constant)
 - **Observation**: Burns QCAT, mints equal amount of EITHER all ALIVECAT OR all DEADCAT (50/50 chance, no supply change)
 - **Rebox Mechanics**: Burns equal amounts of ALIVECAT + DEADCAT (1:1 ratio), mints QCAT minus fee
 - **Rebox Fee**: 4% (immutable after deployment)
 - **Deflationary Mechanism**: Rebox fee creates gradual QCAT deflation (~0.84%/month at 30% monthly volume)
 - **No Taxes**: 0% buy/sell tax on tokens
 - **Sustainability**: 7-10 year runway with natural market balance
-- **Distribution**: 60% liquidity (burn LP), 20% community, 10% team, 10% reserve
+- **Distribution**: 60% liquidity, 20% community, 10% team, 10% reserve
 
 ## 🔒 Security & Auditing
 
 ### Current Status
 
-- ✅ Comprehensive test suite (38+ tests)
+- ✅ Comprehensive test suite (60+ tests with 146+ test cases)
 - ✅ Reentrancy protection on all functions
 - ✅ Input validation and bounds checking
 - ✅ Custom errors for gas efficiency
@@ -327,10 +311,8 @@ Just like Schrödinger's cat, your investment may exist in multiple states simul
 
 ### Documentation
 - [Smart Contracts Documentation](solidity/README.md)
-- [Game Documentation](game/README.md)
 - [Website Documentation](website/README.md)
-- [Base Deployment Guide](solidity/DEPLOY_BASE.md) *(if exists)*
-- [ERC-20 Architecture Guide](solidity/ERC20_ARCHITECTURE.md) *(if exists)*
+- [Deployment Guide](solidity/DEPLOYMENT.md)
 
 ### External Resources
 - [Base Documentation](https://docs.base.org/) - **Learn about Base L2**
@@ -362,22 +344,20 @@ Just like Schrödinger's cat, your investment may exist in multiple states simul
 - [x] Commit-reveal observation mechanism
 - [x] Cryptographic randomness with multi-source entropy
 - [x] Rebox mechanism with deflationary fee
-- [x] Comprehensive test suite (38+ tests)
+- [x] Comprehensive test suite (60+ tests with 146+ test cases)
 - [x] Gas optimizations
-- [x] 8-bit retro game interface
 - [x] React landing page with animations
 - [x] Deployment scripts for Base and other networks
 
 ### In Progress 🚧
 - [ ] Professional security audit
-- [ ] Additional game mini-games
-- [ ] Mobile-optimized game controls
+- [ ] Web3 wallet integration for website
+- [ ] Mobile-optimized web interface
 
 ### Future Plans 🔮
 - [ ] Subgraph for The Graph protocol
 - [ ] NFT integration for special quantum cats
 - [ ] Additional quantum-inspired mechanics
-- [ ] Multi-player game features
 - [ ] Community governance mechanisms (via external contracts)
 - [ ] Uniswap v2/v3 liquidity pool guides
 - [ ] Trading bot integration examples
