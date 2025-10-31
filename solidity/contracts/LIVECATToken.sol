@@ -3,10 +3,10 @@ pragma solidity ^0.8.30;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-/// @title ALIVECATToken - Observed Alive Cat Token
+/// @title LIVECATToken - Observed Alive Cat Token
 /// @notice ERC-20 token representing observed cats in the alive state
 /// @dev Only the controller contract can mint/burn. Immutable after deployment.
-contract ALIVECATToken is ERC20 {
+contract LIVECATToken is ERC20 {
     /// @notice Address of the controller contract (only address that can mint/burn)
     address public immutable controller;
 
@@ -22,9 +22,9 @@ contract ALIVECATToken is ERC20 {
         _;
     }
 
-    /// @notice Initializes the ALIVECAT token
+    /// @notice Initializes the LIVECAT token
     /// @param _controller Address of the QuantumCatController contract
-    constructor(address _controller) ERC20("AliveCat", "ALIVECAT") {
+    constructor(address _controller) ERC20("LiveCat", "LIVECAT") {
         if (_controller == address(0)) revert ZeroAddress();
         controller = _controller;
     }

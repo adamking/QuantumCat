@@ -4,7 +4,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Solidity](https://img.shields.io/badge/Solidity-0.8.30-blue)](https://soliditylang.org/)
-[![Base](https://img.shields.io/badge/Base-Optimized-0052FF)](https://base.org/)
+[![Base L2](https://img.shields.io/badge/Base_L2-Optimized-0052FF)](https://base.org/)
 [![React](https://img.shields.io/badge/React-18.3-61DAFB)](https://react.dev/)
 
 ## 🌟 Overview
@@ -13,7 +13,7 @@ QuantumCat is a unique blockchain experiment that brings quantum mechanics princ
 
 ### What is QuantumCat?
 
-Just like Schrödinger's cat exists in a superposed state of being both alive and dead until observed, **QCAT tokens exist in quantum superposition** until "observed" on the blockchain. When you observe QCAT tokens, they **collapse** into EITHER all ALIVECAT OR all DEADCAT tokens (never a mix!) through a cryptographically secure random process. You can then **rebox** equal pairs of ALIVECAT + DEADCAT back into QCAT (minus a small fee)!
+Just like Schrödinger's cat exists in a superposed state of being both alive and dead until observed, **CATBOX tokens exist in quantum superposition** until "observed" on the blockchain. When you observe CATBOX tokens, they **collapse** into EITHER all LIVECAT OR all DEADCAT tokens (never a mix!) through a cryptographically secure random process. You can then **rebox** equal pairs of LIVECAT + DEADCAT back into CATBOX (minus a small fee)!
 
 ## 📦 Monorepo Structure
 
@@ -21,18 +21,18 @@ This repository contains three interconnected projects:
 
 ### 🔷 1. [Smart Contracts](/solidity) - The Core Protocol
 
-Solidity smart contracts implementing the quantum mechanics on EVM chains.
+Solidity smart contracts implementing the quantum mechanics on Base L2 (and other EVM chains).
 
 **ERC-20 Architecture:**
 
-Three separate ERC-20 tokens (QCAT, ALIVECAT, DEADCAT) + QuantumCatController contract for full DEX and exchange compatibility.
+Three separate ERC-20 tokens (CATBOX, LIVECAT, DEADCAT) + QuantumCatController contract for full DEX and exchange compatibility.
 
 **Key Features:**
 - ✅ **Exchange Compatible** - Standard ERC-20 tokens work with all DEXs and CEXs
 - ✅ **Fully Immutable** - Zero admin control, truly decentralized
 - ✅ **Cryptographic Randomness** - Commit-reveal with high-entropy multi-source randomness
 - ✅ **Reentrancy Protected** - Battle-tested security patterns
-- ✅ **Base Optimized** - ~$0.01 per transaction (99.9% cheaper than Ethereum)
+- ✅ **Base L2 Optimized** - ~$0.01 per transaction (99.9% cheaper than Ethereum)
 - ✅ **Comprehensive Tests** - 60+ unit and security tests with 100% controller coverage
 
 **[📖 View Smart Contracts Documentation →](solidity/README.md)**
@@ -95,10 +95,10 @@ npm run compile
 # Run tests
 npm test
 
-# Deploy to Base Sepolia testnet
+# Deploy to Base L2 Sepolia testnet
 npm run deploy:base-sepolia
 
-# Deploy to Base mainnet (production) 🔵 RECOMMENDED
+# Deploy to Base L2 mainnet (production) 🔵 RECOMMENDED
 npm run deploy:base
 ```
 
@@ -127,16 +127,16 @@ npm run build
 
 | Token | Description | How to Get |
 |-------|-------------|------------|
-| **QCAT** | Superposed quantum cat - exists in both states simultaneously | Initial supply or rebox equal ALIVE+DEAD pairs (1:1 ratio) |
-| **ALIVECAT** | Observed alive state - the cat survived! | Observe QCAT (50% chance - you get 100% ALIVE, 0% DEAD) |
-| **DEADCAT** | Observed dead state - the cat didn't make it | Observe QCAT (50% chance - you get 0% ALIVE, 100% DEAD) |
+| **CATBOX** | Superposed quantum cat - exists in both states simultaneously | Initial supply or rebox equal ALIVE+DEAD pairs (1:1 ratio) |
+| **LIVECAT** | Observed alive state - the cat survived! | Observe CATBOX (50% chance - you get 100% ALIVE, 0% DEAD) |
+| **DEADCAT** | Observed dead state - the cat didn't make it | Observe CATBOX (50% chance - you get 0% ALIVE, 100% DEAD) |
 
 ### The Quantum Mechanics
 
-#### 1️⃣ **Observation** (QCAT → ALIVECAT *OR* DEADCAT)
+#### 1️⃣ **Observation** (CATBOX → LIVECAT *OR* DEADCAT)
 
 ```solidity
-// Step 1: Commit to observing (burns QCAT immediately)
+// Step 1: Commit to observing (burns CATBOX immediately)
 bytes32 userEntropy = keccak256(abi.encodePacked("my_secret", block.timestamp));
 bytes32 dataHash = keccak256("reveal_data");
 quantumCat.commitObserve(100, dataHash, userEntropy);
@@ -146,28 +146,28 @@ quantumCat.commitObserve(100, dataHash, userEntropy);
 // Step 3: Reveal to collapse the wave function
 quantumCat.observe("reveal_data");
 // Result: 50/50 chance of:
-//   - 100 ALIVECAT + 0 DEADCAT, OR
-//   - 0 ALIVECAT + 100 DEADCAT
+//   - 100 LIVECAT + 0 DEADCAT, OR
+//   - 0 LIVECAT + 100 DEADCAT
 ```
 
-**Note**: Unlike real quantum mechanics, you get *either* all ALIVECAT *or* all DEADCAT, not a mix! This is a 50/50 random outcome that collapses ALL tokens into ONE state.
+**Note**: Unlike real quantum mechanics, you get *either* all LIVECAT *or* all DEADCAT, not a mix! This is a 50/50 random outcome that collapses ALL tokens into ONE state.
 
-#### 2️⃣ **Rebox** (ALIVECAT + DEADCAT → QCAT)
+#### 2️⃣ **Rebox** (LIVECAT + DEADCAT → CATBOX)
 
-**Reboxing requires EQUAL amounts (1:1 ratio) of ALIVECAT and DEADCAT:**
+**Reboxing requires EQUAL amounts (1:1 ratio) of LIVECAT and DEADCAT:**
 
 ```solidity
 // Combine equal pairs back into superposition
-// Burns 10 ALIVECAT + 10 DEADCAT → mints 9.6 QCAT (with 4% fee)
+// Burns 10 LIVECAT + 10 DEADCAT → mints 9.6 CATBOX (with 4% fee)
 quantumCat.rebox(10);
 
 // Examples with different amounts:
-// 1 ALIVE + 1 DEAD = 0.96 QCAT
-// 0.5 ALIVE + 0.5 DEAD = 0.48 QCAT
-// 100 ALIVE + 100 DEAD = 96 QCAT
+// 1 ALIVE + 1 DEAD = 0.96 CATBOX
+// 0.5 ALIVE + 0.5 DEAD = 0.48 CATBOX
+// 100 ALIVE + 100 DEAD = 96 CATBOX
 ```
 
-The rebox fee (immutable 4%) creates deflationary pressure on the QCAT supply over time.
+The rebox fee (immutable 4%) creates deflationary pressure on the CATBOX supply over time.
 
 #### 3️⃣ **Force Observe** (Failsafe Mechanism)
 
@@ -183,7 +183,7 @@ If someone commits to observe but never reveals, anyone can finalize their obser
         ┌──────────────────────────────────┐
         │                                  │
         ▼                                  ▼
-    ALIVECAT ◄─────── QCAT ───────► DEADCAT
+    LIVECAT ◄─────── CATBOX ───────► DEADCAT
         │             ▲  ▲             │
         │             │  │             │
         └─────────────┘  └─────────────┘
@@ -197,25 +197,27 @@ If someone commits to observe but never reveals, anyone can finalize their obser
 - **Reentrancy Guards**: All state-changing functions protected
 - **Zero Admin Control**: No owner, no upgrades, fully autonomous
 
-### Why Base? 🔵
+### Why Base L2? 🔵
 
-QuantumCat is **built exclusively for** [Base](https://base.org/), Coinbase's Ethereum L2 blockchain:
+QuantumCat is **built exclusively for** [**Base L2**](https://base.org/), Coinbase's Ethereum Layer 2 blockchain:
 
 | Network | Transaction Cost | User Experience | Status |
 |---------|-----------------|-----------------|--------|
-| **Base** | **~$0.005 per observe** | ✅ **Perfect for memecoins!** | **✅ PRIMARY** |
+| **Base L2** | **~$0.005 per observe** | ✅ **Perfect for memecoins!** | **✅ PRIMARY** |
 | Ethereum Mainnet | ~$20-50 per observe | ❌ Too expensive for gameplay | ❌ Not Viable |
-| Other L2s | ~$0.01-0.05 | ⚠️ Higher than Base | Secondary |
+| Other L2s | ~$0.01-0.05 | ⚠️ Higher than Base L2 | Secondary |
 
-**Base offers 99.9% lower fees** than Ethereum mainnet while maintaining security and full EVM compatibility.
+**[Base L2](https://base.org/)** offers 99.9% lower fees than Ethereum mainnet while maintaining security and full EVM compatibility.
 
-#### Base Advantages:
+#### Base L2 Advantages:
 - 🚀 **Ultra-Low Fees**: $0.005-0.01 per transaction makes gameplay affordable for everyone
 - ⚡ **2-Second Blocks**: Near-instant transaction confirmations
 - 🏦 **Coinbase Ecosystem**: Easy onramps via Coinbase and integrated wallets
 - 🌊 **Growing DeFi**: Uniswap, Aerodrome, and thriving memecoin culture
-- 🔒 **Ethereum Security**: Inherits Ethereum's security as an L2 rollup
+- 🔒 **Ethereum Security**: Inherits Ethereum's security as an L2 rollup (optimistic rollup)
 - 💙 **Massive User Base**: Coinbase's 100M+ users have easy access
+
+**What is Base L2?** [Base](https://base.org/) is a secure, low-cost, builder-friendly Ethereum Layer 2 (L2) solution built by Coinbase. As an optimistic rollup, Base L2 processes transactions off-chain and settles them on Ethereum, providing the same security guarantees as Ethereum mainnet while dramatically reducing costs. [Learn more about Base L2 →](https://docs.base.org/)
 
 ## 🛠️ Development
 
@@ -254,11 +256,11 @@ Contributions are welcome! Please:
 
 ## 📊 Tokenomics - Renounced & Immutable
 
-- **Initial Supply**: 662,607,015 QCAT (inspired by Planck's constant)
-- **Observation**: Burns QCAT, mints equal amount of EITHER all ALIVECAT OR all DEADCAT (50/50 chance, no supply change)
-- **Rebox Mechanics**: Burns equal amounts of ALIVECAT + DEADCAT (1:1 ratio), mints QCAT minus fee
+- **Initial Supply**: 662,607,015 CATBOX (inspired by Planck's constant)
+- **Observation**: Burns CATBOX, mints equal amount of EITHER all LIVECAT OR all DEADCAT (50/50 chance, no supply change)
+- **Rebox Mechanics**: Burns equal amounts of LIVECAT + DEADCAT (1:1 ratio), mints CATBOX minus fee
 - **Rebox Fee**: 4% (immutable after deployment)
-- **Deflationary Mechanism**: Rebox fee creates gradual QCAT deflation (~0.84%/month at 30% monthly volume)
+- **Deflationary Mechanism**: Rebox fee creates gradual CATBOX deflation (~0.84%/month at 30% monthly volume)
 - **No Taxes**: 0% buy/sell tax on tokens
 - **Sustainability**: 7-10 year runway with natural market balance
 - **Distribution**: 60% liquidity, 20% community, 10% team, 10% reserve
@@ -315,20 +317,21 @@ Just like Schrödinger's cat, your investment may exist in multiple states simul
 - [Deployment Guide](solidity/DEPLOYMENT.md)
 
 ### External Resources
-- [Base Documentation](https://docs.base.org/) - **Learn about Base L2**
-- [Base Bridge](https://bridge.base.org/) - Bridge assets to Base
-- [Coinbase Wallet](https://www.coinbase.com/wallet) - Best wallet for Base
+- [Base L2 Documentation](https://docs.base.org/) - **Learn about Base L2 and how it works**
+- [What is Base?](https://base.org/) - Official Base L2 homepage
+- [Base Bridge](https://bridge.base.org/) - Bridge assets to Base L2
+- [Coinbase Wallet](https://www.coinbase.com/wallet) - Best wallet for Base L2
 - [EIP-20: Token Standard](https://eips.ethereum.org/EIPS/eip-20)
 - [OpenZeppelin Contracts](https://docs.openzeppelin.com/contracts/)
 - [Hardhat Documentation](https://hardhat.org/docs)
-- [Uniswap on Base](https://app.uniswap.org/) - Trade on Base
-- [Aerodrome Finance](https://aerodrome.finance/) - Base-native DEX
+- [Uniswap on Base L2](https://app.uniswap.org/) - Trade on Base L2
+- [Aerodrome Finance](https://aerodrome.finance/) - Base L2-native DEX
 - [Schrödinger's Cat (Wikipedia)](https://en.wikipedia.org/wiki/Schr%C3%B6dinger%27s_cat)
 
 ### Blockchain Explorers
-- [Basescan (Base Mainnet)](https://basescan.org/) - **Primary Explorer**
-- [Base Sepolia Explorer (Testnet)](https://sepolia.basescan.org/)
-- [Base Bridge](https://bridge.base.org/) - Bridge assets to Base
+- [Basescan (Base L2 Mainnet)](https://basescan.org/) - **Primary Explorer**
+- [Base L2 Sepolia Explorer (Testnet)](https://sepolia.basescan.org/)
+- [Base Bridge](https://bridge.base.org/) - Bridge assets to Base L2
 
 ### Support & Community
 
@@ -339,7 +342,7 @@ Just like Schrödinger's cat, your investment may exist in multiple states simul
 
 ### Completed ✅
 - [x] ERC-20 architecture for universal DEX/exchange compatibility
-- [x] Three separate token contracts (QCAT, ALIVECAT, DEADCAT)
+- [x] Three separate token contracts (CATBOX, LIVECAT, DEADCAT)
 - [x] Controller contract for quantum mechanics
 - [x] Commit-reveal observation mechanism
 - [x] Cryptographic randomness with multi-source entropy

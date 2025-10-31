@@ -7,8 +7,8 @@ const { ethers, network, run } = require("hardhat");
  * 
  * Environment Variables:
  * - DEPLOYMENT_MODE: "production" or "testing" (default: testing)
- * - INITIAL_HOLDER_ADDRESS: Address to receive initial QCAT supply
- * - INITIAL_QCAT_SUPPLY: Initial supply in wei (default: 662607015 * 10^18)
+ * - INITIAL_HOLDER_ADDRESS: Address to receive initial CATBOX supply
+ * - INITIAL_CATBOX_SUPPLY: Initial supply in wei (default: 662607015 * 10^18)
  * - REBOX_FEE_BPS: Rebox fee in basis points (default: 400 = 4%)
  * - SKIP_CONFIRMATION: Set to "true" to skip manual confirmations
  * 
@@ -66,7 +66,7 @@ async function main() {
     reboxFeeBps = 400; // 4% - optimal for eternal operation
     
     console.log("📊 FINAL IMMUTABLE Parameters:");
-    console.log("- Initial Supply: 662,607,015 QCAT (Planck's constant)");
+    console.log("- Initial Supply: 662,607,015 CATBOX (Planck's constant)");
     console.log("- Rebox Fee: 4% (400 basis points)");
     console.log("- Monthly Deflation: ~0.84% at 30% volume");
     console.log("- Sustainability: 7-10 year runway");
@@ -78,14 +78,14 @@ async function main() {
     console.log("✅ Parameters can be adjusted via environment variables\n");
     
     initialHolder = process.env.INITIAL_HOLDER_ADDRESS || deployer.address;
-    initialSupply = process.env.INITIAL_QCAT_SUPPLY 
-      ? ethers.parseEther(process.env.INITIAL_QCAT_SUPPLY)
+    initialSupply = process.env.INITIAL_CATBOX_SUPPLY 
+      ? ethers.parseEther(process.env.INITIAL_CATBOX_SUPPLY)
       : ethers.parseEther("662607015");
     reboxFeeBps = process.env.REBOX_FEE_BPS ? parseInt(process.env.REBOX_FEE_BPS) : 400;
     
     console.log("Deployment parameters:");
     console.log("- Initial Holder:", initialHolder);
-    console.log("- Initial QCAT Supply:", ethers.formatEther(initialSupply));
+    console.log("- Initial CATBOX Supply:", ethers.formatEther(initialSupply));
     console.log("- Rebox Fee:", reboxFeeBps, "bps =", (reboxFeeBps / 100).toFixed(2) + "%");
     console.log("\n💡 Tip: Set DEPLOYMENT_MODE=production for final deployment\n");
   }
@@ -129,25 +129,25 @@ async function main() {
   });
   console.log("📍 Computed controller address:", controllerAddress);
 
-  // Deploy QCAT Token
-  console.log("\n🚀 Step 1/4: Deploying QCAT Token...");
-  const QCATToken = await ethers.getContractFactory("QCATToken");
-  const qcat = await QCATToken.deploy(
+  // Deploy CATBOX Token
+  console.log("\n🚀 Step 1/4: Deploying CATBOX Token...");
+  const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
+  const catbox = await CATBOXToken.deploy(
     controllerAddress,
     initialHolder,
     initialSupply
   );
-  await qcat.waitForDeployment();
-  const qcatAddress = await qcat.getAddress();
-  console.log("   ✅ QCAT deployed at:", qcatAddress);
+  await catbox.waitForDeployment();
+  const catboxAddress = await catbox.getAddress();
+  console.log("   ✅ CATBOX deployed at:", catboxAddress);
 
-  // Deploy ALIVECAT Token
-  console.log("\n🚀 Step 2/4: Deploying ALIVECAT Token...");
-  const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
-  const alivecat = await ALIVECATToken.deploy(controllerAddress);
-  await alivecat.waitForDeployment();
-  const alivecatAddress = await alivecat.getAddress();
-  console.log("   ✅ ALIVECAT deployed at:", alivecatAddress);
+  // Deploy LIVECAT Token
+  console.log("\n🚀 Step 2/4: Deploying LIVECAT Token...");
+  const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
+  const livecat = await LIVECATToken.deploy(controllerAddress);
+  await livecat.waitForDeployment();
+  const livecatAddress = await livecat.getAddress();
+  console.log("   ✅ LIVECAT deployed at:", livecatAddress);
 
   // Deploy DEADCAT Token
   console.log("\n🚀 Step 3/4: Deploying DEADCAT Token...");
@@ -161,8 +161,8 @@ async function main() {
   console.log("\n🚀 Step 4/4: Deploying Controller...");
   const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
   const controller = await QuantumCatController.deploy(
-    qcatAddress,
-    alivecatAddress,
+    catboxAddress,
+    livecatAddress,
     deadcatAddress,
     reboxFeeBps
   );
@@ -181,8 +181,8 @@ async function main() {
 
   console.log("\n✅ Deployment Complete!");
   console.log("==========================================");
-  console.log("QCAT Token:        ", qcatAddress);
-  console.log("ALIVECAT Token:    ", alivecatAddress);
+  console.log("CATBOX Token:      ", catboxAddress);
+  console.log("LIVECAT Token:     ", livecatAddress);
   console.log("DEADCAT Token:     ", deadcatAddress);
   console.log("Controller:        ", actualControllerAddress);
   console.log("==========================================");
@@ -208,21 +208,21 @@ async function main() {
     console.log(`\nVerifying contracts on ${explorerName}...`);
     
     try {
-      // Verify QCAT
-      console.log("Verifying QCAT Token...");
+      // Verify CATBOX
+      console.log("Verifying CATBOX Token...");
       await run("verify:verify", {
-        address: qcatAddress,
+        address: catboxAddress,
         constructorArguments: [controllerAddress, initialHolder, initialSupply.toString()],
       });
-      console.log("✅ QCAT verified!");
+      console.log("✅ CATBOX verified!");
 
-      // Verify ALIVECAT
-      console.log("Verifying ALIVECAT Token...");
+      // Verify LIVECAT
+      console.log("Verifying LIVECAT Token...");
       await run("verify:verify", {
-        address: alivecatAddress,
+        address: livecatAddress,
         constructorArguments: [controllerAddress],
       });
-      console.log("✅ ALIVECAT verified!");
+      console.log("✅ LIVECAT verified!");
 
       // Verify DEADCAT
       console.log("Verifying DEADCAT Token...");
@@ -236,7 +236,7 @@ async function main() {
       console.log("Verifying Controller...");
       await run("verify:verify", {
         address: actualControllerAddress,
-        constructorArguments: [qcatAddress, alivecatAddress, deadcatAddress, reboxFeeBps],
+        constructorArguments: [catboxAddress, livecatAddress, deadcatAddress, reboxFeeBps],
       });
       console.log("✅ Controller verified!");
 
@@ -260,8 +260,8 @@ async function main() {
     deployer: deployer.address,
     timestamp: new Date().toISOString(),
     contracts: {
-      qcat: qcatAddress,
-      alivecat: alivecatAddress,
+      catbox: catboxAddress,
+      livecat: livecatAddress,
       deadcat: deadcatAddress,
       controller: actualControllerAddress,
     },
@@ -275,12 +275,12 @@ async function main() {
       renounced: isProduction,
     },
     links: {
-      qcat: chainId === 8453n ? `https://basescan.org/token/${qcatAddress}` :
-             chainId === 84532n ? `https://sepolia.basescan.org/token/${qcatAddress}` :
-             `https://etherscan.io/token/${qcatAddress}`,
-      alivecat: chainId === 8453n ? `https://basescan.org/token/${alivecatAddress}` :
-                chainId === 84532n ? `https://sepolia.basescan.org/token/${alivecatAddress}` :
-                `https://etherscan.io/token/${alivecatAddress}`,
+      catbox: chainId === 8453n ? `https://basescan.org/token/${catboxAddress}` :
+             chainId === 84532n ? `https://sepolia.basescan.org/token/${catboxAddress}` :
+             `https://etherscan.io/token/${catboxAddress}`,
+      livecat: chainId === 8453n ? `https://basescan.org/token/${livecatAddress}` :
+                chainId === 84532n ? `https://sepolia.basescan.org/token/${livecatAddress}` :
+                `https://etherscan.io/token/${livecatAddress}`,
       deadcat: chainId === 8453n ? `https://basescan.org/token/${deadcatAddress}` :
                chainId === 84532n ? `https://sepolia.basescan.org/token/${deadcatAddress}` :
                `https://etherscan.io/token/${deadcatAddress}`,
@@ -293,10 +293,10 @@ async function main() {
   // Add production-specific info
   if (isProduction) {
     deploymentInfo.distribution = {
-      liquidity: "60% (397,564,209 QCAT)",
-      community: "20% (132,521,403 QCAT)",
-      team: "10% (66,260,701 QCAT)",
-      reserve: "10% (66,260,702 QCAT)"
+      liquidity: "60% (397,564,209 CATBOX)",
+      community: "20% (132,521,403 CATBOX)",
+      team: "10% (66,260,701 CATBOX)",
+      reserve: "10% (66,260,702 CATBOX)"
     };
     deploymentInfo.projections = {
       monthlyDeflation: "0.84% at 30% volume",
@@ -323,8 +323,8 @@ async function main() {
   if (isProduction) {
     console.log("🚨 CRITICAL NEXT STEPS (FIRST 24 HOURS):");
     console.log("1. Add liquidity to Base DEXs:");
-    console.log("   - 75% to QCAT/ETH on Uniswap V3");
-    console.log("   - 25% to QCAT/USDC on Aerodrome");
+    console.log("   - 75% to CATBOX/ETH on Uniswap V3");
+    console.log("   - 25% to CATBOX/USDC on Aerodrome");
     console.log("2. BURN or send LP tokens to 0x000...dead");
     console.log("3. Distribute community allocation");
     console.log("4. Set up team vesting contract");
@@ -343,8 +343,8 @@ async function main() {
   }
 
   return {
-    qcat: qcatAddress,
-    alivecat: alivecatAddress,
+    catbox: catboxAddress,
+    livecat: livecatAddress,
     deadcat: deadcatAddress,
     controller: actualControllerAddress
   };

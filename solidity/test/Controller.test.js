@@ -19,24 +19,24 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     // Deploy tokens
-    const QCATToken = await ethers.getContractFactory("QCATToken");
-    const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
+    const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
+    const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
     const DEADCATToken = await ethers.getContractFactory("DEADCATToken");
 
-    const qcat = await QCATToken.deploy(
+    const catbox = await CATBOXToken.deploy(
       controllerAddress,
       owner.address,
-      ethers.parseEther("1000000") // 1M QCAT initial supply
+      ethers.parseEther("1000000") // 1M CATBOX initial supply
     );
 
-    const alivecat = await ALIVECATToken.deploy(controllerAddress);
+    const livecat = await LIVECATToken.deploy(controllerAddress);
     const deadcat = await DEADCATToken.deploy(controllerAddress);
 
     // Deploy controller
     const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
     const controller = await QuantumCatController.deploy(
-      await qcat.getAddress(),
-      await alivecat.getAddress(),
+      await catbox.getAddress(),
+      await livecat.getAddress(),
       await deadcat.getAddress(),
       500 // 5% fee (500 basis points)
     );
@@ -47,50 +47,50 @@ describe("QuantumCat ERC-20 System", function () {
       throw new Error("Controller address mismatch!");
     }
 
-    return { qcat, alivecat, deadcat, controller, owner, user1, user2, user3 };
+    return { catbox, livecat, deadcat, controller, owner, user1, user2, user3 };
   }
 
   describe("Deployment & Initialization", function () {
     it("Should deploy all contracts with correct addresses", async function () {
-      const { qcat, alivecat, deadcat, controller } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller } = await loadFixture(deployQuantumCatERC20Fixture);
 
-      expect(await qcat.getAddress()).to.be.properAddress;
-      expect(await alivecat.getAddress()).to.be.properAddress;
+      expect(await catbox.getAddress()).to.be.properAddress;
+      expect(await livecat.getAddress()).to.be.properAddress;
       expect(await deadcat.getAddress()).to.be.properAddress;
       expect(await controller.getAddress()).to.be.properAddress;
     });
 
     it("Should set correct token names and symbols", async function () {
-      const { qcat, alivecat, deadcat } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat } = await loadFixture(deployQuantumCatERC20Fixture);
 
-      expect(await qcat.name()).to.equal("QuantumCat");
-      expect(await qcat.symbol()).to.equal("QCAT");
-      expect(await alivecat.name()).to.equal("AliveCat");
-      expect(await alivecat.symbol()).to.equal("ALIVECAT");
+      expect(await catbox.name()).to.equal("CatBox");
+      expect(await catbox.symbol()).to.equal("CATBOX");
+      expect(await livecat.name()).to.equal("LiveCat");
+      expect(await livecat.symbol()).to.equal("LIVECAT");
       expect(await deadcat.name()).to.equal("DeadCat");
       expect(await deadcat.symbol()).to.equal("DEADCAT");
     });
 
-    it("Should mint initial QCAT supply to owner", async function () {
-      const { qcat, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+    it("Should mint initial CATBOX supply to owner", async function () {
+      const { catbox, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
-      expect(await qcat.balanceOf(owner.address)).to.equal(
+      expect(await catbox.balanceOf(owner.address)).to.equal(
         ethers.parseEther("1000000")
       );
     });
 
-    it("Should have zero initial supply for ALIVECAT and DEADCAT", async function () {
-      const { alivecat, deadcat } = await loadFixture(deployQuantumCatERC20Fixture);
+    it("Should have zero initial supply for LIVECAT and DEADCAT", async function () {
+      const { livecat, deadcat } = await loadFixture(deployQuantumCatERC20Fixture);
 
-      expect(await alivecat.totalSupply()).to.equal(0);
+      expect(await livecat.totalSupply()).to.equal(0);
       expect(await deadcat.totalSupply()).to.equal(0);
     });
 
     it("Should set controller as minter in tokens", async function () {
-      const { qcat, alivecat, deadcat, controller } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller } = await loadFixture(deployQuantumCatERC20Fixture);
 
-      expect(await qcat.controller()).to.equal(await controller.getAddress());
-      expect(await alivecat.controller()).to.equal(await controller.getAddress());
+      expect(await catbox.controller()).to.equal(await controller.getAddress());
+      expect(await livecat.controller()).to.equal(await controller.getAddress());
       expect(await deadcat.controller()).to.equal(await controller.getAddress());
     });
 
@@ -112,21 +112,21 @@ describe("QuantumCat ERC-20 System", function () {
 
   describe("Observe - Commit Phase", function () {
     it("Should commit observation and burn QCAT", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test_data_t5");
       const dataHash = ethers.keccak256(data);
 
-      const balanceBefore = await qcat.balanceOf(owner.address);
+      const balanceBefore = await catbox.balanceOf(owner.address);
 
       // Approve controller to burn QCAT
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
 
       await expect(controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY))
         .to.emit(controller, "CommitObserve");
 
-      const balanceAfter = await qcat.balanceOf(owner.address);
+      const balanceAfter = await catbox.balanceOf(owner.address);
       expect(balanceBefore - balanceAfter).to.equal(amount);
 
       const pending = await controller.pending(owner.address);
@@ -136,7 +136,7 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should work without approval (controller can burn directly)", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
@@ -152,12 +152,12 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should revert if already has pending observation", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
 
-      await qcat.approve(await controller.getAddress(), amount * 2n);
+      await catbox.approve(await controller.getAddress(), amount * 2n);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       await expect(
@@ -176,12 +176,12 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should revert if entropy is zero", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
 
       await expect(
         controller.commitObserve(amount, dataHash, ethers.ZeroHash)
@@ -202,13 +202,13 @@ describe("QuantumCat ERC-20 System", function () {
 
   describe("Observe - Reveal Phase", function () {
     it("Should reveal observation and mint ALIVECAT or DEADCAT", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test_reveal_data");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       // Mine 5 blocks (REVEAL_DELAY)
@@ -218,13 +218,13 @@ describe("QuantumCat ERC-20 System", function () {
         .to.emit(controller, "Observed");
 
       // Check that either ALIVECAT or DEADCAT was minted
-      const alivecatBalance = await alivecat.balanceOf(owner.address);
+      const livecatBalance = await livecat.balanceOf(owner.address);
       const deadcatBalance = await deadcat.balanceOf(owner.address);
 
       // Should have received all of one type
-      expect(alivecatBalance + deadcatBalance).to.equal(amount);
-      expect(alivecatBalance === amount || deadcatBalance === amount).to.be.true;
-      expect(alivecatBalance === 0n || deadcatBalance === 0n).to.be.true;
+      expect(livecatBalance + deadcatBalance).to.equal(amount);
+      expect(livecatBalance === amount || deadcatBalance === amount).to.be.true;
+      expect(livecatBalance === 0n || deadcatBalance === 0n).to.be.true;
 
       // Pending should be cleared
       const pending = await controller.pending(owner.address);
@@ -232,13 +232,13 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should revert if trying to observe before delay", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       // Try to observe immediately (without mining blocks)
@@ -258,14 +258,14 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should revert if data doesn't match hash", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("correct_data");
       const wrongData = ethers.toUtf8Bytes("wrong_data");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       await mine(5);
@@ -276,14 +276,14 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should revert if data is too long", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       // Create data longer than DATA_MAX (256 bytes)
       const longData = new Uint8Array(300);
       const dataHash = ethers.keccak256(longData);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       await mine(5);
@@ -294,7 +294,7 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should work with canObserve helper", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test");
@@ -303,7 +303,7 @@ describe("QuantumCat ERC-20 System", function () {
       // No pending observation
       expect(await controller.canObserve(owner.address)).to.equal(false);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       // Too early
@@ -324,12 +324,12 @@ describe("QuantumCat ERC-20 System", function () {
 
   describe("Force Observe", function () {
     it("Should allow anyone to force observe after grace period", async function () {
-      const { qcat, alivecat, deadcat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       // Mine REVEAL_DELAY + GRACE blocks (5 + 64 = 69)
@@ -339,19 +339,19 @@ describe("QuantumCat ERC-20 System", function () {
         .to.emit(controller, "Forced");
 
       // Check that either ALIVECAT or DEADCAT was minted
-      const alivecatBalance = await alivecat.balanceOf(owner.address);
+      const livecatBalance = await livecat.balanceOf(owner.address);
       const deadcatBalance = await deadcat.balanceOf(owner.address);
 
-      expect(alivecatBalance + deadcatBalance).to.equal(amount);
+      expect(livecatBalance + deadcatBalance).to.equal(amount);
     });
 
     it("Should revert if trying to force observe too early", async function () {
-      const { qcat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       // Mine only REVEAL_DELAY blocks (not enough)
@@ -371,7 +371,7 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should correctly report canForceObserve", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
@@ -379,7 +379,7 @@ describe("QuantumCat ERC-20 System", function () {
       // No pending observation
       expect(await controller.canForceObserve(owner.address)).to.equal(false);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
 
       // Too early (just after commit)
@@ -399,7 +399,7 @@ describe("QuantumCat ERC-20 System", function () {
   describe("Rebox", function () {
     async function setupWithObservedTokens() {
       const fixture = await loadFixture(deployQuantumCatERC20Fixture);
-      const { qcat, alivecat, deadcat, controller, owner } = fixture;
+      const { catbox, livecat, deadcat, controller, owner } = fixture;
 
       // Perform multiple observations to get both ALIVECAT and DEADCAT
       // This is probabilistic, so we'll do it multiple times
@@ -409,13 +409,13 @@ describe("QuantumCat ERC-20 System", function () {
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`rebox_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
 
         // Check if we have both types
-        const aliveBal = await alivecat.balanceOf(owner.address);
+        const aliveBal = await livecat.balanceOf(owner.address);
         const deadBal = await deadcat.balanceOf(owner.address);
         if (aliveBal > 0n && deadBal > 0n) {
           break; // We have both types
@@ -426,11 +426,11 @@ describe("QuantumCat ERC-20 System", function () {
     }
 
     it("Should rebox equal pairs back to QCAT with fee", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+      const { catbox, livecat, deadcat, controller, owner } = await setupWithObservedTokens();
 
-      const aliveBefore = await alivecat.balanceOf(owner.address);
+      const aliveBefore = await livecat.balanceOf(owner.address);
       const deadBefore = await deadcat.balanceOf(owner.address);
-      const qcatBefore = await qcat.balanceOf(owner.address);
+      const catboxBefore = await catbox.balanceOf(owner.address);
 
       // Only rebox if we have both types
       if (aliveBefore === 0n || deadBefore === 0n) {
@@ -441,15 +441,15 @@ describe("QuantumCat ERC-20 System", function () {
       const pairs = ethers.parseEther("10");
 
       // Approve controller to burn both tokens
-      await alivecat.approve(await controller.getAddress(), pairs);
+      await livecat.approve(await controller.getAddress(), pairs);
       await deadcat.approve(await controller.getAddress(), pairs);
 
       await expect(controller.rebox(pairs))
         .to.emit(controller, "Reboxed");
 
-      const aliveAfter = await alivecat.balanceOf(owner.address);
+      const aliveAfter = await livecat.balanceOf(owner.address);
       const deadAfter = await deadcat.balanceOf(owner.address);
-      const qcatAfter = await qcat.balanceOf(owner.address);
+      const catboxAfter = await catbox.balanceOf(owner.address);
 
       // Should burn equal amounts of both
       expect(aliveBefore - aliveAfter).to.equal(pairs);
@@ -457,17 +457,17 @@ describe("QuantumCat ERC-20 System", function () {
 
       // Should mint QCAT minus fee (5% = 500 bps)
       const expectedQcat = (pairs * 2n * 9500n) / 10000n; // 2 pairs - 5% fee
-      expect(qcatAfter - qcatBefore).to.equal(expectedQcat);
+      expect(catboxAfter - catboxBefore).to.equal(expectedQcat);
     });
 
     it("Should calculate rebox output correctly", async function () {
       const { controller } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const pairs = ethers.parseEther("10");
-      const [qcatOut, fee] = await controller.calculateReboxOutput(pairs);
+      const [catboxOut, fee] = await controller.calculateReboxOutput(pairs);
 
       // Expected: 2 * 10 = 20, minus 5% = 19
-      expect(qcatOut).to.equal(ethers.parseEther("19"));
+      expect(catboxOut).to.equal(ethers.parseEther("19"));
       expect(fee).to.equal(ethers.parseEther("1"));
     });
 
@@ -480,11 +480,11 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should revert if insufficient balance", async function () {
-      const { alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+      const { livecat, deadcat, controller, owner } = await setupWithObservedTokens();
 
       const pairs = ethers.parseEther("1000000"); // Way more than available
 
-      await alivecat.approve(await controller.getAddress(), pairs);
+      await livecat.approve(await controller.getAddress(), pairs);
       await deadcat.approve(await controller.getAddress(), pairs);
 
       await expect(
@@ -493,9 +493,9 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should work without approval (controller can burn directly)", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+      const { catbox, livecat, deadcat, controller, owner } = await setupWithObservedTokens();
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
       
       const pairs = aliveBal < deadBal ? aliveBal : deadBal;
@@ -510,14 +510,14 @@ describe("QuantumCat ERC-20 System", function () {
       await controller.rebox(pairs);
       
       // Should have minted QCAT
-      const qcatBal = await qcat.balanceOf(owner.address);
-      expect(qcatBal).to.be.gt(0);
+      const catboxBal = await catbox.balanceOf(owner.address);
+      expect(catboxBal).to.be.gt(0);
     });
 
     it("Should reboxMax all available pairs", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+      const { catbox, livecat, deadcat, controller, owner } = await setupWithObservedTokens();
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
       
       if (aliveBal === 0n || deadBal === 0n) {
@@ -525,7 +525,7 @@ describe("QuantumCat ERC-20 System", function () {
         return;
       }
 
-      const qcatBefore = await qcat.balanceOf(owner.address);
+      const catboxBefore = await catbox.balanceOf(owner.address);
       
       // Use staticCall to get the return value without executing
       const pairs = await controller.reboxMax.staticCall(0); // 0 = no cap
@@ -535,14 +535,14 @@ describe("QuantumCat ERC-20 System", function () {
       await controller.reboxMax(0);
       
       // Should have minted QCAT
-      const qcatAfter = await qcat.balanceOf(owner.address);
-      expect(qcatAfter).to.be.gt(qcatBefore);
+      const catboxAfter = await catbox.balanceOf(owner.address);
+      expect(catboxAfter).to.be.gt(catboxBefore);
     });
 
     it("Should reboxMax with cap parameter", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await setupWithObservedTokens();
+      const { catbox, livecat, deadcat, controller, owner } = await setupWithObservedTokens();
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
       
       if (aliveBal < ethers.parseEther("5") || deadBal < ethers.parseEther("5")) {
@@ -565,37 +565,37 @@ describe("QuantumCat ERC-20 System", function () {
 
   describe("Multiple Users", function () {
     it("Should handle observations from different users independently", async function () {
-      const { qcat, alivecat, deadcat, controller, owner, user1, user2 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner, user1, user2 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       // Transfer QCAT to users
-      await qcat.transfer(user1.address, ethers.parseEther("1000"));
-      await qcat.transfer(user2.address, ethers.parseEther("1000"));
+      await catbox.transfer(user1.address, ethers.parseEther("1000"));
+      await catbox.transfer(user2.address, ethers.parseEther("1000"));
 
       // User1 commits
       const amount1 = ethers.parseEther("100");
       const data1 = ethers.toUtf8Bytes("user1_data");
       const dataHash1 = ethers.keccak256(data1);
-      await qcat.connect(user1).approve(await controller.getAddress(), amount1);
+      await catbox.connect(user1).approve(await controller.getAddress(), amount1);
       await controller.connect(user1).commitObserve(amount1, dataHash1, DEFAULT_ENTROPY);
 
       // User2 commits
       const amount2 = ethers.parseEther("200");
       const data2 = ethers.toUtf8Bytes("user2_data");
       const dataHash2 = ethers.keccak256(data2);
-      await qcat.connect(user2).approve(await controller.getAddress(), amount2);
+      await catbox.connect(user2).approve(await controller.getAddress(), amount2);
       await controller.connect(user2).commitObserve(amount2, dataHash2, generateEntropy("user2"));
 
       await mine(5);
 
       // User1 observes
       await controller.connect(user1).observe(data1);
-      const user1Alive = await alivecat.balanceOf(user1.address);
+      const user1Alive = await livecat.balanceOf(user1.address);
       const user1Dead = await deadcat.balanceOf(user1.address);
       expect(user1Alive + user1Dead).to.equal(amount1);
 
       // User2 observes
       await controller.connect(user2).observe(data2);
-      const user2Alive = await alivecat.balanceOf(user2.address);
+      const user2Alive = await livecat.balanceOf(user2.address);
       const user2Dead = await deadcat.balanceOf(user2.address);
       expect(user2Alive + user2Dead).to.equal(amount2);
     });
@@ -603,80 +603,80 @@ describe("QuantumCat ERC-20 System", function () {
 
   describe("ERC-20 Standard Compliance", function () {
     it("Should allow transfer of QCAT", async function () {
-      const { qcat, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
-      await qcat.transfer(user1.address, amount);
+      await catbox.transfer(user1.address, amount);
 
-      expect(await qcat.balanceOf(user1.address)).to.equal(amount);
+      expect(await catbox.balanceOf(user1.address)).to.equal(amount);
     });
 
     it("Should allow approve and transferFrom", async function () {
-      const { qcat, owner, user1, user2 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, owner, user1, user2 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
-      await qcat.approve(user1.address, amount);
+      await catbox.approve(user1.address, amount);
 
-      await qcat.connect(user1).transferFrom(owner.address, user2.address, amount);
+      await catbox.connect(user1).transferFrom(owner.address, user2.address, amount);
 
-      expect(await qcat.balanceOf(user2.address)).to.equal(amount);
+      expect(await catbox.balanceOf(user2.address)).to.equal(amount);
     });
 
     it("Should emit Transfer events", async function () {
-      const { qcat, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
 
-      await expect(qcat.transfer(user1.address, amount))
-        .to.emit(qcat, "Transfer")
+      await expect(catbox.transfer(user1.address, amount))
+        .to.emit(catbox, "Transfer")
         .withArgs(owner.address, user1.address, amount);
     });
 
     it("Should allow trading ALIVECAT after observation", async function () {
-      const { qcat, alivecat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       // Observe to get ALIVECAT or DEADCAT
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
       await controller.observe(data);
 
       // If we got ALIVECAT, transfer it
-      const aliveBalance = await alivecat.balanceOf(owner.address);
+      const aliveBalance = await livecat.balanceOf(owner.address);
       if (aliveBalance > 0n) {
-        await alivecat.transfer(user1.address, ethers.parseEther("10"));
-        expect(await alivecat.balanceOf(user1.address)).to.equal(ethers.parseEther("10"));
+        await livecat.transfer(user1.address, ethers.parseEther("10"));
+        expect(await livecat.balanceOf(user1.address)).to.equal(ethers.parseEther("10"));
       }
     });
   });
 
   describe("Access Control", function () {
     it("Should prevent non-controller from minting QCAT", async function () {
-      const { qcat, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       await expect(
-        qcat.connect(user1).mint(user1.address, ethers.parseEther("100"))
-      ).to.be.revertedWithCustomError(qcat, "OnlyController");
+        catbox.connect(user1).mint(user1.address, ethers.parseEther("100"))
+      ).to.be.revertedWithCustomError(catbox, "OnlyController");
     });
 
     it("Should prevent non-controller from burning QCAT", async function () {
-      const { qcat, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       await expect(
-        qcat.connect(user1).burn(owner.address, ethers.parseEther("100"))
-      ).to.be.revertedWithCustomError(qcat, "OnlyController");
+        catbox.connect(user1).burn(owner.address, ethers.parseEther("100"))
+      ).to.be.revertedWithCustomError(catbox, "OnlyController");
     });
 
     it("Should prevent non-controller from minting ALIVECAT", async function () {
-      const { alivecat, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { livecat, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       await expect(
-        alivecat.connect(user1).mint(user1.address, ethers.parseEther("100"))
-      ).to.be.revertedWithCustomError(alivecat, "OnlyController");
+        livecat.connect(user1).mint(user1.address, ethers.parseEther("100"))
+      ).to.be.revertedWithCustomError(livecat, "OnlyController");
     });
 
     it("Should prevent non-controller from minting DEADCAT", async function () {
@@ -690,13 +690,13 @@ describe("QuantumCat ERC-20 System", function () {
 
   describe("Edge Cases", function () {
     it("Should handle very large amounts", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const largeAmount = ethers.parseEther("100000");
       const data = ethers.toUtf8Bytes("large_test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), largeAmount);
+      await catbox.approve(await controller.getAddress(), largeAmount);
       await controller.commitObserve(largeAmount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
       await controller.observe(data);
@@ -705,13 +705,13 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should handle very small amounts", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const smallAmount = 1n; // 1 wei
       const data = ethers.toUtf8Bytes("small_test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), smallAmount);
+      await catbox.approve(await controller.getAddress(), smallAmount);
       await controller.commitObserve(smallAmount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
       await controller.observe(data);
@@ -720,7 +720,7 @@ describe("QuantumCat ERC-20 System", function () {
     });
 
     it("Should handle maximum data length", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const maxData = new Uint8Array(256); // Exactly DATA_MAX
@@ -729,7 +729,7 @@ describe("QuantumCat ERC-20 System", function () {
       }
       const dataHash = ethers.keccak256(maxData);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
       await controller.observe(maxData);

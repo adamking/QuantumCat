@@ -15,54 +15,54 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
       nonce: deployerNonce + 3
     });
 
-    const QCATToken = await ethers.getContractFactory("QCATToken");
-    const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
+    const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
+    const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
     const DEADCATToken = await ethers.getContractFactory("DEADCATToken");
 
-    const qcat = await QCATToken.deploy(
+    const catbox = await CATBOXToken.deploy(
       controllerAddress,
       owner.address,
       ethers.parseEther("1000000")
     );
-    const alivecat = await ALIVECATToken.deploy(controllerAddress);
+    const livecat = await LIVECATToken.deploy(controllerAddress);
     const deadcat = await DEADCATToken.deploy(controllerAddress);
 
     const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
     const controller = await QuantumCatController.deploy(
-      await qcat.getAddress(),
-      await alivecat.getAddress(),
+      await catbox.getAddress(),
+      await livecat.getAddress(),
       await deadcat.getAddress(),
       500
     );
 
-    return { qcat, alivecat, deadcat, controller, owner, user1, user2 };
+    return { catbox, livecat, deadcat, controller, owner, user1, user2 };
   }
 
   describe("Constructor Validation Tests", function () {
-    it("Should revert QCATToken deployment with zero controller address", async function () {
+    it("Should revert CATBOXToken deployment with zero controller address", async function () {
       const [owner] = await ethers.getSigners();
-      const QCATToken = await ethers.getContractFactory("QCATToken");
+      const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
 
       await expect(
-        QCATToken.deploy(ethers.ZeroAddress, owner.address, ethers.parseEther("1000000"))
-      ).to.be.revertedWithCustomError(QCATToken, "ZeroAddress");
+        CATBOXToken.deploy(ethers.ZeroAddress, owner.address, ethers.parseEther("1000000"))
+      ).to.be.revertedWithCustomError(CATBOXToken, "ZeroAddress");
     });
 
-    it("Should revert QCATToken deployment with zero initial holder address", async function () {
+    it("Should revert CATBOXToken deployment with zero initial holder address", async function () {
       const [owner] = await ethers.getSigners();
-      const QCATToken = await ethers.getContractFactory("QCATToken");
+      const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
 
       await expect(
-        QCATToken.deploy(owner.address, ethers.ZeroAddress, ethers.parseEther("1000000"))
-      ).to.be.revertedWithCustomError(QCATToken, "ZeroAddress");
+        CATBOXToken.deploy(owner.address, ethers.ZeroAddress, ethers.parseEther("1000000"))
+      ).to.be.revertedWithCustomError(CATBOXToken, "ZeroAddress");
     });
 
-    it("Should revert ALIVECATToken deployment with zero controller address", async function () {
-      const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
+    it("Should revert LIVECATToken deployment with zero controller address", async function () {
+      const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
 
       await expect(
-        ALIVECATToken.deploy(ethers.ZeroAddress)
-      ).to.be.revertedWithCustomError(ALIVECATToken, "ZeroAddress");
+        LIVECATToken.deploy(ethers.ZeroAddress)
+      ).to.be.revertedWithCustomError(LIVECATToken, "ZeroAddress");
     });
 
     it("Should revert DEADCATToken deployment with zero controller address", async function () {
@@ -81,10 +81,10 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         nonce: deployerNonce + 2
       });
 
-      const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
+      const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
       const DEADCATToken = await ethers.getContractFactory("DEADCATToken");
 
-      const alivecat = await ALIVECATToken.deploy(controllerAddress);
+      const livecat = await LIVECATToken.deploy(controllerAddress);
       const deadcat = await DEADCATToken.deploy(controllerAddress);
 
       const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
@@ -92,7 +92,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
       await expect(
         QuantumCatController.deploy(
           ethers.ZeroAddress,
-          await alivecat.getAddress(),
+          await livecat.getAddress(),
           await deadcat.getAddress(),
           500
         )
@@ -107,17 +107,17 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         nonce: deployerNonce + 2
       });
 
-      const QCATToken = await ethers.getContractFactory("QCATToken");
+      const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
       const DEADCATToken = await ethers.getContractFactory("DEADCATToken");
 
-      const qcat = await QCATToken.deploy(controllerAddress, owner.address, ethers.parseEther("1000000"));
+      const catbox = await CATBOXToken.deploy(controllerAddress, owner.address, ethers.parseEther("1000000"));
       const deadcat = await DEADCATToken.deploy(controllerAddress);
 
       const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
 
       await expect(
         QuantumCatController.deploy(
-          await qcat.getAddress(),
+          await catbox.getAddress(),
           ethers.ZeroAddress,
           await deadcat.getAddress(),
           500
@@ -133,18 +133,18 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         nonce: deployerNonce + 2
       });
 
-      const QCATToken = await ethers.getContractFactory("QCATToken");
-      const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
+      const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
+      const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
 
-      const qcat = await QCATToken.deploy(controllerAddress, owner.address, ethers.parseEther("1000000"));
-      const alivecat = await ALIVECATToken.deploy(controllerAddress);
+      const catbox = await CATBOXToken.deploy(controllerAddress, owner.address, ethers.parseEther("1000000"));
+      const livecat = await LIVECATToken.deploy(controllerAddress);
 
       const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
 
       await expect(
         QuantumCatController.deploy(
-          await qcat.getAddress(),
-          await alivecat.getAddress(),
+          await catbox.getAddress(),
+          await livecat.getAddress(),
           ethers.ZeroAddress,
           500
         )
@@ -190,12 +190,12 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
 
   describe("Event Emission Tests", function () {
     it("Should emit CommitObserve event with correct parameters", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
 
       const tx = await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       const receipt = await tx.wait();
@@ -207,13 +207,13 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should emit Observed event with correct parameters", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
 
@@ -224,12 +224,12 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should emit Forced event with correct parameters", async function () {
-      const { qcat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("test"));
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(69);
 
@@ -240,7 +240,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should emit Reboxed event with correct parameters", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       // First observe to get tokens
       for (let i = 0; i < 10; i++) {
@@ -249,24 +249,24 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`rebox_event_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
 
-        const aliveBal = await alivecat.balanceOf(owner.address);
+        const aliveBal = await livecat.balanceOf(owner.address);
         const deadBal = await deadcat.balanceOf(owner.address);
         if (aliveBal > 0n && deadBal > 0n) {
           break;
         }
       }
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
       
       if (aliveBal > 0n && deadBal > 0n) {
         const pairs = ethers.parseEther("10");
-        await alivecat.approve(await controller.getAddress(), pairs);
+        await livecat.approve(await controller.getAddress(), pairs);
         await deadcat.approve(await controller.getAddress(), pairs);
 
         const tx = await controller.rebox(pairs);
@@ -277,13 +277,13 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should emit ERC20 Transfer events on observe", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
 
@@ -293,7 +293,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
       // Should emit Transfer event for either ALIVECAT or DEADCAT
       const transfers = receipt.logs.filter(log => {
         try {
-          const parsed = alivecat.interface.parseLog(log) || deadcat.interface.parseLog(log);
+          const parsed = livecat.interface.parseLog(log) || deadcat.interface.parseLog(log);
           return parsed && parsed.name === "Transfer";
         } catch {
           return false;
@@ -304,7 +304,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should emit ERC20 Transfer events on rebox", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       // First observe to get tokens
       for (let i = 0; i < 10; i++) {
@@ -313,52 +313,52 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`rebox_transfer_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
 
-        const aliveBal = await alivecat.balanceOf(owner.address);
+        const aliveBal = await livecat.balanceOf(owner.address);
         const deadBal = await deadcat.balanceOf(owner.address);
         if (aliveBal > 0n && deadBal > 0n) {
           break;
         }
       }
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
       
       if (aliveBal > 0n && deadBal > 0n) {
         const pairs = ethers.parseEther("10");
-        await alivecat.approve(await controller.getAddress(), pairs);
+        await livecat.approve(await controller.getAddress(), pairs);
         await deadcat.approve(await controller.getAddress(), pairs);
 
         const tx = await controller.rebox(pairs);
         
         // Should emit burn events for ALIVECAT and DEADCAT, mint event for QCAT
         await expect(tx)
-          .to.emit(alivecat, "Transfer")
+          .to.emit(livecat, "Transfer")
           .and.to.emit(deadcat, "Transfer")
-          .and.to.emit(qcat, "Transfer");
+          .and.to.emit(catbox, "Transfer");
       }
     });
   });
 
   describe("Edge Cases and Branch Coverage", function () {
     it("Should handle commit when user has exactly the required balance", async function () {
-      const { qcat, controller, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const exactAmount = ethers.parseEther("50");
-      await qcat.transfer(user1.address, exactAmount);
+      await catbox.transfer(user1.address, exactAmount);
 
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("exact_balance"));
 
-      await qcat.connect(user1).approve(await controller.getAddress(), exactAmount);
+      await catbox.connect(user1).approve(await controller.getAddress(), exactAmount);
       await expect(
         controller.connect(user1).commitObserve(exactAmount, dataHash, DEFAULT_ENTROPY)
       ).to.emit(controller, "CommitObserve");
 
-      expect(await qcat.balanceOf(user1.address)).to.equal(0);
+      expect(await catbox.balanceOf(user1.address)).to.equal(0);
     });
 
     it("Should handle rebox with very small fee (0 BPS)", async function () {
@@ -369,18 +369,18 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         nonce: deployerNonce + 3
       });
 
-      const QCATToken = await ethers.getContractFactory("QCATToken");
-      const ALIVECATToken = await ethers.getContractFactory("ALIVECATToken");
+      const CATBOXToken = await ethers.getContractFactory("CATBOXToken");
+      const LIVECATToken = await ethers.getContractFactory("LIVECATToken");
       const DEADCATToken = await ethers.getContractFactory("DEADCATToken");
 
-      const qcat = await QCATToken.deploy(controllerAddress, owner.address, ethers.parseEther("1000000"));
-      const alivecat = await ALIVECATToken.deploy(controllerAddress);
+      const catbox = await CATBOXToken.deploy(controllerAddress, owner.address, ethers.parseEther("1000000"));
+      const livecat = await LIVECATToken.deploy(controllerAddress);
       const deadcat = await DEADCATToken.deploy(controllerAddress);
 
       const QuantumCatController = await ethers.getContractFactory("QuantumCatController");
       const controller = await QuantumCatController.deploy(
-        await qcat.getAddress(),
-        await alivecat.getAddress(),
+        await catbox.getAddress(),
+        await livecat.getAddress(),
         await deadcat.getAddress(),
         0 // 0% fee
       );
@@ -392,44 +392,44 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`zero_fee_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
 
-        const aliveBal = await alivecat.balanceOf(owner.address);
+        const aliveBal = await livecat.balanceOf(owner.address);
         const deadBal = await deadcat.balanceOf(owner.address);
         if (aliveBal > 0n && deadBal > 0n) {
           break;
         }
       }
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
 
       if (aliveBal > 0n && deadBal > 0n) {
         const pairs = ethers.parseEther("10");
-        const qcatBefore = await qcat.balanceOf(owner.address);
+        const catboxBefore = await catbox.balanceOf(owner.address);
 
-        await alivecat.approve(await controller.getAddress(), pairs);
+        await livecat.approve(await controller.getAddress(), pairs);
         await deadcat.approve(await controller.getAddress(), pairs);
         await controller.rebox(pairs);
 
-        const qcatAfter = await qcat.balanceOf(owner.address);
+        const catboxAfter = await catbox.balanceOf(owner.address);
         
         // With 0% fee, should get back exactly 2 * pairs
-        expect(qcatAfter - qcatBefore).to.equal(pairs * 2n);
+        expect(catboxAfter - catboxBefore).to.equal(pairs * 2n);
       }
     });
 
     it("Should handle observe when block.number is exactly at boundary", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("boundary_test");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       const tx = await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       const receipt = await tx.wait();
       const commitBlock = receipt.blockNumber;
@@ -471,12 +471,12 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should handle forceObserve at exact boundary", async function () {
-      const { qcat, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner, user1 } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("force_boundary"));
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       const tx = await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       const receipt = await tx.wait();
       const commitBlock = receipt.blockNumber;
@@ -486,7 +486,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should handle reboxMax when user has unequal balances", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       // Perform observations to get tokens
       for (let i = 0; i < 20; i++) {
@@ -495,20 +495,20 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`unequal_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
       }
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
 
       if (aliveBal > 0n && deadBal > 0n && aliveBal !== deadBal) {
         // reboxMax should only rebox the minimum of the two
         const expectedPairs = aliveBal < deadBal ? aliveBal : deadBal;
 
-        await alivecat.approve(await controller.getAddress(), ethers.MaxUint256);
+        await livecat.approve(await controller.getAddress(), ethers.MaxUint256);
         await deadcat.approve(await controller.getAddress(), ethers.MaxUint256);
 
         const actualPairs = await controller.reboxMax.staticCall(0);
@@ -549,18 +549,18 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should handle observe when either alive or dead is zero (binary outcome)", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("100");
       const data = ethers.toUtf8Bytes("binary_outcome");
       const dataHash = ethers.keccak256(data);
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       await controller.commitObserve(amount, dataHash, DEFAULT_ENTROPY);
       await mine(5);
       await controller.observe(data);
 
-      const aliveBalance = await alivecat.balanceOf(owner.address);
+      const aliveBalance = await livecat.balanceOf(owner.address);
       const deadBalance = await deadcat.balanceOf(owner.address);
 
       // Verify binary outcome: one must be zero, the other must be amount
@@ -570,7 +570,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
     });
 
     it("Should verify unchecked blocks in _executeRebox don't overflow", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       // Perform observations to get tokens
       for (let i = 0; i < 10; i++) {
@@ -579,56 +579,56 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`unchecked_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
 
-        const aliveBal = await alivecat.balanceOf(owner.address);
+        const aliveBal = await livecat.balanceOf(owner.address);
         const deadBal = await deadcat.balanceOf(owner.address);
         if (aliveBal > 0n && deadBal > 0n) {
           break;
         }
       }
 
-      const aliveBal = await alivecat.balanceOf(owner.address);
+      const aliveBal = await livecat.balanceOf(owner.address);
       const deadBal = await deadcat.balanceOf(owner.address);
 
       if (aliveBal > 0n && deadBal > 0n) {
         const pairs = ethers.parseEther("10");
-        const qcatBefore = await qcat.balanceOf(owner.address);
+        const catboxBefore = await catbox.balanceOf(owner.address);
 
-        await alivecat.approve(await controller.getAddress(), pairs);
+        await livecat.approve(await controller.getAddress(), pairs);
         await deadcat.approve(await controller.getAddress(), pairs);
         await controller.rebox(pairs);
 
-        const qcatAfter = await qcat.balanceOf(owner.address);
+        const catboxAfter = await catbox.balanceOf(owner.address);
         const expectedGain = (pairs * 2n * 9500n) / 10000n; // 5% fee
 
-        expect(qcatAfter - qcatBefore).to.equal(expectedGain);
+        expect(catboxAfter - catboxBefore).to.equal(expectedGain);
       }
     });
   });
 
   describe("Token Decimals Tests", function () {
     it("Should have 18 decimals for all tokens", async function () {
-      const { qcat, alivecat, deadcat } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat } = await loadFixture(deployQuantumCatERC20Fixture);
 
-      expect(await qcat.decimals()).to.equal(18);
-      expect(await alivecat.decimals()).to.equal(18);
+      expect(await catbox.decimals()).to.equal(18);
+      expect(await livecat.decimals()).to.equal(18);
       expect(await deadcat.decimals()).to.equal(18);
     });
   });
 
   describe("Pending Storage Tests", function () {
     it("Should correctly store and retrieve pending observation data", async function () {
-      const { qcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       const amount = ethers.parseEther("123.456");
       const dataHash = ethers.keccak256(ethers.toUtf8Bytes("storage_test"));
       const entropy = generateEntropy("storage_test");
 
-      await qcat.approve(await controller.getAddress(), amount);
+      await catbox.approve(await controller.getAddress(), amount);
       const tx = await controller.commitObserve(amount, dataHash, entropy);
       const receipt = await tx.wait();
 
@@ -644,7 +644,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
 
   describe("Multiple Sequential Observations", function () {
     it("Should allow user to perform multiple observations sequentially", async function () {
-      const { qcat, alivecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
+      const { catbox, livecat, deadcat, controller, owner } = await loadFixture(deployQuantumCatERC20Fixture);
 
       for (let i = 0; i < 3; i++) {
         const amount = ethers.parseEther("50");
@@ -652,7 +652,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
         const dataHash = ethers.keccak256(data);
         const entropy = generateEntropy(`sequential_${i}`);
 
-        await qcat.approve(await controller.getAddress(), amount);
+        await catbox.approve(await controller.getAddress(), amount);
         await controller.commitObserve(amount, dataHash, entropy);
         await mine(5);
         await controller.observe(data);
@@ -663,7 +663,7 @@ describe("QuantumCat ERC-20 System - Comprehensive Coverage Tests", function () 
       }
 
       // Should have received total tokens equal to total observed
-      const totalAlive = await alivecat.balanceOf(owner.address);
+      const totalAlive = await livecat.balanceOf(owner.address);
       const totalDead = await deadcat.balanceOf(owner.address);
       expect(totalAlive + totalDead).to.equal(ethers.parseEther("150"));
     });

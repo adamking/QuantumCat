@@ -4,7 +4,7 @@ import type { Signer } from 'ethers';
 import { CONTRACTS, ABIS, isContractsDeployed } from '@/lib/blockchain-config';
 
 interface TokenBalances {
-  qcat: number;
+  catbox: number;
   alive: number;
   dead: number;
 }
@@ -26,19 +26,19 @@ export function useBlockchain() {
     isDemoMode: false,
     userAddress: null,
     balances: {
-      qcat: 0,
+      catbox: 0,
       alive: 0,
       dead: 0
     }
   });
 
   const [contracts, setContracts] = useState<{
-    qcat: Contract | null;
+    catbox: Contract | null;
     alive: Contract | null;
     dead: Contract | null;
     controller: Contract | null;
   }>({
-    qcat: null,
+    catbox: null,
     alive: null,
     dead: null,
     controller: null
@@ -52,7 +52,7 @@ export function useBlockchain() {
         isDemoMode: true,
         isConnected: true,
         balances: {
-          qcat: 10,
+          catbox: 10,
           alive: 5,
           dead: 3
         }
@@ -69,13 +69,13 @@ export function useBlockchain() {
         return;
       }
 
-      const qcatContract = new Contract(CONTRACTS.QCAT, ABIS.ERC20, signer);
-      const aliveContract = new Contract(CONTRACTS.ALIVECAT, ABIS.ERC20, signer);
+      const catboxContract = new Contract(CONTRACTS.CATBOX, ABIS.ERC20, signer);
+      const aliveContract = new Contract(CONTRACTS.LIVECAT, ABIS.ERC20, signer);
       const deadContract = new Contract(CONTRACTS.DEADCAT, ABIS.ERC20, signer);
       const controllerContract = new Contract(CONTRACTS.CONTROLLER, ABIS.CONTROLLER, signer);
 
       setContracts({
-        qcat: qcatContract,
+        catbox: catboxContract,
         alive: aliveContract,
         dead: deadContract,
         controller: controllerContract
@@ -126,19 +126,19 @@ export function useBlockchain() {
         return;
       }
 
-      const { qcat, alive, dead } = contracts;
-      if (!qcat || !alive || !dead || !state.userAddress) {
+      const { catbox, alive, dead } = contracts;
+      if (!catbox || !alive || !dead || !state.userAddress) {
         return;
       }
 
-      const qcatBalance = await qcat.balanceOf!(state.userAddress);
+      const catboxBalance = await catbox.balanceOf!(state.userAddress);
       const aliveBalance = await alive.balanceOf!(state.userAddress);
       const deadBalance = await dead.balanceOf!(state.userAddress);
 
       setState(prev => ({
         ...prev,
         balances: {
-          qcat: parseFloat(ethers.formatEther(qcatBalance)),
+          catbox: parseFloat(ethers.formatEther(catboxBalance)),
           alive: parseFloat(ethers.formatEther(aliveBalance)),
           dead: parseFloat(ethers.formatEther(deadBalance))
         }
@@ -160,7 +160,7 @@ export function useBlockchain() {
             setState(prev => ({
               ...prev,
               balances: {
-                qcat: prev.balances.qcat - 1,
+                catbox: prev.balances.catbox - 1,
                 alive: prev.balances.alive + (isAlive ? 1 : 0),
                 dead: prev.balances.dead + (isAlive ? 0 : 1)
               }
@@ -170,22 +170,22 @@ export function useBlockchain() {
         });
       }
 
-      const { qcat, controller } = contracts;
-      if (!qcat || !controller) {
+      const { catbox, controller } = contracts;
+      if (!catbox || !controller) {
         throw new Error('Contracts not initialized');
       }
 
       const amount = ethers.parseEther('1');
 
       // Check allowance
-      const allowance = await qcat.allowance!(
+      const allowance = await catbox.allowance!(
         state.userAddress!,
         CONTRACTS.CONTROLLER
       );
 
       // Approve if needed
       if (allowance < amount) {
-        const approveTx = await qcat.approve!(
+        const approveTx = await catbox.approve!(
           CONTRACTS.CONTROLLER,
           ethers.MaxUint256
         );
@@ -227,7 +227,7 @@ export function useBlockchain() {
             setState(prev => ({
               ...prev,
               balances: {
-                qcat: prev.balances.qcat + 1,
+                catbox: prev.balances.catbox + 1,
                 alive: prev.balances.alive - 1,
                 dead: prev.balances.dead - 1
               }
@@ -271,7 +271,7 @@ export function useBlockchain() {
       }
 
       // Rebox (using pairs array - [aliveAmount, deadAmount])
-      const pairs = [amount, amount]; // 1 ALIVE + 1 DEAD = 1 QCAT
+      const pairs = [amount, amount]; // 1 ALIVE + 1 DEAD = 1 CATBOX
       const tx = await controller.rebox!(pairs);
       await tx.wait();
     } catch (error) {

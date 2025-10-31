@@ -5,18 +5,18 @@ pragma solidity ^0.8.30;
  * QUANTUM CAT CONTROLLER - ERC-20 Architecture (Exchange-Compatible)
  *
  * Three separate ERC-20 tokens:
- *  - QCAT (superposed state)
- *  - ALIVECAT (observed alive)
+ *  - CATBOX (superposed state)
+ *  - LIVECAT (observed alive)
  *  - DEADCAT (observed dead)
  *
  * Observe:
- *  - commitObserve(amount, dataHash, userEntropy) burns QCAT, records commitment
- *  - observe(data) after DELAY mints EITHER all ALIVECAT OR all DEADCAT (50/50 random)
+ *  - commitObserve(amount, dataHash, userEntropy) burns CATBOX, records commitment
+ *  - observe(data) after DELAY mints EITHER all LIVECAT OR all DEADCAT (50/50 random)
  *  - forceObserve(owner) finalizes after GRACE if owner disappears
  *
  * Rebox (fee-only sink):
- *  - Burn equal ALIVECAT + DEADCAT pairs; mint (2*pairs − feeTokens) QCAT
- *  - Requires equal amounts: you need 1 ALIVECAT + 1 DEADCAT to make 1 QCAT (minus fee)
+ *  - Burn equal LIVECAT + DEADCAT pairs; mint (2*pairs − feeTokens) CATBOX
+ *  - Requires equal amounts: you need 1 LIVECAT + 1 DEADCAT to make 1 CATBOX (minus fee)
  *
  * Security:
  *  - High Entropy RNG: block.timestamp, prevrandao, blockhash, tx.gasprice, tx.origin, msg.sender, gasleft(), userEntropy, contract balance, chainid
@@ -25,8 +25,8 @@ pragma solidity ^0.8.30;
  */
 
 import "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
-import "./QCATToken.sol";
-import "./ALIVECATToken.sol";
+import "./CATBOXToken.sol";
+import "./LIVECATToken.sol";
 import "./DEADCATToken.sol";
 
 /// @title QuantumCatController - Controls the quantum observation mechanics
@@ -70,11 +70,11 @@ contract QuantumCatController is ReentrancyGuard {
 
     // --- Token References ---
 
-    /// @notice QCAT token (superposed)
-    QCATToken public immutable qcat;
+    /// @notice CATBOX token (superposed)
+    CATBOXToken public immutable catbox;
 
-    /// @notice ALIVECAT token (observed alive)
-    ALIVECATToken public immutable alivecat;
+    /// @notice LIVECAT token (observed alive)
+    LIVECATToken public immutable livecat;
 
     /// @notice DEADCAT token (observed dead)
     DEADCATToken public immutable deadcat;
@@ -86,7 +86,7 @@ contract QuantumCatController is ReentrancyGuard {
         bool active;          // Whether observation is active
         bytes32 dataHash;     // Committed data hash
         bytes32 userEntropy;  // User-provided entropy
-        uint256 amount;       // Amount of QCAT escrowed
+        uint256 amount;       // Amount of CATBOX escrowed
     }
 
     mapping(address => Pending) public pending;
@@ -96,26 +96,26 @@ contract QuantumCatController is ReentrancyGuard {
     event CommitObserve(address indexed owner, uint256 amount, bytes32 dataHash, uint64 refBlock);
     event Observed(address indexed owner, uint256 alive, uint256 dead);
     event Forced(address indexed owner, uint256 alive, uint256 dead);
-    event Reboxed(address indexed user, uint256 indexed pairs, uint256 qcatMinted, uint256 feeTokens);
+    event Reboxed(address indexed user, uint256 indexed pairs, uint256 catboxMinted, uint256 feeTokens);
 
     /// @notice Constructor for immutable controller deployment
-    /// @param _qcat Address of QCAT token contract
-    /// @param _alivecat Address of ALIVECAT token contract
+    /// @param _catbox Address of CATBOX token contract
+    /// @param _livecat Address of LIVECAT token contract
     /// @param _deadcat Address of DEADCAT token contract
     /// @param feeBps Rebox fee in basis points (0-10000, immutable)
     constructor(
-        address _qcat,
-        address _alivecat,
+        address _catbox,
+        address _livecat,
         address _deadcat,
         uint96 feeBps
     ) {
-        if (_qcat == address(0)) revert ZeroAddress();
-        if (_alivecat == address(0)) revert ZeroAddress();
+        if (_catbox == address(0)) revert ZeroAddress();
+        if (_livecat == address(0)) revert ZeroAddress();
         if (_deadcat == address(0)) revert ZeroAddress();
         if (feeBps > _MAX_BPS) revert FeeExceedsMaximum();
 
-        qcat = QCATToken(_qcat);
-        alivecat = ALIVECATToken(_alivecat);
+        catbox = CATBOXToken(_catbox);
+        livecat = LIVECATToken(_livecat);
         deadcat = DEADCATToken(_deadcat);
         REBOX_FEE_BPS = feeBps;
     }
@@ -126,8 +126,8 @@ contract QuantumCatController is ReentrancyGuard {
 
     // ========= OBSERVE =========
 
-    /// @notice Burn QCAT now and commit to observing with future reveal data
-    /// @param amount Amount of QCAT tokens to escrow (must be > 0)
+    /// @notice Burn CATBOX now and commit to observing with future reveal data
+    /// @param amount Amount of CATBOX tokens to escrow (must be > 0)
     /// @param dataHash keccak256 hash of the data you'll reveal later
     /// @param userEntropy User-provided 32 bytes of entropy (must be non-zero)
     function commitObserve(uint256 amount, bytes32 dataHash, bytes32 userEntropy)
@@ -137,10 +137,10 @@ contract QuantumCatController is ReentrancyGuard {
         if (pending[msg.sender].active) revert PendingObservationExists();
         if (amount == 0) revert InvalidAmount();
         if (userEntropy == bytes32(0)) revert ZeroEntropy();
-        if (qcat.balanceOf(msg.sender) < amount) revert InsufficientBalance();
+        if (catbox.balanceOf(msg.sender) < amount) revert InsufficientBalance();
 
-        // Burn QCAT (escrow by burn)
-        qcat.burn(msg.sender, amount);
+        // Burn CATBOX (escrow by burn)
+        catbox.burn(msg.sender, amount);
 
         pending[msg.sender] = Pending({
             refBlock: uint64(block.number),
@@ -174,8 +174,8 @@ contract QuantumCatController is ReentrancyGuard {
 
         emit Observed(msg.sender, alive, dead);
         
-        // Mint ALIVECAT and DEADCAT
-        if (alive > 0) alivecat.mint(msg.sender, alive);
+        // Mint LIVECAT and DEADCAT
+        if (alive > 0) livecat.mint(msg.sender, alive);
         if (dead > 0) deadcat.mint(msg.sender, dead);
     }
 
@@ -198,14 +198,14 @@ contract QuantumCatController is ReentrancyGuard {
 
         emit Forced(owner, alive, dead);
         
-        // Mint ALIVECAT and DEADCAT to the owner
-        if (alive > 0) alivecat.mint(owner, alive);
+        // Mint LIVECAT and DEADCAT to the owner
+        if (alive > 0) livecat.mint(owner, alive);
         if (dead > 0) deadcat.mint(owner, dead);
     }
 
     // ========= REBOX =========
 
-    /// @notice Burn equal ALIVECAT & DEADCAT pairs and mint QCAT (minus fee)
+    /// @notice Burn equal LIVECAT & DEADCAT pairs and mint CATBOX (minus fee)
     /// @param pairs Number of pairs to rebox
     function rebox(uint256 pairs)
         external
@@ -213,7 +213,7 @@ contract QuantumCatController is ReentrancyGuard {
     {
         if (pairs == 0) revert NoPairsAvailable();
         if (pairs > type(uint256).max / 2) revert PairsOverflow();
-        if (alivecat.balanceOf(msg.sender) < pairs) revert InsufficientBalance();
+        if (livecat.balanceOf(msg.sender) < pairs) revert InsufficientBalance();
         if (deadcat.balanceOf(msg.sender) < pairs) revert InsufficientBalance();
 
         _executeRebox(pairs);
@@ -230,7 +230,7 @@ contract QuantumCatController is ReentrancyGuard {
         // Check cap overflow first
         if (capPairs > type(uint256).max / 2) revert PairsOverflow();
         
-        uint256 a = alivecat.balanceOf(msg.sender);
+        uint256 a = livecat.balanceOf(msg.sender);
         uint256 d = deadcat.balanceOf(msg.sender);
         pairs = a < d ? a : d;
         if (capPairs != 0 && pairs > capPairs) pairs = capPairs;
@@ -258,27 +258,27 @@ contract QuantumCatController is ReentrancyGuard {
         ready = p.active && block.number > p.refBlock + REVEAL_DELAY + GRACE;
     }
 
-    /// @notice Calculate QCAT output from reboxing a given number of pairs
+    /// @notice Calculate CATBOX output from reboxing a given number of pairs
     /// @param pairs Number of pairs to calculate for
-    /// @return qcatOut Amount of QCAT that would be minted
+    /// @return catboxOut Amount of CATBOX that would be minted
     /// @return feeTaken Amount taken as fee
     function calculateReboxOutput(uint256 pairs)
         external
         view
-        returns (uint256 qcatOut, uint256 feeTaken)
+        returns (uint256 catboxOut, uint256 feeTaken)
     {
         if (pairs > type(uint256).max / 2) revert PairsOverflow();
         uint256 base = 2 * pairs;
         feeTaken = (base * REBOX_FEE_BPS) / _MAX_BPS;
-        qcatOut = base - feeTaken;
+        catboxOut = base - feeTaken;
     }
 
     // ========= Internals =========
 
     /// @notice Execute rebox operation
     function _executeRebox(uint256 pairs) private {
-        // Burn ALIVECAT and DEADCAT
-        alivecat.burn(msg.sender, pairs);
+        // Burn LIVECAT and DEADCAT
+        livecat.burn(msg.sender, pairs);
         deadcat.burn(msg.sender, pairs);
 
         uint256 base;
@@ -292,8 +292,8 @@ contract QuantumCatController is ReentrancyGuard {
             mintAmt = base - feeTokens; // Safe: feeTokens <= base
         }
 
-        // Mint QCAT
-        qcat.mint(msg.sender, mintAmt);
+        // Mint CATBOX
+        catbox.mint(msg.sender, mintAmt);
         emit Reboxed(msg.sender, pairs, mintAmt, feeTokens);
     }
 
@@ -310,7 +310,7 @@ contract QuantumCatController is ReentrancyGuard {
         );
         
         bytes32 randomness = keccak256(
-            abi.encodePacked("QCAT_RANDOM_CHOICE_V2", mixedEntropy, amount)
+            abi.encodePacked("CATBOX_RANDOM_CHOICE_V2", mixedEntropy, amount)
         );
         
         // Use least significant bit to decide: 0 = dead, 1 = alive

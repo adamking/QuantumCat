@@ -2,8 +2,8 @@
 // Base Mainnet Chain ID: 8453
 // Base Sepolia Testnet Chain ID: 84532
 export const CONTRACTS = {
-  QCAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
-  ALIVECAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
+  CATBOX: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
+  LIVECAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
   DEADCAT: '0x0000000000000000000000000000000000000000', // Replace with deployed Base address
   CONTROLLER: '0x0000000000000000000000000000000000000000' // Replace with deployed Base address
 };
@@ -51,5 +51,5 @@ export const ABIS = {
 
 // Check if contracts are deployed
 export const isContractsDeployed = () => {
-  return CONTRACTS.QCAT !== '0x0000000000000000000000000000000000000000';
+  return CONTRACTS.CATBOX !== '0x0000000000000000000000000000000000000000';
 };

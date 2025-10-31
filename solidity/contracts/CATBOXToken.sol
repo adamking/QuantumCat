@@ -3,10 +3,10 @@ pragma solidity ^0.8.30;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-/// @title QCATToken - Superposed Quantum Cat Token
+/// @title CATBOXToken - Superposed Quantum Cat Token
 /// @notice ERC-20 token representing quantum cats in superposed state
 /// @dev Only the controller contract can mint/burn. Immutable after deployment.
-contract QCATToken is ERC20 {
+contract CATBOXToken is ERC20 {
     /// @notice Address of the controller contract (only address that can mint/burn)
     address public immutable controller;
 
@@ -22,7 +22,7 @@ contract QCATToken is ERC20 {
         _;
     }
 
-    /// @notice Initializes the QCAT token
+    /// @notice Initializes the CATBOX token
     /// @param _controller Address of the QuantumCatController contract
     /// @param initialHolder Address to receive initial supply
     /// @param initialSupply Initial token supply (with 18 decimals)
@@ -30,7 +30,7 @@ contract QCATToken is ERC20 {
         address _controller,
         address initialHolder,
         uint256 initialSupply
-    ) ERC20("QuantumCat", "QCAT") {
+    ) ERC20("CatBox", "CATBOX") {
         if (_controller == address(0)) revert ZeroAddress();
         if (initialHolder == address(0)) revert ZeroAddress();
         

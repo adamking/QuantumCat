@@ -16,14 +16,14 @@ Complete guide for deploying the QuantumCat three-token system to any EVM networ
 
 ### Testing (Testnet)
 ```bash
-# Deploy to Base Sepolia testnet
+# Deploy to Base L2 Sepolia testnet
 cd solidity
 npm run deploy:base-sepolia
 ```
 
 ### Production (Mainnet - IMMUTABLE!)
 ```bash
-# Deploy to Base mainnet with production settings
+# Deploy to Base L2 mainnet with production settings
 cd solidity
 npm run deploy:production
 ```
@@ -39,8 +39,8 @@ npm run deploy:production
 Single script handles both testing and production deployments.
 
 **What it deploys:**
-1. **QCAT Token** (ERC-20) - Initial supply: 662,607,015
-2. **ALIVECAT Token** (ERC-20) - Initial supply: 0
+1. **CATBOX Token** (ERC-20) - Initial supply: 662,607,015
+2. **LIVECAT Token** (ERC-20) - Initial supply: 0
 3. **DEADCAT Token** (ERC-20) - Initial supply: 0
 4. **QuantumCatController** - Manages observe & rebox mechanics
 
@@ -71,7 +71,7 @@ Single script handles both testing and production deployments.
 npm run deploy:base-sepolia
 
 # Deploy with custom parameters
-INITIAL_QCAT_SUPPLY=1000000 \
+INITIAL_CATBOX_SUPPLY=1000000 \
 REBOX_FEE_BPS=500 \
 npm run deploy:base-sepolia
 ```
@@ -80,7 +80,7 @@ npm run deploy:base-sepolia
 ```bash
 DEPLOYMENT_MODE=testing  # Optional, this is default
 INITIAL_HOLDER_ADDRESS=0x...  # Optional, defaults to deployer
-INITIAL_QCAT_SUPPLY=662607015  # Optional, in whole tokens
+INITIAL_CATBOX_SUPPLY=662607015  # Optional, in whole tokens
 REBOX_FEE_BPS=400  # Optional, 400 = 4%
 SKIP_CONFIRMATION=false  # Optional
 ```
@@ -106,10 +106,10 @@ DEPLOYMENT_MODE=production npm run deploy:production
 
 **Hardcoded Production Values:**
 ```javascript
-Initial Supply: 662,607,015 QCAT
+Initial Supply: 662,607,015 CATBOX
 Rebox Fee: 4% (400 basis points)
 Monthly Deflation: ~0.84% at 30% volume
-Network: Base L2 (recommended)
+Network: Base L2 (recommended) - Learn more: https://base.org/
 ```
 
 **Environment Variables:**
@@ -129,13 +129,13 @@ SKIP_CONFIRMATION=false  # NOT recommended
 | Command | Network | Chain ID | Mode | Gas Cost |
 |---------|---------|----------|------|----------|
 | `npm run deploy:localhost` | Local | 31337 | Testing | Free |
-| `npm run deploy:base-sepolia` | Base Sepolia | 84532 | Testing | Free (testnet) |
-| `npm run deploy:base` | Base Mainnet | 8453 | Testing | ~$0.50 |
-| `npm run deploy:production` | Base Mainnet | 8453 | **Production** | ~$0.50 |
+| `npm run deploy:base-sepolia` | [Base L2](https://base.org/) Sepolia | 84532 | Testing | Free (testnet) |
+| `npm run deploy:base` | [Base L2](https://base.org/) Mainnet | 8453 | Testing | ~$0.50 |
+| `npm run deploy:production` | [Base L2](https://base.org/) Mainnet | 8453 | **Production** | ~$0.50 |
 | `npm run deploy:sepolia` | Sepolia | 11155111 | Testing | Free (testnet) |
 | `npm run deploy:mainnet` | Ethereum | 1 | Testing | ~$50-200 |
 
-> 💡 **Recommended:** Use Base L2 for ultra-low fees (~$0.005 per transaction)
+> 💡 **Recommended:** Use [Base L2](https://base.org/) for ultra-low fees (~$0.005 per transaction). [Learn more about Base L2 →](https://docs.base.org/)
 
 ---
 
@@ -155,7 +155,7 @@ PRIVATE_KEY=your_private_key_here
 # Optional: Custom Parameters (Testing Mode)
 # ============================================
 INITIAL_HOLDER_ADDRESS=0x...
-INITIAL_QCAT_SUPPLY=662607015
+INITIAL_CATBOX_SUPPLY=662607015
 REBOX_FEE_BPS=400
 
 # ============================================
@@ -205,8 +205,8 @@ SEPOLIA_RPC_URL=https://rpc.sepolia.org
 
 2. Deploy Tokens
    ├── Compute controller address (CREATE)
-   ├── Deploy QCAT Token
-   ├── Deploy ALIVECAT Token
+   ├── Deploy CATBOX Token
+   ├── Deploy LIVECAT Token
    └── Deploy DEADCAT Token
 
 3. Deploy Controller
@@ -215,8 +215,8 @@ SEPOLIA_RPC_URL=https://rpc.sepolia.org
 
 4. Verify Contracts
    ├── Wait for confirmations (6 blocks)
-   ├── Verify QCAT on explorer
-   ├── Verify ALIVECAT on explorer
+   ├── Verify CATBOX on explorer
+   ├── Verify LIVECAT on explorer
    ├── Verify DEADCAT on explorer
    └── Verify Controller on explorer
 
@@ -254,10 +254,10 @@ SEPOLIA_RPC_URL=https://rpc.sepolia.org
     "renounced": true
   },
   "distribution": {
-    "liquidity": "60% (397,564,209 QCAT)",
-    "community": "20% (132,521,403 QCAT)",
-    "team": "10% (66,260,701 QCAT)",
-    "reserve": "10% (66,260,702 QCAT)"
+    "liquidity": "60% (397,564,209 CATBOX)",
+    "community": "20% (132,521,403 CATBOX)",
+    "team": "10% (66,260,701 CATBOX)",
+    "reserve": "10% (66,260,702 CATBOX)"
   },
   "links": {
     "qcat": "https://basescan.org/token/0x...",
@@ -299,28 +299,28 @@ SEPOLIA_RPC_URL=https://rpc.sepolia.org
 
 #### ⏰ First 24 Hours (Critical!)
 
-**1. Add Liquidity to Base DEXs**
+**1. Add Liquidity to Base L2 DEXs**
 
 ```
-Total: 397,564,209 QCAT (60% of supply)
+Total: 397,564,209 CATBOX (60% of supply)
 
-├── Uniswap V3 (75%): 298,173,157 QCAT
-│   └── QCAT/ETH pair (1% fee tier)
+├── Uniswap V3 (75%): 298,173,157 CATBOX
+│   └── CATBOX/ETH pair (1% fee tier)
 │
-└── Aerodrome (25%): 99,391,052 QCAT
-    └── QCAT/USDC pair (0.3% fee tier)
+└── Aerodrome (25%): 99,391,052 CATBOX
+    └── CATBOX/USDC pair (0.3% fee tier)
 ```
 
 **Commands:**
 ```bash
-# Add to Uniswap V3 on Base
+# Add to Uniswap V3 on Base L2
 # Visit: https://app.uniswap.org/
-# Select Base network
-# Add liquidity to QCAT/ETH pair
+# Select Base L2 network
+# Add liquidity to CATBOX/ETH pair
 
-# Add to Aerodrome on Base
+# Add to Aerodrome on Base L2
 # Visit: https://aerodrome.finance/
-# Add liquidity to QCAT/USDC pair
+# Add liquidity to CATBOX/USDC pair
 ```
 
 **2. Lock Liquidity (CRITICAL!)**
@@ -335,13 +335,13 @@ This makes liquidity **permanent** and **irremovable**.
 **3. Distribute Tokens**
 
 ```javascript
-// 20% Community Rewards: 132,521,403 QCAT
+// 20% Community Rewards: 132,521,403 CATBOX
 // Airdrops, liquidity mining, trading competitions
 
-// 10% Team: 66,260,701 QCAT
+// 10% Team: 66,260,701 CATBOX
 // Deploy timelock vesting contract (12 months linear)
 
-// 10% Strategic Reserve: 66,260,702 QCAT
+// 10% Strategic Reserve: 66,260,702 CATBOX
 // Multisig wallet for CEX listings, partnerships
 ```
 
@@ -363,26 +363,26 @@ npx hardhat run scripts/deploy-vesting.js --network base
 
 ## Token Distribution Details
 
-### Total Supply: 662,607,015 QCAT
+### Total Supply: 662,607,015 CATBOX
 
-| Allocation | Percentage | Amount (QCAT) | Purpose |
+| Allocation | Percentage | Amount (CATBOX) | Purpose |
 |------------|------------|---------------|---------|
-| **Liquidity Pools** | 60% | 397,564,209 | Uniswap + Aerodrome on Base |
+| **Liquidity Pools** | 60% | 397,564,209 | Uniswap + Aerodrome on [Base L2](https://base.org/) |
 | **Community Rewards** | 20% | 132,521,403 | Liquidity mining, airdrops, events |
 | **Team** | 10% | 66,260,701 | 12-month linear vesting |
 | **Strategic Reserve** | 10% | 66,260,702 | CEX listings, partnerships |
 
 ### Liquidity Breakdown
 
-**60% Total Liquidity (397,564,209 QCAT)**
+**60% Total Liquidity (397,564,209 CATBOX)**
 
 ```
-Uniswap V3 (75%): 298,173,157 QCAT
-├── QCAT/ETH: Primary trading pair (1% fee)
-└── QCAT/USDC: Stablecoin pair (0.3% fee)
+Uniswap V3 (75%): 298,173,157 CATBOX
+├── CATBOX/ETH: Primary trading pair (1% fee)
+└── CATBOX/USDC: Stablecoin pair (0.3% fee)
 
-Aerodrome (25%): 99,391,052 QCAT
-├── QCAT/USDC: Base-native DEX (0.3% fee)
+Aerodrome (25%): 99,391,052 CATBOX
+├── CATBOX/USDC: Base-native DEX (0.3% fee)
 └── ALIVE/DEAD: Arbitrage pair (0.05% fee)
 ```
 
@@ -397,7 +397,7 @@ Aerodrome (25%): 99,391,052 QCAT
 # Check deployer balance
 npx hardhat run scripts/check-balance.js --network base
 
-# Base deployment needs ~0.005 ETH
+# Base L2 deployment needs ~0.005 ETH
 # Ethereum deployment needs ~0.5 ETH
 ```
 
@@ -446,7 +446,7 @@ This is fine - contract is already verified!
 **Tokens not showing in wallet**
 - Add token address manually
 - Use Basescan to verify deployment
-- Check correct network (Base vs Ethereum)
+- Check correct network (Base L2 vs Ethereum)
 
 **Rebox not working**
 - Need EQUAL amounts of ALIVE + DEAD
@@ -494,7 +494,7 @@ This is fine - contract is already verified!
 ### Parameters (Hardcoded)
 
 ```javascript
-Total Supply: 662,607,015 QCAT
+Total Supply: 662,607,015 CATBOX
 Rebox Fee: 4% (400 basis points)
 Reveal Delay: 5 blocks
 Grace Period: 64 blocks
@@ -506,7 +506,7 @@ Max Data Size: 256 bytes
 ```
 Deflationary Rate: ~0.84% per month at 30% volume
 Sustainability: 7-10 year runway with natural balance
-Price Relationship: P_QCAT ≈ (P_ALIVE + P_DEAD) / 2.07
+Price Relationship: P_CATBOX ≈ (P_ALIVE + P_DEAD) / 2.07
 ```
 
 ---
@@ -551,14 +551,15 @@ cat deployments/base-production-*.json
 
 ### Important Addresses
 
-- **Base Mainnet ChainID:** 8453
-- **Base Sepolia ChainID:** 84532
+- **Base L2 Mainnet ChainID:** 8453
+- **Base L2 Sepolia ChainID:** 84532
 - **Burn Address:** 0x000000000000000000000000000000000000dEaD
 - **Zero Address:** 0x0000000000000000000000000000000000000000
 
 ### Resources
 
-- Base Docs: https://docs.base.org/
+- Base L2 Docs: https://docs.base.org/ - Learn about Base L2 and how it works
+- Base Homepage: https://base.org/ - Official Base L2 homepage
 - Basescan: https://basescan.org/
 - Uniswap: https://app.uniswap.org/
 - Aerodrome: https://aerodrome.finance/
