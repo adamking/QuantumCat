@@ -1,5 +1,4 @@
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Link } from "wouter";
 import aliveCat from "@assets/alive@4x.webp";
 import deadCat from "@assets/dead@4x.webp";
 import qcat from "@assets/qcat@4x.webp";
