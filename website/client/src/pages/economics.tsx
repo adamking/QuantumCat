@@ -1,79 +1,12 @@
 import { useState } from "react";
-import { useFlickerEffect } from "@/hooks/use-flicker-effect";
-import { useSoundEffects } from "@/hooks/use-sound-effects";
 
 export default function Economics() {
   const [isAlive, setIsAlive] = useState(true);
-  const [isMuted, setIsMuted] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
-
-  const { playFlickerBuzz } = useSoundEffects(isMuted);
-  const { showBothFlicker, flickerIntensity } = useFlickerEffect(playFlickerBuzz, isPaused);
-
-  // Helper function to generate flicker and shake styles
-  const getFlickerShakeStyle = (seedX: number, seedY: number, shakeAmount: number = 1) => {
-    const currentIntensity = flickerIntensity;
-    
-    return {
-      opacity: showBothFlicker ? currentIntensity : 1,
-      filter: showBothFlicker ? `brightness(${0.8 + currentIntensity * 0.4})` : 'none',
-      transform: showBothFlicker 
-        ? `translate(${Math.sin(currentIntensity * seedX) * shakeAmount}px, ${Math.cos(currentIntensity * seedY) * shakeAmount}px)` 
-        : 'none',
-      transition: 'none',
-    };
-  };
 
   return (
     <div 
       className={`min-h-screen ${isAlive ? 'bg-white' : 'bg-black'}`}
     >
-      {/* Floating Pause Button */}
-      <button
-        onClick={() => setIsPaused(!isPaused)}
-        className={`fixed bottom-4 right-20 z-50 w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center ${
-          isPaused
-            ? 'bg-white/90 hover:bg-white text-black border-2 border-black'
-            : 'bg-black/90 hover:bg-black text-white border-2 border-white'
-        }`}
-        aria-label={isPaused ? "Resume animations" : "Pause animations"}
-      >
-        {isPaused ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <polygon points="5 3 19 12 5 21 5 3" />
-          </svg>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="6" y="4" width="4" height="16" />
-            <rect x="14" y="4" width="4" height="16" />
-          </svg>
-        )}
-      </button>
-
-      {/* Floating Mute Button */}
-      <button
-        onClick={() => setIsMuted(!isMuted)}
-        className={`fixed bottom-4 right-4 z-50 w-12 h-12 rounded-full shadow-lg transition-all duration-300 hover:scale-110 flex items-center justify-center ${
-          isMuted
-            ? 'bg-white/90 hover:bg-white text-black border-2 border-black'
-            : 'bg-black/90 hover:bg-black text-white border-2 border-white'
-        }`}
-        aria-label={isMuted ? "Unmute sound" : "Mute sound"}
-      >
-        {isMuted ? (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M11 5L6 9H2v6h4l5 4V5z" />
-            <line x1="23" y1="9" x2="17" y2="15" />
-            <line x1="17" y1="9" x2="23" y2="15" />
-          </svg>
-        ) : (
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M11 5L6 9H2v6h4l5 4V5z" />
-            <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
-          </svg>
-        )}
-      </button>
-
       {/* Back to Home Button */}
       <a
         href="#/"
@@ -104,7 +37,6 @@ export default function Economics() {
         <div className="max-w-5xl mx-auto text-center">
           <h1
             className={`text-4xl md:text-6xl font-bold mb-4 ${isAlive ? 'text-black' : 'text-white'}`}
-            style={getFlickerShakeStyle(12, 8, 2)}
           >
             ɆĐ₳₦Ø₥ł₵₴ & ₳Ɽ฿ł₮Ɽ₳₲Ɇ
           </h1>
@@ -116,7 +48,7 @@ export default function Economics() {
 
       {/* System Overview Section */}
       <section className={`py-12 px-4 md:px-8 ${isAlive ? 'bg-black text-white' : 'bg-white text-black'}`}>
-        <div className="max-w-5xl mx-auto" style={getFlickerShakeStyle(14, 9)}>
+        <div className="max-w-5xl mx-auto">
           <h2 className={`text-3xl md:text-4xl font-bold mb-8 ${isAlive ? 'text-white' : 'text-black'}`}>
             System Overview
           </h2>
@@ -137,12 +69,24 @@ export default function Economics() {
               <p className={`text-sm ${isAlive ? 'text-gray-300' : 'text-gray-700'}`}>Observed dead state</p>
             </div>
           </div>
+
+          {/* Key Insight */}
+          <div className={`mt-8 p-6 rounded-xl ${isAlive ? 'bg-gradient-to-r from-purple-100 via-blue-100 to-green-100' : 'bg-gradient-to-r from-purple-900/30 via-blue-900/30 to-green-900/30'}`}>
+            <h3 className={`text-2xl font-bold mb-4 text-center ${isAlive ? 'text-gray-900' : 'text-gray-100'}`}>
+              🔑 Key Insight
+            </h3>
+            <p className={`text-lg text-center ${isAlive ? 'text-gray-800' : 'text-gray-200'}`}>
+              This system is essentially a <strong>synthetic options market</strong> where CATBOX is like a binary option 
+              that pays out either 100% LIVECAT or 100% DEADCAT, and the rebox mechanism is the "settlement" that enforces 
+              <strong> put-call parity</strong> with a friction cost.
+            </p>
+          </div>
         </div>
       </section>
 
       {/* Core Mathematics Section */}
       <section className={`py-12 px-4 md:px-8 ${isAlive ? 'bg-white text-black' : 'bg-black text-white'}`}>
-        <div className="max-w-5xl mx-auto" style={getFlickerShakeStyle(13, 7)}>
+        <div className="max-w-5xl mx-auto">
           <h2 className={`text-3xl md:text-4xl font-bold mb-8 ${isAlive ? 'text-black' : 'text-white'}`}>
             Core Mathematical Mechanics
           </h2>
@@ -202,7 +146,7 @@ export default function Economics() {
 
       {/* Arbitrage Opportunities Section */}
       <section className={`py-12 px-4 md:px-8 ${isAlive ? 'bg-black text-white' : 'bg-white text-black'}`}>
-        <div className="max-w-5xl mx-auto" style={getFlickerShakeStyle(11, 6)}>
+        <div className="max-w-5xl mx-auto">
           <h2 className={`text-3xl md:text-4xl font-bold mb-8 ${isAlive ? 'text-white' : 'text-black'}`}>
             Critical Arbitrage Opportunities
           </h2>
@@ -335,7 +279,7 @@ export default function Economics() {
 
       {/* Equilibrium Pricing Model Section */}
       <section className={`py-12 px-4 md:px-8 ${isAlive ? 'bg-white text-black' : 'bg-black text-white'}`}>
-        <div className="max-w-5xl mx-auto" style={getFlickerShakeStyle(10, 5)}>
+        <div className="max-w-5xl mx-auto">
           <h2 className={`text-3xl md:text-4xl font-bold mb-8 ${isAlive ? 'text-black' : 'text-white'}`}>
             Equilibrium Pricing Model
           </h2>
@@ -382,7 +326,7 @@ export default function Economics() {
 
       {/* Fee Impact Section */}
       <section className={`py-12 px-4 md:px-8 ${isAlive ? 'bg-black text-white' : 'bg-white text-black'}`}>
-        <div className="max-w-5xl mx-auto" style={getFlickerShakeStyle(9, 4)}>
+        <div className="max-w-5xl mx-auto">
           <h2 className={`text-3xl md:text-4xl font-bold mb-8 ${isAlive ? 'text-white' : 'text-black'}`}>
             Fee Impact on Supply Dynamics
           </h2>
@@ -431,7 +375,7 @@ export default function Economics() {
 
       {/* Trading Strategies Section */}
       <section className={`py-12 px-4 md:px-8 ${isAlive ? 'bg-white text-black' : 'bg-black text-white'}`}>
-        <div className="max-w-5xl mx-auto" style={getFlickerShakeStyle(8, 3)}>
+        <div className="max-w-5xl mx-auto">
           <h2 className={`text-3xl md:text-4xl font-bold mb-8 ${isAlive ? 'text-black' : 'text-white'}`}>
             Risk-Adjusted Trading Strategies
           </h2>
