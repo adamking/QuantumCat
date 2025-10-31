@@ -582,16 +582,6 @@ export default function Home() {
             </h2>
           )}
         </div>
-        
-        {/* Call to Action */}
-        <div 
-          className="relative mt-8 z-10 text-center"
-          style={getFlickerShakeStyle(10, 10, 1.5)}
-        >
-          <p className={`text-xl md:text-2xl font-semibold ${isAlive ? 'text-black' : 'text-white'}`}>
-            Will you #OpenTheBox?
-          </p>
-        </div>
       </div>
 
       {/* About Section */}
