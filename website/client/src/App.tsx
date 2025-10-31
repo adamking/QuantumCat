@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Switch, Route, Router as WouterRouter } from "wouter";
 import { useHashLocation } from "wouter/use-hash-location";
 import { Toaster } from "@/components/ui/toaster";
@@ -7,6 +8,13 @@ import Economics from "@/pages/economics";
 import NotFound from "@/pages/not-found";
 
 function Router() {
+  const [location] = useHashLocation();
+
+  // Scroll to top on route change
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [location]);
+
   return (
     <WouterRouter hook={useHashLocation}>
       <Switch>
