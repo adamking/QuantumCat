@@ -28,6 +28,10 @@
   /* Font families */
   --font-sans: 'Space Grotesk', 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'Menlo', 'Monaco', 'Courier New', monospace;
+
+  /* Quantum animation controls */
+  --quantum-animation-speed: 1;
+  --quantum-glitch-intensity: 1;
 }
 
 .dark {

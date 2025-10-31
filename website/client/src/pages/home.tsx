@@ -5,6 +5,8 @@ import catbox from "@assets/qcat@4x.webp";
 import { useToast } from "@/hooks/use-toast";
 import { useFlickerEffect } from "@/hooks/use-flicker-effect";
 import { useSoundEffects } from "@/hooks/use-sound-effects";
+import { useQuantumSettings } from "@/contexts/QuantumSettingsContext";
+import { QuantumSettingsPanel } from "@/components/ui/quantum-settings-panel";
 
 export default function Home() {
 
@@ -31,11 +33,15 @@ export default function Home() {
   const isMountedRef = useRef(true);
   const isPausedRef = useRef(isPaused);
   const { toast } = useToast();
+  const { settings } = useQuantumSettings();
   
   // Custom hooks for flicker and sound effects
   const { playGlitchSound, playFlickerBuzz } = useSoundEffects(isMuted);
   
   const { showBothFlicker, flickerIntensity } = useFlickerEffect(playFlickerBuzz, isPaused);
+  
+  // Apply settings to flicker intensity
+  const adjustedFlickerIntensity = flickerIntensity * settings.flickerIntensity;
   
   // Contract address - update this when token is launched
   const CONTRACT_ADDRESS = "0x0000000000000000000000000000000000000000"; // Replace with actual contract address
@@ -43,15 +49,18 @@ export default function Home() {
   // Helper function to generate flicker and shake styles
   const getFlickerShakeStyle = (seedX: number, seedY: number, shakeAmount: number = 1) => {
     // Use glitch-specific flicker intensity during glitch, otherwise use periodic flicker intensity
-    const currentIntensity = isGlitching ? glitchFlickerIntensity : flickerIntensity;
+    const currentIntensity = isGlitching ? glitchFlickerIntensity : adjustedFlickerIntensity;
     // During glitch, clamp opacity to prevent text from disappearing (min 0.7)
     const effectiveIntensity = isGlitching ? Math.max(currentIntensity, 0.7) : currentIntensity;
+    
+    // Apply quantum settings
+    const adjustedShake = shakeAmount * settings.glitchIntensity;
     
     return {
       opacity: (showBothFlicker || isGlitching) ? effectiveIntensity : 1,
       filter: (showBothFlicker || isGlitching) ? `brightness(${0.8 + effectiveIntensity * 0.4})` : 'none',
       transform: (showBothFlicker || isGlitching) 
-        ? `translate(${Math.sin(currentIntensity * seedX) * shakeAmount}px, ${Math.cos(currentIntensity * seedY) * shakeAmount}px)` 
+        ? `translate(${Math.sin(currentIntensity * seedX) * adjustedShake}px, ${Math.cos(currentIntensity * seedY) * adjustedShake}px)` 
         : 'none',
       transition: 'none',
     };
@@ -130,8 +139,9 @@ export default function Home() {
 
       setShowWarning(false);
 
-      // Random glitch duration between 800 and 1600 ms
-      const glitchDuration = Math.floor(800 + Math.random() * 800);
+      // Random glitch duration between 800 and 1600 ms, adjusted by animation speed
+      const baseDuration = Math.floor(800 + Math.random() * 800);
+      const glitchDuration = baseDuration / settings.animationSpeed;
 
       // Set the next state to show during flicker
       setNextState(newState);
@@ -144,10 +154,10 @@ export default function Home() {
       if (!isMountedRef.current) return;
       const intensity = flickerPattern[flickerIndex % flickerPattern.length];
       if (intensity !== undefined) {
-        setGlitchFlickerIntensity(intensity);
+        setGlitchFlickerIntensity(intensity * settings.glitchIntensity);
       }
       flickerIndex++;
-    }, 40); // Update every 40ms for rapid flicker
+    }, 40 / settings.animationSpeed); // Adjust flicker speed
     
     glitchFlickerIntervalRef.current = flickerInterval;
 
@@ -190,7 +200,7 @@ export default function Home() {
           ...originalHeadings
         });
       }
-    }, 75);
+    }, 75 / settings.animationSpeed); // Adjust scramble speed
 
     glitchIntervalRef.current = textGlitchInterval;
 
@@ -226,7 +236,7 @@ export default function Home() {
 
     glitchTimeoutRef.current = glitchTimeout;
     }, 500); // Warning displays for 500ms before glitch starts
-  }, [playGlitchSound]);
+  }, [playGlitchSound, settings.animationSpeed, settings.glitchIntensity]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -242,7 +252,9 @@ export default function Home() {
     const scheduleRandomSwitch = () => {
       if (!isMountedRef.current) return;
 
-      const randomDelay = 20000 + Math.random() * 25000; // 20-45 seconds
+      // Base delay 20-45 seconds, adjusted by frequency setting
+      const baseDelay = 20000 + Math.random() * 25000;
+      const randomDelay = baseDelay / settings.glitchFrequency;
       randomSwitchTimeoutRef.current = setTimeout(() => {
         if (!isMountedRef.current || isPausedRef.current) {
           // Still schedule next switch even if paused
@@ -287,7 +299,13 @@ export default function Home() {
         glitchTimeoutRef.current = null;
       }
     };
-  }, [triggerGlitch]);
+  }, [triggerGlitch, settings.glitchFrequency]);
+
+  // Update CSS variables when quantum settings change
+  useEffect(() => {
+    document.documentElement.style.setProperty('--quantum-animation-speed', settings.animationSpeed.toString());
+    document.documentElement.style.setProperty('--quantum-glitch-intensity', settings.glitchIntensity.toString());
+  }, [settings.animationSpeed, settings.glitchIntensity]);
 
   // Handle pause state changes
   useEffect(() => {
@@ -408,6 +426,9 @@ export default function Home() {
         )}
       </button>
 
+      {/* Quantum Settings Panel */}
+      <QuantumSettingsPanel isAlive={isAlive} />
+
       {/* Warning overlay */}
       {showWarning && (
         <div className="fixed inset-0 z-[100] flex items-center justify-center pointer-events-none">
@@ -481,8 +502,8 @@ export default function Home() {
                           top: `${topPosition}%`,
                           height: `${stripHeight}%`,
                           overflow: 'hidden',
-                          opacity: flickerIntensity,
-                          transform: `translateX(${randomX}px)`,
+                          opacity: adjustedFlickerIntensity,
+                          transform: `translateX(${randomX * settings.glitchIntensity}px)`,
                           transition: 'none',
                           // Background color matches current state
                           backgroundColor: isAlive ? 'rgba(255, 255, 255, 0.95)' : 'rgba(0, 0, 0, 0.95)',
@@ -499,7 +520,7 @@ export default function Home() {
                             backgroundSize: 'contain',
                             backgroundPosition: 'center',
                             backgroundRepeat: 'no-repeat',
-                            filter: `brightness(${0.8 + flickerIntensity * 0.4}) contrast(${0.9 + flickerIntensity * 0.2}) hue-rotate(${randomDelay * 100}deg)`,
+                            filter: `brightness(${0.8 + adjustedFlickerIntensity * 0.4}) contrast(${0.9 + adjustedFlickerIntensity * 0.2}) hue-rotate(${randomDelay * 100}deg)`,
                           }}
                         />
                       </div>
